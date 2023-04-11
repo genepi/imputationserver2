@@ -1,0 +1,13 @@
+# You can use this file to create a conda environment for this pipeline:
+#   conda env create -f environment.yml
+name: imputationserver2
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - openjdk=11.0.9
+  - r=4.1.0
+  - r-rmarkdown=2.21
+  - r-rcolorbrewer
+  - bioconductor-geneplotter
