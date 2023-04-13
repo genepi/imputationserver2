@@ -1,5 +1,10 @@
+if (params.refpanel_yaml){
+    params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
+    println params.refpanel
+}
+
 requiredParams = [
-    'project', 'output', 'hdfs', 'reference_build'
+    'project', 'files', 'output', 'hdfs', 'reference_build', 'refpanel'
 ]
 
 for (param in requiredParams) {
