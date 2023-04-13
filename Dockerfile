@@ -57,9 +57,18 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/${PGS_CALC_VERSION
     mv pgs-calc.jar /usr/bin/.
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=v1.7.0
+ENV IMPUTATIONSERVER_UTILS_VERSION=v1.0.1
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
 RUN wget https://github.com/genepi/imputationserver-utils/releases/download/${IMPUTATIONSERVER_UTILS_VERSION}/imputationserver-utils.tar.gz
+#COPY files/bin/imputationserver-utils.tar.gz /opt/imputationserver-utils/.
 RUN tar xvfz imputationserver-utils.tar.gz
 RUN chmod +x /opt/imputationserver-utils/bin/tabix
+
+
+# Install ccat
+ENV CCAT_VERSION=1.1.0
+RUN wget https://github.com/jingweno/ccat/releases/download/v${CCAT_VERSION}/linux-amd64-${CCAT_VERSION}.tar.gz
+RUN tar xfz linux-amd64-${CCAT_VERSION}.tar.gz
+RUN cp linux-amd64-${CCAT_VERSION}/ccat /usr/local/bin/
+RUN chmod +x /usr/local/bin/ccat

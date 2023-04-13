@@ -2,6 +2,8 @@ import groovy.json.JsonOutput
 
 process QUALITY_CONTROL {
 
+  publishDir params.output, mode: 'copy', pattern: '*.html'
+
   input:
     path(vcf_file)
     path(legend_files)
@@ -10,6 +12,7 @@ process QUALITY_CONTROL {
     path("${config.params.chunkFileDir}/*"), emit: chunks_csv
     path("${config.params.chunksDir}/*"), emit: chunks_vcf
     path("maf.txt", emit: maf_file)
+    path("*.html")
 
   script:
 
@@ -44,6 +47,8 @@ process QUALITY_CONTROL {
       genepi.imputationserver.steps.FastQualityControl \
       config.json \
       02-quality-control.log
+
+    ccat 02-quality-control.log --html > 02-quality-control.html
     """
 
 }

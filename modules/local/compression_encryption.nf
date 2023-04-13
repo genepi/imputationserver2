@@ -10,6 +10,7 @@ process COMPRESSION_ENCRYPTION {
 
   output:
     path("*.zip"), emit: encrypted_files
+    path("*.html")
 
   script:
 
@@ -45,7 +46,9 @@ process COMPRESSION_ENCRYPTION {
       cloudgene.sdk.weblog.WebLogRunner \
       genepi.imputationserver.steps.CompressionEncryption \
       config.json \
-      05-compression-encryption.log
+      05-compression-encryption-chr-${chr}.log
+
+    ccat 05-compression-encryption-chr-${chr}.log --html > 05-compression-encryption-chr-${chr}.html
 
     """
 

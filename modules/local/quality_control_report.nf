@@ -19,7 +19,7 @@ process QUALITY_CONTROL_REPORT {
         ),
         intermediates_dir='\$PWD',
         knit_root_dir='\$PWD',
-        output_file='\$PWD/03-quality-control.html'
+        output_file='\$PWD/03-quality-control-report.html'
       )" \
       ${maf_file}
 

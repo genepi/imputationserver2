@@ -2,12 +2,14 @@ import groovy.json.JsonOutput
 
 process INPUT_VALIDATION {
 
+  publishDir params.output, mode: 'copy', pattern: '*.html'
+
   input:
     path(vcf_file)
 
   output:
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
-
+    path("*.html")
   script:
 
     config = [
@@ -34,6 +36,8 @@ process INPUT_VALIDATION {
       genepi.imputationserver.steps.InputValidation \
       config.json \
       01-input-validation.log
+
+      ccat 01-input-validation.log --html > 01-input-validation.html
 
     """
 
