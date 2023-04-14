@@ -1,0 +1,62 @@
+@Grab(group='net.lingala.zip4j', module='zip4j', version='2.11.5')
+import net.lingala.zip4j.ZipFile;
+
+nextflow_pipeline {
+
+    def PASSWORD = "test-password"
+	def TOTAL_REFPANEL_CHR20_B37 = 63402;
+	def TOTAL_REFPANEL_CHR20_B38 = 63384;
+	def ONLY_IN_INPUT = 78;
+	def TOTAL_SNPS_INPUT = 7824;
+	def SNPS_MONOMORPHIC = 11;
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+
+    test("Should run with phased data") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "tests/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                output = "${outputDir}"
+                refEagle = 'tests/data/refpanels/hapmap2-chr20/hapmap_r22.chr$chr.CEU.hg19.recode.bcf'
+                hdfs = 'tests/data/refpanels/hapmap2-chr20/hapmap_r22.chr$chr.CEU.hg19.m3vcf.gz'
+                mapEagle = 'tests/data/refpanels/hapmap2-chr20/map/genetic_map_hg19_withX.txt.gz'
+                reference_build = 'hg19'
+                id = 'hapmap2-chr20'
+            }
+        }
+
+        then {
+            assert workflow.success
+    
+            def quality_control_log = file("${outputDir}/02-quality-control.log")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            //TODO: this is from imputationserver-utils.jar. How to include? use alternative?
+            /*VcfFile file = VcfFileUtil.load("${outputDir}/chr20.dose.vcf.gz", 100000000, false);
+
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51;
+            assert file.isPhased()
+            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT*/
+
+            //check correct number of snps in info.gz file
+            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+
+        }
+
+    }
+
+}

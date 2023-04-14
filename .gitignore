@@ -4,3 +4,4 @@ work
 *nextflow.log.*
 .nextflow
 .DS_Store
+.nf-test

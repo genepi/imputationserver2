@@ -49,7 +49,7 @@ workflow IMPUTATIONSERVER2 {
     if (params.population != "mixed") {
         QUALITY_CONTROL_REPORT(
             QUALITY_CONTROL.out.maf_file,
-            file("$baseDir/files/qc-report.Rmd")
+            file("$baseDir/files/qc-report.Rmd", checkIfExists: true)
         )
     }
 
@@ -182,4 +182,13 @@ workflow IMPUTATIONSERVER2 {
 workflow.onComplete {
     println "Pipeline completed at: $workflow.complete"
     println "Execution status: ${ workflow.success ? 'OK' : 'failed' }"
+}
+
+
+def create_legend_files_ch(refpanel){
+    // Find legend files from full pattern and make legend file pattern relative
+    refpanel.legend_pattern = "${refpanel.legend}"
+    refpanel.legend = "./${file(refpanel.legend).fileName}"
+    return Channel.from ( 1..22 )
+        .map { it -> file(params.refpanel.legend_pattern.replaceAll('\\$chr', it.toString())) }
 }
