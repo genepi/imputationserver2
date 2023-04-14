@@ -2,14 +2,15 @@ import groovy.json.JsonOutput
 
 process INPUT_VALIDATION {
 
-  publishDir params.output, mode: 'copy', pattern: '*.html'
+  publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
 
   input:
     path(vcf_file)
 
   output:
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
-    path("*.html")
+    path("*.{html,log}")
+
   script:
 
     config = [

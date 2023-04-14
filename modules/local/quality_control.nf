@@ -2,7 +2,7 @@ import groovy.json.JsonOutput
 
 process QUALITY_CONTROL {
 
-  publishDir params.output, mode: 'copy', pattern: '*.html'
+  publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
 
   input:
     path(vcf_file)
@@ -12,7 +12,7 @@ process QUALITY_CONTROL {
     path("${config.params.chunkFileDir}/*"), emit: chunks_csv
     path("${config.params.chunksDir}/*"), emit: chunks_vcf
     path("maf.txt", emit: maf_file)
-    path("*.html")
+    path("*.{html,log}")
 
   script:
 
