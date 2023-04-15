@@ -6,8 +6,6 @@ QC-Report
 args<-commandArgs(TRUE)
 input=args[1]
 
-suppressPackageStartupMessages(library(geneplotter))
-suppressPackageStartupMessages(library(RColorBrewer))
 data = read.table(input, header = FALSE, sep="\t")
 data[, 11] <- as.numeric(as.character( data[, 11] ))
 miss = data[which(data$V11 > 300),];

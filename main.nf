@@ -11,6 +11,7 @@
 nextflow.enable.dsl = 2
 
 include { IMPUTATIONSERVER2 } from './workflows/imputationserver2'
+include { ANCESTRY_ESTIMATION } from './workflows/ancestry_estimation'
 
 /*
 ========================================================================================
@@ -19,5 +20,11 @@ include { IMPUTATIONSERVER2 } from './workflows/imputationserver2'
 */
 
 workflow {
+    
     IMPUTATIONSERVER2 ()
+
+    if (params.ancestry.enabled){
+        ANCESTRY_ESTIMATION ()
+    }
+
 }

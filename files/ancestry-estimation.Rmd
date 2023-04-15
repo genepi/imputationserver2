@@ -1,0 +1,26 @@
+---
+title: "Ancestry Estimation"
+params:
+  populations: ../tests/data/populations.txt
+  reference_pc_coord: ../tests/data/references.coord
+  reference_samples: ../tests/data/references.samples
+---
+
+```{r fig1, fig.height = 4, fig.width = 8}
+library(ggplot2)
+study_pc <- read.csv(params$populations, sep = '\t')
+reference_pc <- read.csv(params$reference_pc_coord, sep = '\t')
+reference_samples <- read.csv(params$reference_samples, sep = '\t')
+
+reference_pc <- merge(reference_pc, reference_samples, by="indivID")
+
+#TODO: merge samples
+
+colors = c("#FF6600", "#FF99E6","#0099E6","#DBEE06","#F90026", "#B5B5B5");
+labels = c("African","East Asian","European","Greater Middle Eastern","South Asian","Unknown")
+
+ggplot() +
+  geom_point(data=reference_pc, aes(x=PC1, y=PC2, color = superpopID)) +
+  geom_point(data=study_pc, aes(x=PC1, y=PC2), shape=17) +
+  theme_bw()
+```
