@@ -12,21 +12,12 @@ process EXECUTE_TRACE {
     path(reference_samples)
 
   output:
-    path ("${batch_name}.population.txt"), emit:  populations
+    path ("${batch_name}.ProPC.coord"), emit:  pcs
 
   script:
 
     batch_name = "batch_${samples.baseName}"
 
-    config = [
-        params: [
-            samples: "${reference_samples}",
-            reference_pc: "${reference_pc_coord}",
-            study_pc: "${batch_name}.ProPC.coord",
-            max_pcs: "${params.ancestry.dim}",
-            output: "${batch_name}.population.txt"
-        ]
-    ]
     """
 
     # extract samples form vcf
@@ -46,17 +37,6 @@ process EXECUTE_TRACE {
 
     # execute trace with config file
     trace -p trace.config > trace.log
-
-    # run population predictor
-    echo '${JsonOutput.toJson(config)}' > config.json
-
-    java -cp /opt/imputationserver-utils/imputationserver-utils.jar \
-      cloudgene.sdk.weblog.WebLogRunner \
-      genepi.imputationserver.steps.PopulationPredictorStep \
-      config.json \
-      08-predict-population-${batch_name}.log
-
-    ccat 08-predict-population-${batch_name}.log --html > 08-predict-population-${batch_name}.html
 
     """
 

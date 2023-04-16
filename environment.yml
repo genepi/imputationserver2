@@ -10,6 +10,9 @@ dependencies:
   - r-rmarkdown=2.16
   - r-ggplot2=3.3.6
   - r-htmltools=0.5.3
+  - r-dplyr=1.1.0
+  - r-dt=0.24
+  - r-rmdformats=1.0.4
   - pandoc=2.19.2
   - cairo=1.16.0
   - xorg-libxt=1.2.1

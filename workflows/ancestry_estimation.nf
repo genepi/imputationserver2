@@ -1,5 +1,6 @@
 include { PREPARE_TRACE } from '../modules/local/prepare_trace'
 include { EXECUTE_TRACE } from '../modules/local/execute_trace'
+include { ESTIMATE_ANCESTRY } from '../modules/local/estimate_ancestry'
 include { VISUALIZE_ANCESTRY } from '../modules/local/visualize_ancestry'
 
 workflow ANCESTRY_ESTIMATION {
@@ -27,9 +28,15 @@ workflow ANCESTRY_ESTIMATION {
         references.first{it.getExtension()=="samples"}
     )
 
+    ESTIMATE_ANCESTRY(
+        EXECUTE_TRACE.out.pcs.collect(),
+        references.first{it.getExtension()=="coord"},
+        references.first{it.getExtension()=="samples"}
+    )
+
     VISUALIZE_ANCESTRY(
         file("${baseDir}/files/ancestry-estimation.Rmd"),
-        EXECUTE_TRACE.out.populations.collect(),
+        ESTIMATE_ANCESTRY.out.populations.collect(),
         references.first{it.getExtension()=="coord"},
         references.first{it.getExtension()=="samples"}
     )
