@@ -14,9 +14,10 @@ RUN conda update -y conda
 RUN conda env update -n root -f environment.yml
 
 # Install eagle
-ENV EAGLE_VERSION=2.4
+ENV EAGLE_VERSION=2.4.1
 WORKDIR "/opt"
-RUN wget https://storage.googleapis.com/broad-alkesgroup-public/Eagle/downloads/old/Eagle_v${EAGLE_VERSION}.tar.gz && \
+# RUN wget https://storage.googleapis.com/broad-alkesgroup-public/Eagle/downloads/old/Eagle_v${EAGLE_VERSION}.tar.gz && \
+RUN wget https://storage.googleapis.com/broad-alkesgroup-public/Eagle/downloads/Eagle_v2.4.1.tar.gz && \
     tar xvfz Eagle_v${EAGLE_VERSION}.tar.gz && \
     rm Eagle_v${EAGLE_VERSION}.tar.gz && \
     mv Eagle_v${EAGLE_VERSION}/eagle /usr/bin/.
@@ -56,7 +57,7 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/${PGS_CALC_VERSION
 
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=v1.1.1
+ENV IMPUTATIONSERVER_UTILS_VERSION=v1.1.2
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
 RUN wget https://github.com/genepi/imputationserver-utils/releases/download/${IMPUTATIONSERVER_UTILS_VERSION}/imputationserver-utils.tar.gz
