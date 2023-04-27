@@ -20,8 +20,10 @@ include { ANCESTRY_ESTIMATION } from './workflows/ancestry_estimation'
 */
 
 workflow {
-    
-    IMPUTATIONSERVER2 ()
+
+    if (params.imputation.enabled){ 
+        IMPUTATIONSERVER2 ()
+    }
 
     if (params.ancestry.enabled){
         ANCESTRY_ESTIMATION ()
