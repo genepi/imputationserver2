@@ -4,7 +4,7 @@ if (params.refpanel_yaml){
 }
 
 requiredParams = [
-    'project', 'files', 'output', 'hdfs', 'reference_build', 'refpanel'
+    'project', 'files', 'output', 'refpanel'
 ]
 
 for (param in requiredParams) {
@@ -74,42 +74,42 @@ workflow IMPUTATIONSERVER2 {
         .set { metafiles_ch }
 
 
-    if ("${params.refEagle}" != null) {
+    if ("${params.refpanel.refEagle}" != null) {
 
         autosomes_eagle_ch =  Channel.from ( 1..22)
-        .map { it -> tuple(it.toString(), file("$params.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
 
         non_autosomes_eagle_ch =  Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-        .map { it -> tuple(it.toString(), file("$params.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
 
         eagle_bcf_ch = autosomes_eagle_ch.concat(non_autosomes_eagle_ch)
 
     }
 
-    if ("${params.refBeagle}" != null) {
+    if ("${params.refpanel.refBeagle}" != null) {
 
         autosomes_beagle_ch = Channel.from ( 1..22 )
-        .map { it -> tuple(it.toString(), file("$params.refBeagle".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.refBeagle".replaceAll('\\$chr', it.toString()))) }
 
         non_autosomes_beagle_ch = Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-        .map { it -> tuple(it.toString(), file("$params.refBeagle".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.refBeagle".replaceAll('\\$chr', it.toString()))) }
 
         beagle_bcf_ch = autosomes_beagle_ch.concat(non_autosomes_beagle_ch)
 
         autosomes_beagle_map_ch = Channel.from ( 1..22 )
-        .map { it -> tuple(it.toString(), file("$params.mapBeagle".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.mapBeagle".replaceAll('\\$chr', it.toString()))) }
 
         non_autosomes_beagle_map_ch = Channel.from (  'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT' )
-        .map { it -> tuple(it.toString(), file("$params.mapBeagle".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.mapBeagle".replaceAll('\\$chr', it.toString()))) }
 
         beagle_map_ch = autosomes_beagle_map_ch.concat(non_autosomes_beagle_map_ch)
     }
 
     autosomes_m3vcf_ch = Channel.from ( 1..22 )
-        .map { it -> tuple(it.toString(), file("$params.hdfs".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.hdfs".replaceAll('\\$chr', it.toString()))) }
 
     non_autosomes_m3vcf_ch = Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-        .map { it -> tuple(it.toString(), file("$params.hdfs".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.hdfs".replaceAll('\\$chr', it.toString()))) }
 
     minimac_m3vcf_ch = autosomes_m3vcf_ch.concat(non_autosomes_m3vcf_ch)
 
@@ -125,9 +125,8 @@ workflow IMPUTATIONSERVER2 {
     phasing_method = "n/a"
     }
 
-    map_eagle   = file(params.mapEagle, checkIfExists: false)
-    map_beagle  = file(params.mapBeagle, checkIfExists: false)
-    minimac_map = file(params.mapMinimac, checkIfExists: false)
+    map_eagle   = file(params.refpanel.mapEagle, checkIfExists: false)
+    //map_beagle  = file(params.refpanel.mapBeagle, checkIfExists: false)
 
 
     // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
@@ -163,6 +162,12 @@ workflow IMPUTATIONSERVER2 {
     }
 
     if ("${params.mode}" == 'imputation') {
+
+    if (params.refpanel.mapMinimac == null){
+        params.refpanel.mapMinimac = "NO_MAP_FILE";
+    }
+
+    minimac_map = file(params.refpanel.mapMinimac, checkIfExists: false)
 
       IMPUTATION ( phased_m3vcf_ch, minimac_map, phasing_method )
 

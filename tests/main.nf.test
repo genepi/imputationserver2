@@ -24,11 +24,6 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
                 output = "${outputDir}"
-                refEagle = 'tests/data/refpanels/hapmap2-chr20/hapmap_r22.chr$chr.CEU.hg19.recode.bcf'
-                hdfs = 'tests/data/refpanels/hapmap2-chr20/hapmap_r22.chr$chr.CEU.hg19.m3vcf.gz'
-                mapEagle = 'tests/data/refpanels/hapmap2-chr20/map/genetic_map_hg19_withX.txt.gz'
-                reference_build = 'hg19'
-                id = 'hapmap2-chr20'
             }
         }
 

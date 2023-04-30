@@ -18,7 +18,7 @@ process PHASING_EAGLE {
    def chunkfile_name = "$chunkfile".replaceAll('.vcf.gz', '')
    // replace X.nonPAR etc with X for phasing
    def chr_cleaned = "${chr}".startsWith('X.') ? 'X' : "${chr}"
-   def chr_mapped = "${params.reference_build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
+   def chr_mapped = "${params.refpanel.build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
    def phasing_post_processing =
    """
    if [[ "${params.mode}" == 'phasing' ]]
@@ -27,7 +27,7 @@ process PHASING_EAGLE {
     tabix ${chunkfile_name}.phased.tmp.vcf.gz
     bcftools view ${chunkfile_name}.phased.tmp.vcf.gz -r$chr_mapped:$start-$end -H | bgzip > ${chunkfile_name}.phased.vcf.gz
     bcftools view ${chunkfile_name}.phased.tmp.vcf.gz | bcftools view -h > ${chunkfile_name}.header
-    sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##phasing=${phasing_method}\\n##panel=${params.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
+    sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
     rm ${chunkfile_name}.phased.tmp.vcf.gz
    fi
    """

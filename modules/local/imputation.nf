@@ -11,12 +11,12 @@ process IMPUTATION {
      tuple val(chr), file("*.header.dose.vcf.gz"), file("*.data.dose.vcf.gz"), file("*.info"), file("*.header.empiricalDose.vcf.gz"), file("*.data.empiricalDose.vcf.gz"), emit: imputed_chunks
 
  script:
-   def map = minimac_map.name != 'NO_MAP_FILE' ? '--referenceEstimates --map ' + mapMinimac : ''
+   def map = minimac_map.name != 'NO_MAP_FILE' ? '--referenceEstimates --map ' + minimac_map : ''
    //define basename without ending (do not use simpleName due to X.*)
    def chunkfile_name = "$chunkfile".replaceAll('.vcf.gz', '')
    // replace X.nonPAR etc with X for minimac4
    def chr_cleaned = "${chr}".startsWith('X.') ? 'X' : "${chr}"
-   def chr_mapped = "${params.reference_build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
+   def chr_mapped = "${params.refpanel.build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
    def phasing_method  = "${phasing_status}" == 'VCF-PHASED' ? 'n/a' : "${phasing_method}"
    def isChrM = "${chr}" == 'MT' ? '--myChromosome ' + "${chr}" : ''
 
@@ -41,8 +41,8 @@ process IMPUTATION {
    # write software versions to headers
    bcftools view ${chunkfile_name}.dose.vcf.gz | bcftools view -h > ${chunkfile_name}.header
    bcftools view ${chunkfile_name}.empiricalDose.vcf.gz | bcftools view -h > ${chunkfile_name}.empiricalDose.header
-   sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##imputation=${params.imputation_version}\\n##phasing=${phasing_method}\\n##panel=${params.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
-   sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##imputation=${params.imputation_version}\\n##phasing=${phasing_method}\\n##panel=${params.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.empiricalDose.header | bgzip > ${chunkfile_name}.header.empiricalDose.vcf.gz
+   sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##imputation=${params.imputation_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
+   sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##imputation=${params.imputation_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.empiricalDose.header | bgzip > ${chunkfile_name}.header.empiricalDose.vcf.gz
 
    # apply R2 filter
    if [[ ${params.r2Filter} > 0 ]]
