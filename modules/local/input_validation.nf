@@ -9,7 +9,7 @@ process INPUT_VALIDATION {
 
   output:
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
-    path("*.{html,log}")
+    path("*.html")
 
   script:
 
@@ -29,6 +29,8 @@ process INPUT_VALIDATION {
         ]
     ]
 
+    println task.process
+
     """
     echo '${JsonOutput.toJson(config)}' > config.json
 
@@ -36,10 +38,15 @@ process INPUT_VALIDATION {
       cloudgene.sdk.weblog.WebLogRunner \
       genepi.imputationserver.steps.InputValidation \
       config.json \
-      01-input-validation.log
+      cloudgene.log
 
-      ccat 01-input-validation.log --html > 01-input-validation.html
+      ccat cloudgene.log --html > 01-input-validation.html
 
     """
+
+   // afterScript = 
+     // "echo lukas"
+    
+
 
 }

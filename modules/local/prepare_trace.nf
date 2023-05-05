@@ -32,9 +32,9 @@ process PREPARE_TRACE {
       cloudgene.sdk.weblog.WebLogRunner \
       genepi.imputationserver.steps.TraceStep \
       config.json \
-      07-prepare-trace.log
+      cloudgene.log
 
-    ccat 07-prepare-trace.log --html > 07-prepare-trace.html
+    ccat cloudgene.log --html > 07-prepare-trace.html
 
     """
 

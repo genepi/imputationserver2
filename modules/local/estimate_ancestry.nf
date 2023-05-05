@@ -38,9 +38,9 @@ process ESTIMATE_ANCESTRY {
       cloudgene.sdk.weblog.WebLogRunner \
       genepi.imputationserver.steps.PopulationPredictorStep \
       config.json \
-      08-predict-population.log
+      cloudgene.log
 
-    ccat 08-predict-population.log --html > 08-predict-population.html
+    ccat cloudgene.log --html > 08-predict-population.html
 
     """
 

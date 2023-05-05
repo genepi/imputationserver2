@@ -46,9 +46,9 @@ process COMPRESSION_ENCRYPTION {
       cloudgene.sdk.weblog.WebLogRunner \
       genepi.imputationserver.steps.CompressionEncryption \
       config.json \
-      05-compression-encryption-chr-${chr}.log
+      cloudgene.log
 
-    ccat 05-compression-encryption-chr-${chr}.log --html > 05-compression-encryption-chr-${chr}.html
+    ccat cloudgene.log --html > 05-compression-encryption-chr-${chr}.html
 
     """
 

@@ -12,7 +12,7 @@ process QUALITY_CONTROL {
     path("${config.params.chunkFileDir}/*"), emit: chunks_csv
     path("${config.params.chunksDir}/*"), emit: chunks_vcf
     path("maf.txt", emit: maf_file)
-    path("*.{html,log}")
+    path("*.html")
 
   script:
 
@@ -46,9 +46,9 @@ process QUALITY_CONTROL {
       cloudgene.sdk.weblog.WebLogRunner \
       genepi.imputationserver.steps.FastQualityControl \
       config.json \
-      02-quality-control.log
+      cloudgene.log
 
-    ccat 02-quality-control.log --html > 02-quality-control.html
+    ccat cloudgene.log --html > 02-quality-control.html
     """
 
 }
