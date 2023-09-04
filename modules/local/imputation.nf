@@ -11,7 +11,7 @@ process IMPUTATION {
      tuple val(chr), file("*.header.dose.vcf.gz"), file("*.data.dose.vcf.gz"), file("*.info"), file("*.header.empiricalDose.vcf.gz"), file("*.data.empiricalDose.vcf.gz"), emit: imputed_chunks
 
  script:
-   def map = minimac_map.name != 'NO_MAP_FILE' ? '--referenceEstimates --map ' + minimac_map : ''
+   def map = minimac_map ? '--referenceEstimates --map ' + minimac_map : ''
    //define basename without ending (do not use simpleName due to X.*)
    def chunkfile_name = "$chunkfile".replaceAll('.vcf.gz', '')
    // replace X.nonPAR etc with X for minimac4
