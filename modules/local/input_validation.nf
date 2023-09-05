@@ -5,7 +5,7 @@ process INPUT_VALIDATION {
   publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
 
   input:
-    path(vcf_file)
+    path(vcf_files)
 
   output:
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
@@ -13,40 +13,24 @@ process INPUT_VALIDATION {
 
   script:
 
-    config = [
-        inputs: ['files'],
-        params: [
-            files: './',
-            population: params.population,
-            phasing: params.phasing,
-            refpanel: params.refpanel.id,
-            build: params.build,
-            mode: params.mode
-            //TODO: add missing params?
-        ],
-        data: [
-            refpanel: params.refpanel
-        ]
-    ]
-
     println task.process
 
     """
-    echo '${JsonOutput.toJson(config)}' > config.json
+    echo '${JsonOutput.toJson(params.refpanel)}' > config.json
 
-    java -cp /opt/imputationserver-utils/imputationserver-utils.jar \
-      cloudgene.sdk.weblog.WebLogRunner \
-      genepi.imputationserver.steps.InputValidation \
-      config.json \
-      cloudgene.log
+    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+      validate \
+      --population ${params.population} \
+      --phasing ${params.phasing} \
+      --reference config.json \
+      --build ${params.build} \
+      --mode ${params.mode} \
+      --output cloudgene.log \
+       $vcf_files 
+
 
       ccat cloudgene.log --html > 01-input-validation.html
 
     """
 
-   // afterScript = 
-     // "echo lukas"
-    
-
-
-}
+  }
