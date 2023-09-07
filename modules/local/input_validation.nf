@@ -24,7 +24,7 @@ process INPUT_VALIDATION {
       --reference reference-panel.json \
       --build ${params.build} \
       --mode ${params.mode} \
-      --output cloudgene.log \
+      --report cloudgene.report.json \
        $vcf_files 
 
     """

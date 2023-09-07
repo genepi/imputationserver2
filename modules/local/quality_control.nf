@@ -40,7 +40,7 @@ process QUALITY_CONTROL {
       --chunks-out ${config.params.chunksDir} \
       --statistics-out ${config.params.statisticsDir} \
       --metafiles-out ${config.params.metaFilesDir} \
-      --output cloudgene.log \
+      --report cloudgene.report.json \
        $vcf_files 
     """
 
