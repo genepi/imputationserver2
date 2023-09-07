@@ -5,50 +5,43 @@ process QUALITY_CONTROL {
   publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
 
   input:
-    path(vcf_file)
+    path(vcf_files)
     path(legend_files)
 
   output:
-    path("${config.params.chunkFileDir}/*"), emit: chunks_csv
+    path("${config.params.metaFilesDir}/*"), emit: chunks_csv
     path("${config.params.chunksDir}/*"), emit: chunks_vcf
     path("maf.txt", emit: maf_file)
-    path("*.html")
 
   script:
 
     config = [
-        inputs: ['files'],
         params: [
-            files: './',
-            population: params.population,
-            phasing: params.phasing,
-            refpanel: params.refpanel.id,
-            build: params.build,
-            mode: params.mode,
             chunksDir: 'chunks',
-            chunkFileDir: 'chunkfile',
+            metaFilesDir: 'metafiles',
             statisticsDir: 'statistics',
             mafFile: 'maf.txt'
-        ],
-        data: [
-            refpanel: params.refpanel
         ]
     ]
 
     """
-    echo '${JsonOutput.toJson(config)}' > config.json
+    echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
     mkdir ${config.params.chunksDir}
-    mkdir ${config.params.chunkFileDir}
+    mkdir ${config.params.metaFilesDir}
     mkdir ${config.params.statisticsDir}
-
-    java -cp /opt/imputationserver-utils/imputationserver-utils.jar \
-      cloudgene.sdk.weblog.WebLogRunner \
-      genepi.imputationserver.steps.FastQualityControl \
-      config.json \
-      cloudgene.log
-
-    ccat cloudgene.log --html > 02-quality-control.html
+  
+    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+      run-qc \
+      --population ${params.population} \
+      --reference reference-panel.json \
+      --build ${params.build} \
+      --maf-output ${config.params.mafFile} \
+      --chunks-out ${config.params.chunksDir} \
+      --statistics-out ${config.params.statisticsDir} \
+      --metafiles-out ${config.params.metaFilesDir} \
+      --output cloudgene.log \
+       $vcf_files 
     """
 
 }
