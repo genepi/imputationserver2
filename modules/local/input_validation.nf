@@ -11,9 +11,6 @@ process INPUT_VALIDATION {
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
 
   script:
-
-    println task.process
-
     """
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 

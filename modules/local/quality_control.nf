@@ -27,10 +27,12 @@ process QUALITY_CONTROL {
     """
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
+    # TODO: create directory in java
     mkdir ${config.params.chunksDir}
     mkdir ${config.params.metaFilesDir}
     mkdir ${config.params.statisticsDir}
   
+    # TODO: write bash script to start imputationserer-utils
     java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
       run-qc \
       --population ${params.population} \

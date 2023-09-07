@@ -10,45 +10,27 @@ process COMPRESSION_ENCRYPTION {
 
   output:
     path("*.zip"), emit: encrypted_files
-    path("*.html")
 
   script:
-
-    config = [
-        inputs: ['files'],
-        params: [
-            files: './',
-            population: params.population,
-            phasing: params.phasing,
-            refpanel: params.refpanel.id,
-            build: params.build,
-            mode: params.mode,
-            //TODO: add meta
-            //TODO: add aesEncryption
-            //TODO: localOutput not set. current folder?
-            outputimputation: 'chunks',
-            password: params.password
-        ],
-        data: [
-            refpanel: params.refpanel
-        ]
-    ]
-
     """
-    echo '${JsonOutput.toJson(config)}' > config.json
 
+    # TODO: fix encryption to work with files out of the box
     mkdir chunks
     mkdir chunks/${chr}
     mv *.vcf.gz chunks/${chr}
     mv *.info chunks/${chr}
 
-    java -cp /opt/imputationserver-utils/imputationserver-utils.jar \
-      cloudgene.sdk.weblog.WebLogRunner \
-      genepi.imputationserver.steps.CompressionEncryption \
-      config.json \
-      cloudgene.log
-
-    ccat cloudgene.log --html > 05-compression-encryption-chr-${chr}.html
+    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+      encrypt \
+      --input chunks \
+      --phasing ${params.phasing} \
+      --aesEncryption ${params.aesEncryption} \
+      --meta ${params.meta} \
+      --reference ${params.refpanel.id} \
+      --mode ${params.mode} \
+      --password ${params.password} \
+      --report cloudgene.report.json \
+      --output ./
 
     """
 
