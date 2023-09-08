@@ -33,6 +33,7 @@ process QUALITY_CONTROL {
     mkdir ${config.params.statisticsDir}
   
     # TODO: write bash script to start imputationserer-utils
+    # Add missing: params.phasing_window, params.chunksize, 
     java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
       run-qc \
       --population ${params.population} \

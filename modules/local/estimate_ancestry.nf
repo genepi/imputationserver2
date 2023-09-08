@@ -13,34 +13,20 @@ process ESTIMATE_ANCESTRY {
     path ("estimated-population.txt"), emit:  populations
 
   script:
-
-    config = [
-        params: [
-            samples: "${reference_samples}",
-            reference_pc: "${reference_pc_coord}",
-            study_pc: "study.ProPC.coord",
-            max_pcs: "${params.ancestry.max_pcs}",
-            k: "${params.ancestry.k}",
-            threshold: "${params.ancestry.threshold}",
-            output: "estimated-population.txt"
-        ]
-    ]
-
     """
 
     # merge csv files
     csvtk concat ${study_pcs} > study.ProPC.coord
 
-    # run population predictor
-    echo '${JsonOutput.toJson(config)}' > config.json
-
-    java -cp /opt/imputationserver-utils/imputationserver-utils.jar \
-      cloudgene.sdk.weblog.WebLogRunner \
-      genepi.imputationserver.steps.PopulationPredictorStep \
-      config.json \
-      cloudgene.log
-
-    ccat cloudgene.log --html > 08-predict-population.html
+    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+      estimate-popluation \
+      --samples ${reference_samples} \
+      --reference-pc ${reference_pc_coord} \
+      --study-pc study.ProPC.coord \
+      --max-pcs ${params.ancestry.max_pcs} \
+      --k ${params.ancestry.k} \
+      --threshold ${params.ancestry.threshold} \
+      --output estimated-population.txt
 
     """
 
