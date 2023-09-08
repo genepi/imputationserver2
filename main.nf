@@ -22,6 +22,8 @@ include { ANCESTRY_ESTIMATION } from './workflows/ancestry_estimation'
 
 workflow {
 
+    println "Welcome to ${params.service.name}"
+
     params.password = "my-password" //PasswordCreator.createPassword()
 
     //TODO: Remove this debugging message.updating password is not working.
@@ -43,9 +45,11 @@ workflow.onComplete {
     //TODO: move in EmailHelper class
     //see https://www.nextflow.io/docs/latest/mail.html for configuration etc...
     if (params.config.send_mail){
-        sendMail( to: "${params.user.email}",
-            subject: "[${params.service.name}] Job ${params.project} is complete.",
-            body: 'Hi, how are you! The password is: ${param.password}')
+        sendMail{
+            to "${params.user.email}"
+            subject "[${params.service.name}] Job ${params.project} is complete."
+            body "Hi ${params.user.name}, how are you! The password is: ${params.password}"
+        }
         println "Sent email to ${params.user.email}"
     }
 }

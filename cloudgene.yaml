@@ -15,14 +15,14 @@ workflow:
       script: main.nf
       # params without UI
       params:
-        project: "${job_id}"
+        project: "${CLOUDGENE_JOB_ID}"
         user:
-          email: "${user_email}"
-          name:  "${user_name}"
+          email: "${CLOUDGENE_USER_EMAIL}"
+          name:  "${CLOUDGENE_USER_NAME}"
         service:
-          name: "${service_name}"
-          email: "${service_email}"
-          url: "${service_url}"
+          name: "${CLOUDGENE_SERVICE_NAME}"
+          email: "${CLOUDGENE_CONTACT_EMAIL}"
+          url: "${CLOUDGENE_SERVICE_URL}"
       processes:
         - process: "IMPUTATIONSERVER2:PHASING_EAGLE"
           view: progressbar
