@@ -22,10 +22,12 @@ include { ANCESTRY_ESTIMATION } from './workflows/ancestry_estimation'
 
 
 // create random password when not set by user
+encryption_password = "";
 if (params.password == null) {
-    params.encryption_password = PasswordCreator.createPassword()   
+    encryption_password = PasswordCreator.createPassword()   
 } else {
-    params.encryption_password = params.password
+    encryption_password = params.password
+
 }
 
 workflow {
@@ -33,7 +35,7 @@ workflow {
     println "Welcome to ${params.service.name}"
 
     if (params.imputation.enabled){ 
-        IMPUTATIONSERVER2 ()
+        IMPUTATIONSERVER2 (params.password)
     }
 
     if (params.ancestry.enabled){
@@ -49,7 +51,7 @@ workflow.onComplete {
     //see https://www.nextflow.io/docs/latest/mail.html for configuration etc...
    
     //TODO: remove debug message
-    println "Used password ${params.encryption_password}"
+    println "Used password $encryption_password"
    
     if (params.config.send_mail){
 
@@ -61,7 +63,7 @@ workflow.onComplete {
         sendMail{
             to "${params.user.email}"
             subject subjectTitle
-            body "Hi ${params.user.name}, how are you! The password is: ${params.encryption_password}"
+            body "Hi ${params.user.name}, how are you! The password is: ${$password}"
         }
         println "Sent email to ${params.user.email}"
     }
