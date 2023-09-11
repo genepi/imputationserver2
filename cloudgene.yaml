@@ -26,8 +26,12 @@ workflow:
       processes:
         - process: "IMPUTATIONSERVER2:PHASING_EAGLE"
           view: progressbar
+          label: "Phasing" 
         - process: "IMPUTATIONSERVER2:IMPUTATION"
           view: progressbar
+          label: "Imputation"
+        - process: "IMPUTATIONSERVER2:COMPRESSION_ENCRYPTION"
+          label: "Compression and Encryption"          
 
   inputs:
 
