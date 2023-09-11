@@ -6,7 +6,7 @@ process COMPRESSION_ENCRYPTION {
   tag "Merge Chromosome ${chr}"
 
   input:
-     tuple val(chr), path(imputed_vcf_header), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_header), path(imputed_meta_vcf_data)
+    tuple val(chr), path(imputed_vcf_header), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_header), path(imputed_meta_vcf_data)
 
   output:
     path("*.zip"), emit: encrypted_files
@@ -28,7 +28,7 @@ process COMPRESSION_ENCRYPTION {
       --meta ${params.meta} \
       --reference ${params.refpanel.id} \
       --mode ${params.mode} \
-      --password ${params.password} \
+      --password ${params.encryption_password} \
       --report cloudgene.report.json \
       --output ./
 

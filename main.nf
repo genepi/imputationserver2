@@ -20,14 +20,17 @@ include { ANCESTRY_ESTIMATION } from './workflows/ancestry_estimation'
 ========================================================================================
 */
 
+
+// create random password when not set by user
+if (params.password == null) {
+    params.encryption_password = PasswordCreator.createPassword()   
+} else {
+    params.encryption_password = params.password
+}
+
 workflow {
 
     println "Welcome to ${params.service.name}"
-
-    params.password = "my-password" //PasswordCreator.createPassword()
-
-    //TODO: Remove this debugging message.updating password is not working.
-    println "Created password ${params.password}"
 
     if (params.imputation.enabled){ 
         IMPUTATIONSERVER2 ()
@@ -44,11 +47,21 @@ workflow.onComplete {
     //TODO: use templates
     //TODO: move in EmailHelper class
     //see https://www.nextflow.io/docs/latest/mail.html for configuration etc...
+   
+    //TODO: remove debug message
+    println "Used password ${params.encryption_password}"
+   
     if (params.config.send_mail){
+
+        def subjectTitle = "[${params.service.name}] Job ${params.project} is complete."
+        if (!workflow.success) {
+            subjectTitle = "[${params.service.name}] Job ${params.project} failed."
+        }
+
         sendMail{
             to "${params.user.email}"
-            subject "[${params.service.name}] Job ${params.project} is complete."
-            body "Hi ${params.user.name}, how are you! The password is: ${params.password}"
+            subject subjectTitle
+            body "Hi ${params.user.name}, how are you! The password is: ${params.encryption_password}"
         }
         println "Sent email to ${params.user.email}"
     }

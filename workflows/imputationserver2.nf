@@ -169,15 +169,15 @@ workflow IMPUTATIONSERVER2 {
           minimac_map = file(params.refpanel.mapMinimac, checkIfExists: true)
         }
 
-    IMPUTATION ( 
-        phased_m3vcf_ch, 
-        minimac_map, 
-        phasing_method
-    )
-
-    COMPRESSION_ENCRYPTION (
-        IMPUTATION.out.imputed_chunks.groupTuple()
-    )
+        IMPUTATION ( 
+            phased_m3vcf_ch, 
+            minimac_map, 
+            phasing_method
+        )
+        
+        COMPRESSION_ENCRYPTION (
+            IMPUTATION.out.imputed_chunks.groupTuple()
+        )
 
     } else {
 
