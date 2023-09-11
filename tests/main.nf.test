@@ -75,7 +75,7 @@ nextflow_pipeline {
                 build = "hg19"
                 files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
                 population = "eur"
-                password = "PASSWORD"
+                password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
                 output = "${outputDir}"
             }
@@ -90,7 +90,7 @@ nextflow_pipeline {
 
             def imputed_chr_20 = file("${outputDir}/chr_20.zip");
             assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, "PASSWORD".toCharArray());
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
             zipFile.extractAll("${outputDir}");
 
             //TODO: this is from imputationserver-utils.jar. How to include? use alternative?
