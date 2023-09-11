@@ -53,6 +53,9 @@ workflow IMPUTATIONSERVER2 {
         )
     }
 
+    //TODO Subworkflow
+    if ("${params.mode}" != 'qc-only') {
+
     QUALITY_CONTROL.out.chunks_vcf
         .flatten()
         .map { it -> tuple(file(it).baseName, it) }
@@ -185,6 +188,8 @@ workflow IMPUTATIONSERVER2 {
 
     }
 
+//TODO Subworkflow End
+}
 }
 
 

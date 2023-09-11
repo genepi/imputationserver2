@@ -2,7 +2,9 @@ import groovy.json.JsonOutput
 
 process QUALITY_CONTROL {
 
-  publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
+  //TODO remove for cloudgene
+  publishDir params.output, mode: 'copy', pattern: "*.json"
+  publishDir params.output, mode: 'copy', pattern: "${config.params.statisticsDir}/*.txt"
 
   input:
     path(vcf_files)
@@ -11,7 +13,9 @@ process QUALITY_CONTROL {
   output:
     path("${config.params.metaFilesDir}/*"), emit: chunks_csv
     path("${config.params.chunksDir}/*"), emit: chunks_vcf
+    path("${config.params.statisticsDir}/*")
     path("maf.txt", emit: maf_file)
+    path("cloudgene.report.json")
 
   script:
 
