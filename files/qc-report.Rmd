@@ -1,18 +1,36 @@
-QC-Report
-========================================================
+---
+title: "QC-Report"
+output:
+  rmdformats::robobook:
+    self_contained: true
+    thumbnails: false
+    lightbox: true
+    gallery: false
+    highlight: tango
+params:
+  input: ""
+  name: ""
+  population: ""
+  version: ""
+  date: ""
+  service: ""
+---
+
 
 ```{r echo=FALSE}
-
-args<-commandArgs(TRUE)
-input=args[1]
-
-data = read.table(input, header = FALSE, sep="\t")
+data = read.table(params$input, header = FALSE, sep="\t")
 data[, 11] <- as.numeric(as.character( data[, 11] ))
 miss = data[which(data$V11 > 300),];
-
-
 ```
 
+## Parameters
+
+| Parameter        | Value                       |
+|------------------|-----------------------------|
+| Job              | `r params$name`            |
+| Pipeline Version | `r params$version`          |
+| Date             | `r params$date`             |
+| Population       | `r params$population    `   |
 
 ## Allele-Frequency Correlation
 
@@ -63,3 +81,8 @@ for (i in 1:length(miss[,11])){
 
 ```
 
+---
+
+<small>
+This report has been created with **`r params$service`**.
+</small>

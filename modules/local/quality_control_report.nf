@@ -1,5 +1,3 @@
-import groovy.json.JsonOutput
-
 process QUALITY_CONTROL_REPORT {
 
   publishDir params.output, mode: 'copy'
@@ -13,16 +11,19 @@ process QUALITY_CONTROL_REPORT {
 
   script:
     """
-    # TODO: switch to param. report (see nf-gwas) and move it on reports folder.
     Rscript -e "require( 'rmarkdown' ); render('${qc_report}',
         params = list(
+            input = '${maf_file}',
+            name = '${params.project}',
+            population = '${params.population}',
+            version = '${params.pipeline_version}',
+            date = '${params.project_date}',
+            service = '${params.service.name}'
         ),
         intermediates_dir='\$PWD',
         knit_root_dir='\$PWD',
-        output_file='\$PWD/03-quality-control-report.html'
-      )" \
-      ${maf_file}
-
+        output_file='\$PWD/quality-control.html'
+    )"
     """
 
 }
