@@ -24,6 +24,10 @@ workflow:
           email: "${CLOUDGENE_CONTACT_EMAIL}"
           url: "${CLOUDGENE_SERVICE_URL}"
       processes:
+        - process: "IMPUTATIONSERVER2:INPUT_VALIDATION"
+          label: "Input Validation" 
+        - process: "IMPUTATIONSERVER2:QUALITY_CONTROL"
+          label: "Quality Control"                 
         - process: "IMPUTATIONSERVER2:PHASING_EAGLE"
           view: progressbar
           label: "Phasing" 
