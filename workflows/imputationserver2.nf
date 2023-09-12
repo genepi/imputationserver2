@@ -37,6 +37,9 @@ legend_files_ch = Channel.from ( 1..22 )
 
 workflow IMPUTATIONSERVER2 {
 
+    take: 
+    encryption_password
+    main:
     INPUT_VALIDATION(
         files.collect()
     )
@@ -179,7 +182,8 @@ workflow IMPUTATIONSERVER2 {
         )
         
         COMPRESSION_ENCRYPTION (
-            IMPUTATION.out.imputed_chunks.groupTuple()
+            IMPUTATION.out.imputed_chunks.groupTuple(),
+            encryption_password
         )
 
     } else {
