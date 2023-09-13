@@ -2,52 +2,49 @@ import groovy.json.JsonOutput
 
 process QUALITY_CONTROL_VCF {
 
-  //TODO remove for cloudgene
-  publishDir params.output, mode: 'copy', pattern: "*.json"
-  publishDir params.output, mode: 'copy', pattern: "${config.params.statisticsDir}/*.txt"
-  memory = { 16.GB }
 
-  input:
+    //TODO remove for cloudgene
+    publishDir params.output, mode: 'copy', pattern: "*.json"
+    publishDir params.output, mode: 'copy', pattern: "${statisticsDir}/*.txt"
+
+    input:
     path(vcf_files)
     path(legend_files)
 
-  output:
-    path("${config.params.metaFilesDir}/*"), emit: chunks_csv
-    path("${config.params.chunksDir}/*"), emit: chunks_vcf
-    path("${config.params.statisticsDir}/*")
+    output:
+    path("${metaFilesDir}/*"), emit: chunks_csv
+    path("${chunksDir}/*"), emit: chunks_vcf
+    path("${statisticsDir}/*")
     path("maf.txt", emit: maf_file)
     path("cloudgene.report.json")
 
-  script:
+    script:
 
-    config = [
-        params: [
-            chunksDir: 'chunks',
-            metaFilesDir: 'metafiles',
-            statisticsDir: 'statistics',
-            mafFile: 'maf.txt'
-        ]
-    ]
+    chunksDir = 'chunks'
+    metaFilesDir = 'metafiles'
+    statisticsDir = 'statistics'
+    mafFile = 'maf.txt'
 
     """
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
-    # TODO: create directory in java
-    mkdir ${config.params.chunksDir}
-    mkdir ${config.params.metaFilesDir}
-    mkdir ${config.params.statisticsDir}
+    # TODO: create directories in java
+    mkdir ${chunksDir}
+    mkdir ${metaFilesDir}
+    mkdir ${statisticsDir}
   
-    # TODO: write bash script to start imputationserer-utils
-    # Add missing: params.phasing_window, params.chunksize, 
-    java -Xmx16G -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+    # TODO: add lifover and set chain directory
+    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
       run-qc \
       --population ${params.population} \
       --reference reference-panel.json \
       --build ${params.build} \
-      --maf-output ${config.params.mafFile} \
-      --chunks-out ${config.params.chunksDir} \
-      --statistics-out ${config.params.statisticsDir} \
-      --metafiles-out ${config.params.metaFilesDir} \
+      --maf-output ${mafFile} \
+      --phasing-window ${params.phasing_window} \
+      --chunksize ${params.chunksize} \
+      --chunks-out ${chunksDir} \
+      --statistics-out ${statisticsDir} \
+      --metafiles-out ${metaFilesDir} \
       --report cloudgene.report.json \
        $vcf_files 
     """
