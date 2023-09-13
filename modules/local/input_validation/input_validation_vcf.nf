@@ -3,7 +3,7 @@ import groovy.json.JsonOutput
 process INPUT_VALIDATION_VCF {
 
   publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
-  memory = { 16.GB }
+  memory = { 1.GB }
   input:
     path(vcf_files)
 

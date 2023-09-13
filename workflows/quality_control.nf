@@ -1,5 +1,5 @@
-include { QUALITY_CONTROL_VCF      } from '../modules/local/quality_control_vcf'
-include { QUALITY_CONTROL_REPORT   } from '../modules/local/quality_control_report'
+include { QUALITY_CONTROL_VCF      } from '../modules/local/quality_control/quality_control_vcf'
+include { QUALITY_CONTROL_REPORT   } from '../modules/local/quality_control/quality_control_report'
 
 workflow QUALITY_CONTROL {
 

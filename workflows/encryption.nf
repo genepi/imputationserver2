@@ -1,4 +1,4 @@
-include { COMPRESSION_ENCRYPTION_VCF } from '../modules/local/compression_encryption_vcf'
+include { COMPRESSION_ENCRYPTION_VCF } from '../modules/local/compression/compression_encryption_vcf'
 
 workflow ENCRYPTION {
 
