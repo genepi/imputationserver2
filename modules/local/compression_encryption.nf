@@ -7,7 +7,6 @@ process COMPRESSION_ENCRYPTION {
 
   input:
     tuple val(chr), path(imputed_vcf_header), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_header), path(imputed_meta_vcf_data)
-    val password
   output:
     path("*.zip"), emit: encrypted_files
 
