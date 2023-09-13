@@ -14,6 +14,7 @@ process INPUT_VALIDATION_VCF {
     """
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
+    # TODO: add params.min_samples and params.max_samples, contact, mail, ...
     java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
       validate \
       --population ${params.population} \
