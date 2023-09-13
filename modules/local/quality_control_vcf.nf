@@ -5,6 +5,7 @@ process QUALITY_CONTROL_VCF {
   //TODO remove for cloudgene
   publishDir params.output, mode: 'copy', pattern: "*.json"
   publishDir params.output, mode: 'copy', pattern: "${config.params.statisticsDir}/*.txt"
+  memory = { 16.GB }
 
   input:
     path(vcf_files)
@@ -38,7 +39,7 @@ process QUALITY_CONTROL_VCF {
   
     # TODO: write bash script to start imputationserer-utils
     # Add missing: params.phasing_window, params.chunksize, 
-    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+    java -Xmx16G -jar /opt/imputationserver-utils/imputationserver-utils.jar \
       run-qc \
       --population ${params.population} \
       --reference reference-panel.json \
