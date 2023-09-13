@@ -13,7 +13,7 @@ nextflow_pipeline {
     name "Test Workflow main.nf"
     script "main.nf"
 
-        test("Should run QC-only") {
+    test("Should run QC-only") {
 
         when {
             params {
@@ -38,7 +38,7 @@ nextflow_pipeline {
 
     }
 
-        test("Should run QC-only and check statistic files") {
+    test("Should run QC-only and check statistic files") {
 
         when {
             params {
@@ -142,7 +142,7 @@ nextflow_pipeline {
 
     }
 
-        test("Should run phasing-only") {
+    test("Should run phasing-only") {
 
         when {
             params {

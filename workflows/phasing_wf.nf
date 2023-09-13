@@ -1,7 +1,3 @@
-if (params.refpanel_yaml){
-    params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
-}
-
 include { NO_PHASING               } from '../modules/local/no_phasing'
 include { PHASING_EAGLE            } from '../modules/local/phasing_eagle'
 include { PHASING_BEAGLE           } from '../modules/local/phasing_beagle'
@@ -124,11 +120,3 @@ workflow PHASING_WF {
     emit: phased_m3vcf_ch
 
 }
-
-
-workflow.onComplete {
-    println "Pipeline completed at: $workflow.complete"
-    println "Execution status: ${ workflow.success ? 'OK' : 'failed' }"
-}
-
-

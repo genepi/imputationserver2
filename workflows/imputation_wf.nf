@@ -1,13 +1,10 @@
-if (params.refpanel_yaml){
-    params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
-}
-
 include { IMPUTATION } from '../modules/local/imputation'
 
 workflow IMPUTATION_WF {
 
     take: 
-        phased_m3vcf_ch 
+    phased_m3vcf_ch 
+
     main:
 
     // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
@@ -29,18 +26,11 @@ workflow IMPUTATION_WF {
     }
 
     IMPUTATION ( 
-      phased_m3vcf_ch, 
-      minimac_map, 
-      phasing_method
+        phased_m3vcf_ch, 
+        minimac_map, 
+        phasing_method
     )
+
     emit: 
-      IMPUTATION.out.imputed_chunks.groupTuple()
+    IMPUTATION.out.imputed_chunks.groupTuple()
 }
-
-
-workflow.onComplete {
-    println "Pipeline completed at: $workflow.complete"
-    println "Execution status: ${ workflow.success ? 'OK' : 'failed' }"
-}
-
-

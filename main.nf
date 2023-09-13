@@ -10,6 +10,22 @@
 
 nextflow.enable.dsl = 2
 
+if (params.refpanel_yaml){
+    params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
+    println params.refpanel
+}
+
+requiredParams = [
+    'project', 'files', 'output', 'refpanel'
+]
+
+for (param in requiredParams) {
+    if (params[param] == null) {
+      exit 1, "Parameter ${param} is required."
+    }
+}
+
+
 // create random password when not set by user
 if (params.password == null) {
     params.encryption_password = PasswordCreator.createPassword()   
@@ -17,7 +33,19 @@ if (params.password == null) {
     params.encryption_password = params.password
 }
 
-include { IMPUTATIONSERVER2 } from './workflows/imputationserver2'
+
+Channel
+    .fromPath(params.files)
+    .set {files}
+
+// Find legend files from full pattern and make legend file pattern relative
+params.refpanel.legend_pattern = "${params.refpanel.legend}"
+params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
+legend_files_ch = Channel.from ( 1..22 )
+        .map { it -> file(params.refpanel.legend_pattern.replaceAll('\\$chr', it.toString())) }
+
+
+
 include { INPUT_VALIDATION_WF } from './workflows/input_validation_wf'
 include { QC_WF } from './workflows/qc_wf'
 include { PHASING_WF } from './workflows/phasing_wf'
@@ -40,7 +68,10 @@ workflow {
 
         INPUT_VALIDATION_WF ()
         
-        QC_WF (INPUT_VALIDATION_WF.out)
+        QC_WF (
+            INPUT_VALIDATION_WF.out,
+            legend_files_ch.collect()
+        )
 
         if ("${params.mode}" != 'qc-only') {
 
