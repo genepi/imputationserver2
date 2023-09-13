@@ -44,7 +44,7 @@ workflow {
 
         if ("${params.mode}" != 'qc-only') {
 
-            PHASING_WF (QC_WF.out[0], QC_WF.out[1])
+            PHASING_WF (QC_WF.out.chunks_vcf, QC_WF.out.chunks_csv)
 
             if ("${params.mode}" == 'imputation') {
             

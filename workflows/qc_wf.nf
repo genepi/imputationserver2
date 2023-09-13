@@ -24,8 +24,8 @@ workflow QC_WF {
         )
     }
     emit:
-        QUALITY_CONTROL.out.chunks_vcf
-        QUALITY_CONTROL.out.chunks_csv
+        chunks_vcf = QUALITY_CONTROL.out.chunks_vcf
+        chunks_csv = QUALITY_CONTROL.out.chunks_csv
 
 }
 
