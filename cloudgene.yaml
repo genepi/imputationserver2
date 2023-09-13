@@ -15,7 +15,7 @@ workflow:
       script: main.nf
       # params without UI
       params:
-        project: "${CLOUDGENE_JOB_ID}"
+        project: "${CLOUDGENE_JOB_NAME}"
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name:  "${CLOUDGENE_USER_NAME}"
@@ -24,6 +24,10 @@ workflow:
           email: "${CLOUDGENE_CONTACT_EMAIL}"
           url: "${CLOUDGENE_SERVICE_URL}"
       processes:
+        - process: "IMPUTATIONSERVER2:INPUT_VALIDATION"
+          label: "Input Validation" 
+        - process: "IMPUTATIONSERVER2:QUALITY_CONTROL"
+          label: "Quality Control"                 
         - process: "IMPUTATIONSERVER2:PHASING_EAGLE"
           view: progressbar
           label: "Phasing" 
