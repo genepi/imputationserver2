@@ -3,7 +3,7 @@ import groovy.json.JsonOutput
 process INPUT_VALIDATION_VCF {
 
   publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
-
+  memory = { 16.GB }
   input:
     path(vcf_files)
 
@@ -15,7 +15,7 @@ process INPUT_VALIDATION_VCF {
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
     # TODO: add params.min_samples and params.max_samples, contact, mail, ...
-    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+    java -Xmx16G -jar /opt/imputationserver-utils/imputationserver-utils.jar \
       validate \
       --population ${params.population} \
       --phasing ${params.phasing} \
