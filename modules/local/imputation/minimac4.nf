@@ -1,4 +1,4 @@
-process IMPUTATION {
+process MINIMAC4 {
 
   tag "${chunkfile}"
 

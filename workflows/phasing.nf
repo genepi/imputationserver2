@@ -1,8 +1,8 @@
-include { NO_PHASING               } from '../modules/local/no_phasing'
-include { PHASING_EAGLE            } from '../modules/local/phasing_eagle'
-include { PHASING_BEAGLE           } from '../modules/local/phasing_beagle'
+include { NO_PHASING               } from '../modules/local/phasing/no_phasing'
+include { EAGLE            } from '../modules/local/phasing/eagle'
+include { BEAGLE           } from '../modules/local/phasing/beagle'
 
-workflow PHASING_WF {
+workflow PHASING {
 
     take: 
         chunks_vcf 
@@ -72,13 +72,11 @@ workflow PHASING_WF {
     //TODO: read from Dockerfile
     // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
     if ("${params.phasing}" == 'eagle' || "${params.phasing}" == '') {
-    phasing_method = params.eagle_version
-    }
-    else if ("${params.phasing}" == 'beagle') {
-    phasing_method = params.beagle_version
-    }
-    else if ("${params.phasing}" == 'no_phasing') {
-    phasing_method = "n/a"
+        phasing_method = params.eagle_version
+    } else if ("${params.phasing}" == 'beagle') {
+        phasing_method = params.beagle_version
+    } else if ("${params.phasing}" == 'no_phasing') {
+        phasing_method = "n/a"
     }
 
     map_eagle   = file(params.refpanel.mapEagle, checkIfExists: false)
@@ -88,32 +86,32 @@ workflow PHASING_WF {
     // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
     if ("${params.phasing}" == 'eagle'  || "${params.phasing}" == '') {
 
-     eagle_bcf_metafiles_ch =  eagle_bcf_ch.combine(metafiles_ch, by: 0)
+        eagle_bcf_metafiles_ch =  eagle_bcf_ch.combine(metafiles_ch, by: 0)
 
-     PHASING_EAGLE ( eagle_bcf_metafiles_ch, map_eagle, phasing_method )
+        EAGLE ( eagle_bcf_metafiles_ch, map_eagle, phasing_method )
 
-     phased_m3vcf_ch = PHASING_EAGLE.out.eagle_phased_ch.combine(minimac_m3vcf_ch, by: 0)
+        phased_m3vcf_ch = EAGLE.out.eagle_phased_ch.combine(minimac_m3vcf_ch, by: 0)
 
     }
 
     if ("${params.phasing}" == 'beagle') {
 
-     beagle_bcf_metafiles_ch = beagle_bcf_ch.combine(metafiles_ch, by: 0)
+        beagle_bcf_metafiles_ch = beagle_bcf_ch.combine(metafiles_ch, by: 0)
 
-     //combine with map since also split by chromsome
-     beagle_bcf_metafiles_map_ch = beagle_bcf_metafiles_ch.combine(beagle_map_ch, by: 0)
+        //combine with map since also split by chromsome
+        beagle_bcf_metafiles_map_ch = beagle_bcf_metafiles_ch.combine(beagle_map_ch, by: 0)
 
-     PHASING_BEAGLE ( beagle_bcf_metafiles_map_ch, phasing_method )
+        BEAGLE ( beagle_bcf_metafiles_map_ch, phasing_method )
 
-     phased_m3vcf_ch = PHASING_BEAGLE.out.beagle_phased_ch.combine(minimac_m3vcf_ch, by: 0)
+        phased_m3vcf_ch = BEAGLE.out.beagle_phased_ch.combine(minimac_m3vcf_ch, by: 0)
 
     }
 
     if ("${params.phasing}" == 'no_phasing') {
 
-     NO_PHASING (metafiles_ch)
+        NO_PHASING (metafiles_ch)
 
-     phased_m3vcf_ch = NO_PHASING.out.skipped_phasing_ch.combine(minimac_m3vcf_ch, by: 0)
+        phased_m3vcf_ch = NO_PHASING.out.skipped_phasing_ch.combine(minimac_m3vcf_ch, by: 0)
 
     }
 

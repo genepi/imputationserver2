@@ -1,13 +1,14 @@
-process PHASING_BEAGLE {
+process EAGLE {
 
   tag "${chunkfile}"
 
   input:
-    tuple val(chr), path(bcf), val(start), val(end), val(phasing_status), path(chunkfile), val(snps), val(in_reference),  path(map_beagle)
+    tuple val(chr), path(bcf), path(bcf_csi), val(start), val(end), val(phasing_status), path(chunkfile), val(snps), val(in_reference)
+    path map_eagle
     val phasing_method
 
   output:
-   tuple val(chr), val(start), val(end), val(phasing_status), file("*.phased.vcf.gz"), emit: beagle_phased_ch
+   tuple val(chr), val(start), val(end), val(phasing_status), file("*.phased.vcf.gz"), emit: eagle_phased_ch
    path "*.header.dose.vcf.gz", optional: true
    path "*.phased.vcf.gz", optional: true
 
@@ -33,18 +34,22 @@ process PHASING_BEAGLE {
 
    if( phasing_status == 'VCF-UNPHASED' ) {
     """
-    java -jar /usr/bin/beagle.18May20.d20.jar \
-     ref=${bcf}  \
-     gt=${chunkfile} \
-     out=${chunkfile_name}.phased \
-     nthreads=1 \
-     chrom=${chr_mapped}:${start}-${end}  \
-     map=${map_beagle} \
-     impute=false
+    tabix $chunkfile
+     eagle \
+     --vcfRef ${bcf}  \
+     --vcfTarget ${chunkfile} \
+     --geneticMapFile ${map_eagle} \
+     --outPrefix ${chunkfile_name}.phased \
+     --chrom $chr_mapped \
+     --bpStart $start \
+     --bpEnd $end \
+     --allowRefAltSwap \
+     --vcfOutFormat z \
+     --keepMissingPloidyX
 
     # phasing only
     $phasing_post_processing
-    """
+   """
    }
    else if( phasing_status == 'VCF-PHASED' ) {
     """
@@ -53,10 +58,8 @@ process PHASING_BEAGLE {
     # phasing only
     $phasing_post_processing
     """
-
    }
    else {
     error "Invalid phasing status: ${phasing_status}"
    }
-
 }

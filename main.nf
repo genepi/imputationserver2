@@ -46,11 +46,11 @@ legend_files_ch = Channel.from ( 1..22 )
 
 
 
-include { INPUT_VALIDATION_WF } from './workflows/input_validation_wf'
-include { QC_WF } from './workflows/qc_wf'
-include { PHASING_WF } from './workflows/phasing_wf'
-include { IMPUTATION_WF } from './workflows/imputation_wf'
-include { ENCRYPTION_WF } from './workflows/encryption_wf'
+include { INPUT_VALIDATION } from './workflows/input_validation'
+include { QUALITY_CONTROL } from './workflows/quality_control'
+include { PHASING } from './workflows/phasing'
+include { IMPUTATION } from './workflows/imputation'
+include { ENCRYPTION } from './workflows/encryption'
 include { ANCESTRY_ESTIMATION } from './workflows/ancestry_estimation'
 
 /*
@@ -66,28 +66,35 @@ workflow {
 
     if (params.imputation.enabled){ 
 
-        INPUT_VALIDATION_WF ()
+        INPUT_VALIDATION()
         
-        QC_WF (
-            INPUT_VALIDATION_WF.out,
+        QUALITY_CONTROL(
+            INPUT_VALIDATION.out,
             legend_files_ch.collect()
         )
 
         if ("${params.mode}" != 'qc-only') {
 
-            PHASING_WF (QC_WF.out.chunks_vcf, QC_WF.out.chunks_csv)
+            PHASING(
+                QUALITY_CONTROL.out.chunks_vcf,
+                QUALITY_CONTROL.out.chunks_csv
+            )
 
             if ("${params.mode}" == 'imputation') {
             
-            IMPUTATION_WF (PHASING_WF.out)
-            
-            ENCRYPTION_WF (IMPUTATION_WF.out)
+                IMPUTATION(
+                    PHASING.out
+                )
+                
+                ENCRYPTION(
+                    IMPUTATION.out
+                )
             }
         }
     }
     
     if (params.ancestry.enabled){
-        ANCESTRY_ESTIMATION ()
+        ANCESTRY_ESTIMATION()
     }
 
 }
