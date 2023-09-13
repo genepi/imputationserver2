@@ -28,7 +28,7 @@ process COMPRESSION_ENCRYPTION {
       --meta ${params.meta} \
       --reference ${params.refpanel.id} \
       --mode ${params.mode} \
-      --password $password \
+      --password ${params.encryption_password} \
       --report cloudgene.report.json \
       --output ./
 
