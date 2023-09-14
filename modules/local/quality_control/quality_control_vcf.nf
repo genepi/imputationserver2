@@ -13,7 +13,7 @@ process QUALITY_CONTROL_VCF {
     output:
     path("${metaFilesDir}/*"), emit: chunks_csv
     path("${chunksDir}/*"), emit: chunks_vcf
-    path("${statisticsDir}/*")
+    path("${statisticsDir}/*"), optional: true
     path("maf.txt", emit: maf_file)
     path("cloudgene.report.json")
 
