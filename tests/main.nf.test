@@ -13,24 +13,78 @@ nextflow_pipeline {
     name "Test Workflow main.nf"
     script "main.nf"
 
-    test("Should run with phased data") {
+    test("Should run QC-only") {
 
         when {
             params {
                 project  = "test-job"
                 build = "hg19"
-                files = "tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
                 population = "eur"
-                password = PASSWORD
-                refpanel_yaml = "tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                output = "${outputDir}"
+            }   
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+       
+        }
+
+    }
+
+    test("Should run QC-only and check statistic files") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
                 output = "${outputDir}"
             }
         }
 
         then {
             assert workflow.success
-    
-            def quality_control_log = file("${outputDir}/02-quality-control.log")
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def typed_file = file("${outputDir}/statistics/typed-only.txt")
+            assert typed_file.exists()
+            def snps_file = file("${outputDir}/statistics/snps-excluded.txt")
+            assert snps_file.exists()
+       
+        }
+
+    }
+
+    test("Should run with phased data") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
@@ -49,6 +103,74 @@ nextflow_pipeline {
 
             //check correct number of snps in info.gz file
             assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+
+        }
+
+    }
+
+    test("Should run without phasing") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                phasing = "no_phasing"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            //check correct number of snps in info.gz file
+            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+
+        }
+
+    }
+
+    test("Should run phasing-only") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                mode = "phasing_only"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            //TODO: add phasing only mode in workflow!
+            //def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            //assert imputed_chr_20.exists()
+            //ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            //zipFile.extractAll("${outputDir}");
+
+          
 
         }
 

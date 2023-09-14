@@ -2,7 +2,7 @@ import groovy.json.JsonOutput
 
 process EXECUTE_TRACE {
 
-  input:
+    input:
     path(samples)
     path(vcf_file)
     path(reference_site)
@@ -11,15 +11,13 @@ process EXECUTE_TRACE {
     path(reference_pc_coord)
     path(reference_samples)
 
-  output:
+    output:
     path ("${batch_name}.ProPC.coord"), emit:  pcs
 
-  script:
-
+    script:
     batch_name = "batch_${samples.baseName}"
 
     """
-
     # extract samples form vcf
     bcftools view --samples-file ${samples} -Oz ${vcf_file} > ${batch_name}.vcf.gz
     tabix ${batch_name}.vcf.gz
@@ -37,7 +35,6 @@ process EXECUTE_TRACE {
 
     # execute trace with config file
     trace -p trace.config > trace.log
-
     """
 
 }

@@ -1,7 +1,7 @@
-include { PREPARE_TRACE } from '../modules/local/prepare_trace'
-include { EXECUTE_TRACE } from '../modules/local/execute_trace'
-include { ESTIMATE_ANCESTRY } from '../modules/local/estimate_ancestry'
-include { VISUALIZE_ANCESTRY } from '../modules/local/visualize_ancestry'
+include { PREPARE_TRACE } from '../modules/local/ancestry_estimation/prepare_trace'
+include { EXECUTE_TRACE } from '../modules/local/ancestry_estimation/execute_trace'
+include { ESTIMATE_ANCESTRY } from '../modules/local/ancestry_estimation/estimate_ancestry'
+include { VISUALIZE_ANCESTRY } from '../modules/local/ancestry_estimation/visualize_ancestry'
 
 workflow ANCESTRY_ESTIMATION {
     

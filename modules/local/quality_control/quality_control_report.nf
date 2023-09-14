@@ -1,15 +1,15 @@
 process QUALITY_CONTROL_REPORT {
 
-  publishDir params.output, mode: 'copy'
+    publishDir params.output, mode: 'copy'
 
-  input:
+    input:
     path(maf_file)
     path(qc_report)
 
-  output:
+    output:
     path("*.html")
 
-  script:
+    script:
     """
     Rscript -e "require( 'rmarkdown' ); render('${qc_report}',
         params = list(

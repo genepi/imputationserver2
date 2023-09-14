@@ -24,17 +24,17 @@ workflow:
           email: "${CLOUDGENE_CONTACT_EMAIL}"
           url: "${CLOUDGENE_SERVICE_URL}"
       processes:
-        - process: "IMPUTATIONSERVER2:INPUT_VALIDATION"
+        - process: "INPUT_VALIDATION:INPUT_VALIDATION_VCF"
           label: "Input Validation" 
-        - process: "IMPUTATIONSERVER2:QUALITY_CONTROL"
+        - process: "QUALITY_CONTROL:QUALITY_CONTROL_VCF"
           label: "Quality Control"                 
-        - process: "IMPUTATIONSERVER2:PHASING_EAGLE"
+        - process: "PHASING:EAGLE"
           view: progressbar
           label: "Phasing" 
-        - process: "IMPUTATIONSERVER2:IMPUTATION"
+        - process: "IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
-        - process: "IMPUTATIONSERVER2:COMPRESSION_ENCRYPTION"
+        - process: "ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           label: "Compression and Encryption"          
 
   inputs:

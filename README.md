@@ -4,7 +4,7 @@
 ## Build Docker image
 
 ```
-docker build -t genepi/nf-imputationserver:latest . --platform amd64
+docker build -t genepi/nf-imputationserver:latest . --platform linux/amd64
 ```
 
 
