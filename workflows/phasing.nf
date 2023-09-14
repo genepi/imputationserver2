@@ -1,6 +1,6 @@
-include { NO_PHASING               } from '../modules/local/phasing/no_phasing'
-include { EAGLE            } from '../modules/local/phasing/eagle'
-include { BEAGLE           } from '../modules/local/phasing/beagle'
+include { NO_PHASING } from '../modules/local/phasing/no_phasing'
+include { EAGLE } from '../modules/local/phasing/eagle'
+include { BEAGLE } from '../modules/local/phasing/beagle'
 
 workflow PHASING {
 
@@ -8,7 +8,6 @@ workflow PHASING {
         chunks_vcf 
         chunks_csv
     main:
-
     chunks_vcf
         .flatten()
         .map { it -> tuple(file(it).baseName, it) }

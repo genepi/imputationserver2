@@ -6,7 +6,6 @@ workflow IMPUTATION {
     phased_m3vcf_ch 
 
     main:
-
     // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
     if ("${params.phasing}" == 'eagle' || "${params.phasing}" == '') {
         phasing_method = params.eagle_version

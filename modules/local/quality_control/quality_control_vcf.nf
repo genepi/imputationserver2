@@ -2,7 +2,6 @@ import groovy.json.JsonOutput
 
 process QUALITY_CONTROL_VCF {
 
-
     //TODO remove for cloudgene
     publishDir params.output, mode: 'copy', pattern: "*.json"
     publishDir params.output, mode: 'copy', pattern: "${statisticsDir}/*.txt"
@@ -19,7 +18,6 @@ process QUALITY_CONTROL_VCF {
     path("cloudgene.report.json")
 
     script:
-
     chunksDir = 'chunks'
     metaFilesDir = 'metafiles'
     statisticsDir = 'statistics'
@@ -35,18 +33,18 @@ process QUALITY_CONTROL_VCF {
   
     # TODO: add lifover and set chain directory
     java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
-      run-qc \
-      --population ${params.population} \
-      --reference reference-panel.json \
-      --build ${params.build} \
-      --maf-output ${mafFile} \
-      --phasing-window ${params.phasing_window} \
-      --chunksize ${params.chunksize} \
-      --chunks-out ${chunksDir} \
-      --statistics-out ${statisticsDir} \
-      --metafiles-out ${metaFilesDir} \
-      --report cloudgene.report.json \
-       $vcf_files 
+        run-qc \
+        --population ${params.population} \
+        --reference reference-panel.json \
+        --build ${params.build} \
+        --maf-output ${mafFile} \
+        --phasing-window ${params.phasing_window} \
+        --chunksize ${params.chunksize} \
+        --chunks-out ${chunksDir} \
+        --statistics-out ${statisticsDir} \
+        --metafiles-out ${metaFilesDir} \
+        --report cloudgene.report.json \
+        $vcf_files 
     """
 
 }
