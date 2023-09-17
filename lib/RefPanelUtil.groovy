@@ -30,9 +30,6 @@ class RefPanelUtil {
                 propertyValue = RefPanelUtil.env(propertyValue.toString(), environment);
             } else if (propertyValue instanceof Map) {
                 resolveEnv(propertyValue, environment);
-            } else {
-                //imputationserver-utils needs variables as string.
-                propertyValue = propertyValue.toString();
             }
             properties.put(property, propertyValue);
         }
