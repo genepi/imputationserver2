@@ -6,17 +6,18 @@ category: RefPanel
 
 properties:
   id: hapmap2
-  hdfs: ${app_hdfs_folder}/m3vcfs/hapmap_r22.chr$chr.CEU.hg19.recode.m3vcf.gz
+  genotypes: ${app_hdfs_folder}/m3vcfs/hapmap_r22.chr$chr.CEU.hg19.recode.m3vcf.gz
   legend: ${app_local_folder}/legends/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz
   mapEagle: ${app_hdfs_folder}/map/genetic_map_hg19_withX.txt.gz
   refEagle: ${app_hdfs_folder}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
-  build: hg19
-  samples:
-    eur: 60
-    mixed: -1
+  reference_build: hg19
   populations:
-    eur: EUR
-    mixed: Mixed
+    - id: eur
+      name: EUR
+      samples: 60
+    - id: mixed
+      name: Mixed
+      samples: -1
     
 
 installation:
