@@ -1,6 +1,6 @@
 properties:
   id: hapmap2-chr20
-  reference_build: hg19
+  build: hg19
   genotypes: ${app_local_folder}/hapmap_r22.chr$chr.CEU.hg19.m3vcf.gz
   legend: ${app_local_folder}/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz
   mapEagle: ${app_local_folder}/genetic_map_hg19_withX.txt.gz
