@@ -5,11 +5,8 @@ version: 2.0.0-dev
 website: https://imputationserver.readthedocs.io
 category:
 
-
 workflow:
-
   steps:
-
     - name: Quality Control and Imputation
       type: nextflow
       script: main.nf
@@ -18,115 +15,112 @@ workflow:
         project: "${CLOUDGENE_JOB_NAME}"
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
-          name:  "${CLOUDGENE_USER_NAME}"
+          name: "${CLOUDGENE_USER_NAME}"
         service:
           name: "${CLOUDGENE_SERVICE_NAME}"
           email: "${CLOUDGENE_CONTACT_EMAIL}"
           url: "${CLOUDGENE_SERVICE_URL}"
       processes:
-        - process: "INPUT_VALIDATION:INPUT_VALIDATION_VCF"
-          label: "Input Validation" 
-        - process: "QUALITY_CONTROL:QUALITY_CONTROL_VCF"
-          label: "Quality Control"                 
-        - process: "PHASING:EAGLE"
+        - process: "IMPUTATIONSERVER:INPUT_VALIDATION:INPUT_VALIDATION_VCF"
+          label: "Input Validation"
+        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
+          label: "Quality Control"
+        - process: "IMPUTATIONSERVER:PHASING:EAGLE"
           view: progressbar
-          label: "Phasing" 
-        - process: "IMPUTATION:MINIMAC4"
+          label: "Phasing"
+        - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
-        - process: "ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
-          label: "Compression and Encryption"          
+        - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
+          label: "Compression and Encryption"
 
   inputs:
+    - id: refpanel
+      description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
+      type: app_list
+      category: RefPanel
 
-     - id: refpanel
-       description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
-       type: app_list
-       category: RefPanel
+    - id: files
+      description: Input Files (<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41" target="_blank">VCF</a>)
+      type: local-folder
+      pattern: "*.vcf.gz"
 
-     - id: files
-       description: Input Files (<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41" target="_blank">VCF</a>)
-       type: local-folder
-       pattern: "*.vcf.gz"
+    - id: build
+      description: Array Build
+      type: list
+      value: hg19
+      values:
+        hg19: GRCh37/hg19
+        hg38: GRCh38/hg38
+      details: Please note that the final SNP coordinates always match the reference build.
 
-     - id: build
-       description: Array Build
-       type: list
-       value: hg19
-       values:
-         hg19: GRCh37/hg19
-         hg38: GRCh38/hg38
-       details: Please note that the final SNP coordinates always match the reference build.
+    - id: r2Filter
+      description: rsq Filter
+      type: list
+      value: 0
+      values:
+        0: off
+        0.001: 0.001
+        0.1: 0.1
+        0.2: 0.2
+        0.3: 0.3
 
-     - id: r2Filter
-       description: rsq Filter
-       type: list
-       value: 0
-       values:
-         0: off
-         0.001: 0.001
-         0.1: 0.1
-         0.2: 0.2
-         0.3: 0.3
+    - id: phasing
+      description: Phasing
+      type: list
+      value: eagle
+      values:
+        eagle: Eagle v2.4 (phased output)
+        no_phasing: No phasing
 
-     - id: phasing
-       description: Phasing
-       type: list
-       value: eagle
-       values:
-         eagle: Eagle v2.4 (phased output)
-         no_phasing: No phasing
+    - id: population
+      description: Population
+      type: list
+      values:
+        bind: refpanel
+        property: populations
+        category: RefPanel
 
-     - id: population
-       description: Population
-       type: list
-       values:
-          bind: refpanel
-          property: populations
-          category: RefPanel
+    - id: mode
+      description: Mode
+      type: list
+      value: imputation
+      values:
+        qconly: Quality Control Only
+        imputation: Quality Control & Imputation
+        phasing: Quality Control & Phasing Only
 
-     - id: mode
-       description: Mode
-       type: list
-       value: imputation
-       values:
-          qconly: Quality Control Only
-          imputation: Quality Control & Imputation
-          phasing: Quality Control & Phasing Only
+    - id: aesEncryption
+      description: AES 256 encryption
+      details: Imputation Server encrypts all zip files by default. Please note that AES encryption does not work with standard unzip programs. Use 7z instead.
+      type: checkbox
+      value: no
+      values:
+        true: yes
+        false: no
+      visible: true
 
-     - id: aesEncryption
-       description: AES 256 encryption
-       details: Imputation Server encrypts all zip files by default. Please note that AES encryption does not work with standard unzip programs. Use 7z instead.
-       type: checkbox
-       value: no
-       values:
-         true: yes
-         false: no
-       visible: true
+    - id: meta
+      description: Generate Meta-imputation file
+      type: checkbox
+      value: no
+      values:
+        true: yes
+        false: no
+      visible: true
 
-     - id: meta
-       description: Generate Meta-imputation file
-       type: checkbox
-       value: no
-       values:
-         true: yes
-         false: no
-       visible: true
+    - id: myseparator
+      type: separator
 
-     - id: myseparator
-       type: separator
+    - id: check1
+      description: I will not attempt to re-identify or contact research participants.
+      type: terms_checkbox
 
-     - id: check1
-       description: I will not attempt to re-identify or contact research participants.
-       type: terms_checkbox
-
-     - id: check2
-       description: I will report any inadvertent data release, security breach or other data management incident of which I become aware.
-       type: terms_checkbox
-
+    - id: check2
+      description: I will report any inadvertent data release, security breach or other data management incident of which I become aware.
+      type: terms_checkbox
 
   outputs:
-
     - id: output
       description: Output
       type: local-folder

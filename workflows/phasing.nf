@@ -61,10 +61,10 @@ workflow PHASING {
     }
 
     autosomes_m3vcf_ch = Channel.from ( 1..22 )
-        .map { it -> tuple(it.toString(), file("$params.refpanel.hdfs".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.genotypes".replaceAll('\\$chr', it.toString()))) }
 
     non_autosomes_m3vcf_ch = Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-        .map { it -> tuple(it.toString(), file("$params.refpanel.hdfs".replaceAll('\\$chr', it.toString()))) }
+        .map { it -> tuple(it.toString(), file("$params.refpanel.genotypes".replaceAll('\\$chr', it.toString()))) }
 
     minimac_m3vcf_ch = autosomes_m3vcf_ch.concat(non_autosomes_m3vcf_ch)
 

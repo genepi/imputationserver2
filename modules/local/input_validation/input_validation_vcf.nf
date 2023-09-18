@@ -15,7 +15,7 @@ process INPUT_VALIDATION_VCF {
     """
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
-    # TODO: add params.min_samples and params.max_samples, contact, mail, ...
+    # TODO: add contact, mail, ...
     java -Xmx16G -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         validate \
         --population ${params.population} \
@@ -23,6 +23,8 @@ process INPUT_VALIDATION_VCF {
         --reference reference-panel.json \
         --build ${params.build} \
         --mode ${params.mode} \
+        --minSamples ${params.min_samples} \
+        --maxSamples ${params.max_samples} \
         --report cloudgene.report.json \
         $vcf_files 
     """
