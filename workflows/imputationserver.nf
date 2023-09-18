@@ -36,48 +36,50 @@ legend_files_ch = Channel.from ( 1..22 )
 phasing_reference_ch = Channel.empty()
 phasing_map_ch = Channel.empty()
 
+chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
+
+//TODO: to phasing workflow
  if ("${params.phasing}" == 'eagle' && "${params.refpanel.refEagle}" != null) {
 
-    phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: false)
+    phasing_reference_ch = chromosomes
+        .map {
+            it -> tuple(
+                it.toString(),
+                file(Patterns.parse(params.refpanel.refEagle, [chr: it])),
+                file(Patterns.parse(params.refpanel.refEagle + ".csi", [chr: it]))
+            )
+        }
 
-    autosomes_eagle_ch =  Channel.from ( 1..22)
-    .map { it -> tuple(it.toString(), file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
-
-    non_autosomes_eagle_ch =  Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-    .map { it -> tuple(it.toString(), file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
-
-    phasing_reference_ch = autosomes_eagle_ch.concat(non_autosomes_eagle_ch)
-
-    }
+}
 
 if ("${params.phasing}" == 'beagle' && "${params.refpanel.refBeagle}" != null) {
 
-    autosomes_beagle_ch = Channel.from ( 1..22 )
-    .map { it -> tuple(it.toString(), file("$params.refpanel.refBeagle".replaceAll('\\$chr', it.toString()))) }
+    phasing_reference_ch = chromosomes
+        .map {
+            it -> tuple(
+                it.toString(),
+                file(Patterns.parse(params.refpanel.refBeagle, [chr: it]))
+            )
+        }
 
-    non_autosomes_beagle_ch = Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-    .map { it -> tuple(it.toString(), file("$params.refpanel.refBeagle".replaceAll('\\$chr', it.toString()))) }
+    phasing_map_ch = chromosomes
+        .map {
+            it -> tuple(
+                it.toString(),
+                file(Patterns.parse(params.refpanel.mapBeagle, [chr: it]))
+            )
+        }
 
-    phasing_reference_ch = autosomes_beagle_ch.concat(non_autosomes_beagle_ch)
-
-    autosomes_beagle_map_ch = Channel.from ( 1..22 )
-    .map { it -> tuple(it.toString(), file("$params.refpanel.mapBeagle".replaceAll('\\$chr', it.toString()))) }
-
-    non_autosomes_beagle_map_ch = Channel.from (  'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT' )
-    .map { it -> tuple(it.toString(), file("$params.refpanel.mapBeagle".replaceAll('\\$chr', it.toString()))) }
-
-    phasing_map_ch = autosomes_beagle_map_ch.concat(non_autosomes_beagle_map_ch)
 }
 
-
-autosomes_m3vcf_ch = Channel.from ( 1..22 )
-.map { it -> tuple(it.toString(), file("$params.refpanel.genotypes".replaceAll('\\$chr', it.toString()))) }
-
-non_autosomes_m3vcf_ch = Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-.map { it -> tuple(it.toString(), file("$params.refpanel.genotypes".replaceAll('\\$chr', it.toString()))) }
-
-minimac_m3vcf_ch = autosomes_m3vcf_ch.concat(non_autosomes_m3vcf_ch)
-
+//TODO: to imputation workflow
+minimac_m3vcf_ch = chromosomes
+    .map {
+        it -> tuple(
+            it.toString(),
+            file(Patterns.parse(params.refpanel.genotypes, [chr: it]))
+        )
+    }
 
 
 include { INPUT_VALIDATION } from './input_validation'
