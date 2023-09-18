@@ -5,15 +5,11 @@ process EAGLE {
     input:
     tuple val(chr), path(bcf), path(bcf_csi), val(start), val(end), val(phasing_status), path(chunkfile), val(snps), val(in_reference)
     path map_eagle
-    val phasing_method
 
     output:
     tuple val(chr), val(start), val(end), val(phasing_status), file("*.phased.vcf.gz"), emit: eagle_phased_ch
-    path "*.header.dose.vcf.gz", optional: true
-    path "*.phased.vcf.gz", optional: true
 
     script:
-    def phasing_method  = "${phasing_status}" == 'VCF-PHASED' ? 'n/a' : "${phasing_method}"
     //define basename without ending (do not use simpleName due to X.*)
     def chunkfile_name = "$chunkfile".replaceAll('.vcf.gz', '')
     // replace X.nonPAR etc with X for phasing
@@ -26,8 +22,6 @@ process EAGLE {
         mv ${chunkfile_name}.phased.vcf.gz ${chunkfile_name}.phased.tmp.vcf.gz
         tabix ${chunkfile_name}.phased.tmp.vcf.gz
         bcftools view ${chunkfile_name}.phased.tmp.vcf.gz -r$chr_mapped:$start-$end -H | bgzip > ${chunkfile_name}.phased.vcf.gz
-        //bcftools view ${chunkfile_name}.phased.tmp.vcf.gz | bcftools view -h > ${chunkfile_name}.header
-        //sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
         rm ${chunkfile_name}.phased.tmp.vcf.gz
     fi
     """

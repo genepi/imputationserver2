@@ -1,4 +1,3 @@
-include { NO_PHASING } from '../modules/local/phasing/no_phasing'
 include { EAGLE } from '../modules/local/phasing/eagle'
 include { BEAGLE } from '../modules/local/phasing/beagle'
 
@@ -31,22 +30,12 @@ workflow PHASING {
         }
         .set { metafiles_ch }
 
-    //TODO: read from Dockerfile
-    // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
-    if ("${params.phasing}" == 'eagle' || "${params.phasing}" == '') {
-        phasing_method = params.eagle_version
-    } else if ("${params.phasing}" == 'beagle') {
-        phasing_method = params.beagle_version
-    } else if ("${params.phasing}" == 'no_phasing') {
-        phasing_method = "n/a"
-    }
-
     // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
     if ("${params.phasing}" == 'eagle'  || "${params.phasing}" == '') {
 
         eagle_bcf_metafiles_ch =  phasing_reference_ch.combine(metafiles_ch, by: 0)
 
-        EAGLE ( eagle_bcf_metafiles_ch, phasing_map, phasing_method )
+        EAGLE ( eagle_bcf_metafiles_ch, phasing_map )
 
         phased_ch = EAGLE.out.eagle_phased_ch
 
@@ -59,7 +48,7 @@ workflow PHASING {
         //combine with map since also split by chromsome
         beagle_bcf_metafiles_map_ch = beagle_bcf_metafiles_ch.combine(phasing_map, by: 0)
 
-        BEAGLE ( beagle_bcf_metafiles_map_ch, phasing_method )
+        BEAGLE ( beagle_bcf_metafiles_map_ch )
 
         phased_ch = BEAGLE.out.beagle_phased_ch
 
@@ -67,9 +56,12 @@ workflow PHASING {
 
     if ("${params.phasing}" == 'no_phasing') {
 
-        NO_PHASING (metafiles_ch)
+        
+           metafiles_ch
+                .map {it -> tuple(it[0],it[1],it[2],it[3],file(it[4])) }
+                .set {phased_ch}
 
-        phased_ch = NO_PHASING.out.skipped_phasing_ch
+        phased_ch.view()
 
     }
 
