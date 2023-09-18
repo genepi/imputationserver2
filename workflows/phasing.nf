@@ -9,7 +9,6 @@ workflow PHASING {
         phasing_reference_ch
         phasing_map
     main:
-    //TODO move to imputationserver workflow?
     chunks_vcf
         .flatten()
         .map { it -> tuple(file(it).baseName, it) }
@@ -30,8 +29,7 @@ workflow PHASING {
         }
         .set { metafiles_ch }
 
-    // check for '' required for testPipelineWithPhasedAndEmptyPhasing. Test case could be deleted since phasing is never '' anymore
-    if ("${params.phasing}" == 'eagle'  || "${params.phasing}" == '') {
+    if ("${params.phasing}" == 'eagle') {
 
         eagle_bcf_metafiles_ch =  phasing_reference_ch.combine(metafiles_ch, by: 0)
 
