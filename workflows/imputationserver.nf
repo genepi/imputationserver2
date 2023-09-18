@@ -82,26 +82,34 @@ workflow IMPUTATIONSERVER {
 
 
 workflow.onComplete {
-    //TODO: different text iff success or failed.
     //TODO: use templates
     //TODO: move in EmailHelper class
     //see https://www.nextflow.io/docs/latest/mail.html for configuration etc...
    
-    //TODO: remove debug message
-    println "Used password ${params.encryption_password}"
+    def report = new CloudgeneReport()
    
-    if (params.config.send_mail){
-
-        def subjectTitle = "[${params.service.name}] Job ${params.project} is complete."
-        if (!workflow.success) {
-            subjectTitle = "[${params.service.name}] Job ${params.project} failed."
+    //job failed
+    if (!workflow.success) {
+        if (params.config.send_mail){
+            sendMail{
+                to "${params.user.email}"
+                subject "[${params.service.name}] Job ${params.project} failed."
+                body "Hi ${params.user.name}, the job failed :("
+            }
         }
+        report.error("Imputation failed.")
+        return
+    }
 
+    //job successful
+    if (params.config.send_mail){
         sendMail{
             to "${params.user.email}"
-            subject subjectTitle
+            subject "[${params.service.name}] Job ${params.project} is complete."
             body "Hi ${params.user.name}, how are you! The password is: ${params.encryption_password}"
         }
-        println "Sent email to ${params.user.email}"
+        report.ok("Sent email with password to <b>${params.user.email}</b>")
+    } else {
+        report.ok("Encrypted results with password <b>${params.encryption_password}</b>")
     }
 }
