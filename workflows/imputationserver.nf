@@ -39,7 +39,9 @@ phasing_map_ch = Channel.empty()
 chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
 
 //TODO: to phasing workflow
- if ("${params.phasing}" == 'eagle' && "${params.refpanel.refEagle}" != null) {
+ if (params.phasing == 'eagle' && params.refpanel.refEagle != null) {
+
+    phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: false)
 
     phasing_reference_ch = chromosomes
         .map {
@@ -52,7 +54,7 @@ chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
 
 }
 
-if ("${params.phasing}" == 'beagle' && "${params.refpanel.refBeagle}" != null) {
+if (params.phasing == 'beagle' && params.refpanel.refBeagle != null) {
 
     phasing_reference_ch = chromosomes
         .map {
@@ -80,7 +82,6 @@ minimac_m3vcf_ch = chromosomes
             file(Patterns.parse(params.refpanel.genotypes, [chr: it]))
         )
     }
-
 
 include { INPUT_VALIDATION } from './input_validation'
 include { QUALITY_CONTROL } from './quality_control'
@@ -112,7 +113,6 @@ workflow IMPUTATIONSERVER {
             )
 
             phased_m3vcf_ch = PHASING.out.phased_ch.combine(minimac_m3vcf_ch, by: 0)
-
             if ("${params.mode}" == 'imputation') {
             
                 IMPUTATION(
