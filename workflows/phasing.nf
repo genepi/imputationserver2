@@ -1,39 +1,57 @@
+chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
+
+if (params.phasing == 'eagle' && params.refpanel.refEagle != null) {
+
+    phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: false)
+
+    phasing_reference_ch = chromosomes
+        .map {
+            it -> tuple(
+                it.toString(),
+                file(Patterns.parse(params.refpanel.refEagle, [chr: it])),
+                file(Patterns.parse(params.refpanel.refEagle + ".csi", [chr: it]))
+            )
+        }
+
+}
+
+//TODO combine as soon as test case is available
+if (params.phasing == 'beagle' && params.refpanel.refBeagle != null) {
+
+    phasing_reference_ch = chromosomes
+        .map {
+            it -> tuple(
+                it.toString(),
+                file(Patterns.parse(params.refpanel.refBeagle, [chr: it]))
+            )
+        }
+
+    phasing_map_ch = chromosomes
+        .map {
+            it -> tuple(
+                it.toString(),
+                file(Patterns.parse(params.refpanel.mapBeagle, [chr: it]))
+            )
+        }
+
+}
+
 include { EAGLE } from '../modules/local/phasing/eagle'
 include { BEAGLE } from '../modules/local/phasing/beagle'
 
 workflow PHASING {
 
     take: 
-        chunks_vcf 
-        chunks_csv
-        phasing_reference_ch
-        phasing_map
+    metafiles_ch 
     main:
-    chunks_vcf
-        .flatten()
-        .map { it -> tuple(file(it).baseName, it) }
-        .set{ chunks_vcf_index }
 
-    chunks_csv
-        .flatten()
-        .splitCsv(header:false, sep:'\t')
-        .map{ 
-            row-> tuple(file(row[4]).baseName, row[0], row[1], row[2], row[3], row[4], row[5], row[6])
-        }
-        .set { chunks_csv_index }
-
-    chunks_csv_index
-        .combine(chunks_vcf_index, by: 0)
-        .map{
-            row-> tuple(row[1], row[2], row[3], row[4], file(row[8]), row[6], row[7])
-        }
-        .set { metafiles_ch }
+    //TODO: phasing currently always executed, indepedent of detected phasing status in input files
 
     if ("${params.phasing}" == 'eagle') {
 
         eagle_bcf_metafiles_ch =  phasing_reference_ch.combine(metafiles_ch, by: 0)
 
-        EAGLE ( eagle_bcf_metafiles_ch, phasing_map )
+        EAGLE ( eagle_bcf_metafiles_ch, phasing_map_ch )
 
         phased_ch = EAGLE.out.eagle_phased_ch
 
@@ -44,7 +62,7 @@ workflow PHASING {
         beagle_bcf_metafiles_ch = phasing_reference_ch.combine(metafiles_ch, by: 0)
 
         //combine with map since also split by chromsome
-        beagle_bcf_metafiles_map_ch = beagle_bcf_metafiles_ch.combine(phasing_map, by: 0)
+        beagle_bcf_metafiles_map_ch = beagle_bcf_metafiles_ch.combine(phasing_map_ch, by: 0)
 
         BEAGLE ( beagle_bcf_metafiles_map_ch )
 
@@ -55,14 +73,13 @@ workflow PHASING {
     if ("${params.phasing}" == 'no_phasing') {
 
         
-           metafiles_ch
-                .map {it -> tuple(it[0],it[1],it[2],it[3],file(it[4])) }
-                .set {phased_ch}
-
-        phased_ch.view()
+        metafiles_ch
+            .map {it -> tuple(it[0],it[1],it[2],it[3],file(it[4])) }
+            .set {phased_ch}
 
     }
 
-    emit: phased_ch
+    emit: 
+    phased_ch
 
 }

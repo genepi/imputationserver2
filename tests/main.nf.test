@@ -102,8 +102,9 @@ nextflow_pipeline {
             assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT*/
 
             //check correct number of snps in info.gz file
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
-
+            //TODO: phasing executed every time, therefore ONLY_IN_INPUT is currently not available
+           // assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
         }
 
     }

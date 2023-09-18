@@ -32,57 +32,6 @@ params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
 legend_files_ch = Channel.from ( 1..22 )
         .map { it -> file(params.refpanel.legend_pattern.replaceAll('\\$chr', it.toString())) }
 
-// TODO: improve no_phasing case
-phasing_reference_ch = Channel.empty()
-phasing_map_ch = Channel.empty()
-
-chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
-
-//TODO: to phasing workflow
- if (params.phasing == 'eagle' && params.refpanel.refEagle != null) {
-
-    phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: false)
-
-    phasing_reference_ch = chromosomes
-        .map {
-            it -> tuple(
-                it.toString(),
-                file(Patterns.parse(params.refpanel.refEagle, [chr: it])),
-                file(Patterns.parse(params.refpanel.refEagle + ".csi", [chr: it]))
-            )
-        }
-
-}
-
-if (params.phasing == 'beagle' && params.refpanel.refBeagle != null) {
-
-    phasing_reference_ch = chromosomes
-        .map {
-            it -> tuple(
-                it.toString(),
-                file(Patterns.parse(params.refpanel.refBeagle, [chr: it]))
-            )
-        }
-
-    phasing_map_ch = chromosomes
-        .map {
-            it -> tuple(
-                it.toString(),
-                file(Patterns.parse(params.refpanel.mapBeagle, [chr: it]))
-            )
-        }
-
-}
-
-//TODO: to imputation workflow
-minimac_m3vcf_ch = chromosomes
-    .map {
-        it -> tuple(
-            it.toString(),
-            file(Patterns.parse(params.refpanel.genotypes, [chr: it]))
-        )
-    }
-
 include { INPUT_VALIDATION } from './input_validation'
 include { QUALITY_CONTROL } from './quality_control'
 include { PHASING } from './phasing'
@@ -102,21 +51,17 @@ workflow IMPUTATIONSERVER {
             INPUT_VALIDATION.out,
             legend_files_ch.collect()
         )
-
+        //TODO: add phasing only mode
         if ("${params.mode}" != 'qc-only') {
 
             PHASING(
-                QUALITY_CONTROL.out.chunks_vcf,
-                QUALITY_CONTROL.out.chunks_csv,
-                phasing_reference_ch,
-                phasing_map_ch
+                QUALITY_CONTROL.out.qc_metafiles
             )
 
-            phased_m3vcf_ch = PHASING.out.phased_ch.combine(minimac_m3vcf_ch, by: 0)
             if ("${params.mode}" == 'imputation') {
             
                 IMPUTATION(
-                    phased_m3vcf_ch
+                    PHASING.out.phased_ch
                 )
                 
                 ENCRYPTION(
