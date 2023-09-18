@@ -32,6 +32,52 @@ params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
 legend_files_ch = Channel.from ( 1..22 )
         .map { it -> file(params.refpanel.legend_pattern.replaceAll('\\$chr', it.toString())) }
 
+// TODO: improve no_phasing case
+phasing_reference_ch = Channel.empty()
+phasing_map_ch = Channel.empty()
+
+ if ("${params.phasing}" == 'eagle' && "${params.refpanel.refEagle}" != null) {
+
+    phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: false)
+
+    autosomes_eagle_ch =  Channel.from ( 1..22)
+    .map { it -> tuple(it.toString(), file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
+
+    non_autosomes_eagle_ch =  Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
+    .map { it -> tuple(it.toString(), file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())),file("$params.refpanel.refEagle".replaceAll('\\$chr', it.toString())+'.csi')) }
+
+    phasing_reference_ch = autosomes_eagle_ch.concat(non_autosomes_eagle_ch)
+
+    }
+
+if ("${params.phasing}" == 'beagle' && "${params.refpanel.refBeagle}" != null) {
+
+    autosomes_beagle_ch = Channel.from ( 1..22 )
+    .map { it -> tuple(it.toString(), file("$params.refpanel.refBeagle".replaceAll('\\$chr', it.toString()))) }
+
+    non_autosomes_beagle_ch = Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
+    .map { it -> tuple(it.toString(), file("$params.refpanel.refBeagle".replaceAll('\\$chr', it.toString()))) }
+
+    phasing_reference_ch = autosomes_beagle_ch.concat(non_autosomes_beagle_ch)
+
+    autosomes_beagle_map_ch = Channel.from ( 1..22 )
+    .map { it -> tuple(it.toString(), file("$params.refpanel.mapBeagle".replaceAll('\\$chr', it.toString()))) }
+
+    non_autosomes_beagle_map_ch = Channel.from (  'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT' )
+    .map { it -> tuple(it.toString(), file("$params.refpanel.mapBeagle".replaceAll('\\$chr', it.toString()))) }
+
+    phasing_map_ch = autosomes_beagle_map_ch.concat(non_autosomes_beagle_map_ch)
+}
+
+
+autosomes_m3vcf_ch = Channel.from ( 1..22 )
+.map { it -> tuple(it.toString(), file("$params.refpanel.genotypes".replaceAll('\\$chr', it.toString()))) }
+
+non_autosomes_m3vcf_ch = Channel.from ( 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
+.map { it -> tuple(it.toString(), file("$params.refpanel.genotypes".replaceAll('\\$chr', it.toString()))) }
+
+minimac_m3vcf_ch = autosomes_m3vcf_ch.concat(non_autosomes_m3vcf_ch)
+
 
 
 include { INPUT_VALIDATION } from './input_validation'
@@ -58,13 +104,17 @@ workflow IMPUTATIONSERVER {
 
             PHASING(
                 QUALITY_CONTROL.out.chunks_vcf,
-                QUALITY_CONTROL.out.chunks_csv
+                QUALITY_CONTROL.out.chunks_csv,
+                phasing_reference_ch,
+                phasing_map_ch
             )
+
+            phased_m3vcf_ch = PHASING.out.phased_ch.combine(minimac_m3vcf_ch, by: 0)
 
             if ("${params.mode}" == 'imputation') {
             
                 IMPUTATION(
-                    PHASING.out
+                    phased_m3vcf_ch
                 )
                 
                 ENCRYPTION(

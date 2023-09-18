@@ -26,8 +26,8 @@ process EAGLE {
         mv ${chunkfile_name}.phased.vcf.gz ${chunkfile_name}.phased.tmp.vcf.gz
         tabix ${chunkfile_name}.phased.tmp.vcf.gz
         bcftools view ${chunkfile_name}.phased.tmp.vcf.gz -r$chr_mapped:$start-$end -H | bgzip > ${chunkfile_name}.phased.vcf.gz
-        bcftools view ${chunkfile_name}.phased.tmp.vcf.gz | bcftools view -h > ${chunkfile_name}.header
-        sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
+        //bcftools view ${chunkfile_name}.phased.tmp.vcf.gz | bcftools view -h > ${chunkfile_name}.header
+        //sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
         rm ${chunkfile_name}.phased.tmp.vcf.gz
     fi
     """
