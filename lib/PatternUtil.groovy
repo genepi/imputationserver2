@@ -1,4 +1,4 @@
-class Patterns {
+class PatternUtil {
 
     public static String parse(String value, Map<String, Object> variables) {
         def updatedValue = value +"";

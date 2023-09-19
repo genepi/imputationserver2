@@ -17,7 +17,7 @@ workflow IMPUTATION {
         .map {
             it -> tuple(
                 it.toString(),
-                file(Patterns.parse(params.refpanel.genotypes, [chr: it]))
+                file(PatternUtil.parse(params.refpanel.genotypes, [chr: it]))
             )
         }
     phased_m3vcf_ch = phased_ch.combine(minimac_m3vcf_ch, by: 0)

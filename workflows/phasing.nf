@@ -18,8 +18,8 @@ workflow PHASING {
             .map {
                 it -> tuple(
                     it.toString(),
-                    file(Patterns.parse(params.refpanel.refEagle, [chr: it])),
-                    file(Patterns.parse(params.refpanel.refEagle + ".csi", [chr: it]))
+                    file(PatternUtil.parse(params.refpanel.refEagle, [chr: it])),
+                    file(PatternUtil.parse(params.refpanel.refEagle + ".csi", [chr: it]))
                 )
             }
 
