@@ -5,7 +5,6 @@ process MINIMAC4 {
     input:
     tuple val(chr), val(start), val(end), val(phasing_status), path(chunkfile), path(m3vcf)
     path minimac_map
-    val phasing_method
 
     output:
     tuple val(chr), file("*.dose.vcf.gz"), file("*.info"), file("*.empiricalDose.vcf.gz"), emit: imputed_chunks
@@ -17,7 +16,6 @@ process MINIMAC4 {
     // replace X.nonPAR etc with X for minimac4
     def chr_cleaned = "${chr}".startsWith('X.') ? 'X' : "${chr}"
     def chr_mapped = "${params.refpanel.build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
-    def phasing_method  = "${phasing_status}" == 'VCF-PHASED' ? 'n/a' : "${phasing_method}"
     def isChrM = "${chr}" == 'MT' ? '--myChromosome ' + "${chr}" : ''
 
     """
