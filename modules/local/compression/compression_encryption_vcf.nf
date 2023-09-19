@@ -34,7 +34,7 @@ process COMPRESSION_ENCRYPTION_VCF {
         tabix $meta_name
     fi
 
-    7z a -tzip $aes -p${params.encryption_password} $zip_name ${prefix}*
+    7z a -tzip $aes -p"${params.encryption_password}" $zip_name ${prefix}*
 
     if [[ "${params.md5}" == "true" ]]
     then
