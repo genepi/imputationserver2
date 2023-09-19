@@ -20,7 +20,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     def meta_name=prefix+"_empiricalDose.vcf.gz"
     def zip_name="chr_"+"${chr}"+".zip"
     def info_name=prefix+".info"
-    def aes = params.encryption.aes ? "-mem=AES256" : ""
+    def aes = (params.encryption.aes == "yes") ? "-mem=AES256" : ""
 
     """  
     bcftools concat -n ${imputed_joined} -o $imputed_name -Oz
