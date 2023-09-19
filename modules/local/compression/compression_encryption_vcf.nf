@@ -35,6 +35,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     fi
 
     7z a -tzip $aes -p"${params.encryption_password}" $zip_name ${prefix}*
+    rm *vcf.gz* *info
 
     if [[ "${params.md5}" == "true" ]]
     then
