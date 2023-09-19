@@ -24,3 +24,4 @@ dependencies:
   - csvtk=0.25.0
   - unzip=6.0
   - htslib=1.15.1
+  - P7Zip=15.09

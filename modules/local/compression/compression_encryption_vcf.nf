@@ -6,30 +6,28 @@ process COMPRESSION_ENCRYPTION_VCF {
     tag "Merge Chromosome ${chr}"
 
     input:
-    tuple val(chr), path(imputed_vcf_header), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_header), path(imputed_meta_vcf_data)
+    tuple val(chr), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
     
     output:
-    path("*.zip"), emit: encrypted_files
-
+    path("*.zip"), emit: encrypted_file
+    path("*.md5"), emit: md5_file
     script:
+    def imputed = imputed_vcf_data as String[]
+    def imputed_sorted = imputed.sort(false) { it.tokenize('_')[2] as Integer }
+    def imputed_joined = imputed_sorted.join(" ")
+    def meta_array = imputed_meta_vcf_data as String[]
+    def meta_sorted = meta_array.sort(false) { it.tokenize('_')[2] as Integer }
+    def meta_joined = meta_sorted.join(" ")
     """
-    # TODO: fix encryption to work with files out of the box
-    mkdir chunks
-    mkdir chunks/${chr}
-    mv *.vcf.gz chunks/${chr}
-    mv *.info chunks/${chr}
-
-    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
-        encrypt \
-        --input chunks \
-        --phasing ${params.phasing} \
-        --aesEncryption ${params.aesEncryption} \
-        --meta ${params.meta} \
-        --reference ${params.refpanel.id} \
-        --mode ${params.mode} \
-        --password ${params.encryption_password} \
-        --report cloudgene.report.json \
-        --output ./
+    imputed_name=chr${chr}.dose.vcf.gz
+    meta_name=chr${chr}_empiricalDose.vcf.gz
+    zip_name=chr${chr}.zip
+    bcftools concat -n ${imputed_joined} -o \$imputed_name -Oz
+    tabix \$imputed_name
+    bcftools concat -n ${meta_joined} -o \$meta_name -Oz
+    tabix \$meta_name
+    7z a -tzip -p${params.encryption_password} \$zip_name  \$imputed_name* \$meta_name*
+    md5sum \$zip_name > ${chr}.md5
     """
-
 }
+

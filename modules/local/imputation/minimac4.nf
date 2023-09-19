@@ -8,7 +8,7 @@ process MINIMAC4 {
     val phasing_method
 
     output:
-    tuple val(chr), file("*.header.dose.vcf.gz"), file("*.data.dose.vcf.gz"), file("*.info"), file("*.header.empiricalDose.vcf.gz"), file("*.data.empiricalDose.vcf.gz"), emit: imputed_chunks
+    tuple val(chr), file("*.dose.vcf.gz"), file("*.info"), file("*.empiricalDose.vcf.gz"), emit: imputed_chunks
 
     script:
     def map = minimac_map ? '--referenceEstimates --map ' + minimac_map : ''
@@ -37,32 +37,6 @@ process MINIMAC4 {
         --meta \
         --minRatio ${params.minimac_min_ratio} \
         $map
-
-    # write software versions to headers
-    bcftools view ${chunkfile_name}.dose.vcf.gz | bcftools view -h > ${chunkfile_name}.header
-    bcftools view ${chunkfile_name}.empiricalDose.vcf.gz | bcftools view -h > ${chunkfile_name}.empiricalDose.header
-    sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##imputation=${params.imputation_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.header | bgzip > ${chunkfile_name}.header.dose.vcf.gz
-    sed '/^#CHROM.*/i ##pipeline=${params.pipeline_version}\\n##imputation=${params.imputation_version}\\n##phasing=${phasing_method}\\n##panel=${params.refpanel.id}\\n##r2Filter=${params.r2Filter}' ${chunkfile_name}.empiricalDose.header | bgzip > ${chunkfile_name}.header.empiricalDose.vcf.gz
-
-    # apply R2 filter
-    if [[ ${params.r2Filter} > 0 ]]
-    then
-        # filter info file
-        mv ${chunkfile_name}.info ${chunkfile_name}.info.tmp
-        awk '{ if (\$7 > ${params.r2Filter}) print \$0 }' ${chunkfile_name}.info.tmp  > ${chunkfile_name}.info
-        rm ${chunkfile_name}.info.tmp
-        # filter dosage files
-        bcftools filter -i 'R2>${params.r2Filter}' ${chunkfile_name}.dose.vcf.gz | bcftools view -H | bgzip > ${chunkfile_name}.data.dose.vcf.gz
-        bcftools filter -i 'R2>${params.r2Filter}' ${chunkfile_name}.empiricalDose.vcf.gz | bcftools view -H | bgzip > ${chunkfile_name}.data.empiricalDose.vcf.gz
-    else
-        bcftools view ${chunkfile_name}.dose.vcf.gz -H | bgzip > ${chunkfile_name}.data.dose.vcf.gz
-        bcftools view ${chunkfile_name}.empiricalDose.vcf.gz -H | bgzip > ${chunkfile_name}.data.empiricalDose.vcf.gz
-    fi
-
-    # delete files
-    rm ${chunkfile_name}.dose.vcf.gz
-    rm ${chunkfile_name}.empiricalDose.vcf.gz
-
   """
   
 }
