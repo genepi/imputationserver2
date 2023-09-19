@@ -12,21 +12,21 @@ process COMPRESSION_ENCRYPTION_VCF {
     path("*.zip"), emit: encrypted_file
     path("*.md5"), emit: md5_file
     script:
-    def imputed = imputed_vcf_data as String[]
-    def imputed_sorted = imputed.sort(false) { it.tokenize('_')[2] as Integer }
-    def imputed_joined = imputed_sorted.join(" ")
-    def meta_array = imputed_meta_vcf_data as String[]
-    def meta_sorted = meta_array.sort(false) { it.tokenize('_')[2] as Integer }
-    def meta_joined = meta_sorted.join(" ")
+    def imputed_joined = Manipulations.sortValues(imputed_vcf_data)
+    def meta_joined = Manipulations.sortValues(imputed_meta_vcf_data)
+    def info_joined = Manipulations.sortValues(imputed_info)
     """
     imputed_name=chr${chr}.dose.vcf.gz
     meta_name=chr${chr}_empiricalDose.vcf.gz
-    zip_name=chr${chr}.zip
+    zip_name=chr_${chr}.zip
+    info_name=chr${chr}.info
     bcftools concat -n ${imputed_joined} -o \$imputed_name -Oz
     tabix \$imputed_name
     bcftools concat -n ${meta_joined} -o \$meta_name -Oz
     tabix \$meta_name
-    7z a -tzip -p${params.encryption_password} \$zip_name  \$imputed_name* \$meta_name*
+    csvtk concat ${info_joined} > \$info_name
+    bgzip \$info_name
+    7z a -tzip -p${params.encryption_password} \$zip_name  \$imputed_name* \$meta_name* \$info_name.gz
     md5sum \$zip_name > ${chr}.md5
     """
 }
