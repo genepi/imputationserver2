@@ -75,3 +75,6 @@ RUN chmod +x /usr/local/bin/ccat
 
 # Needed, because imputationserver-utils starts process (e.g. tabix)
 ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
+
+COPY files/bin/trace /usr/bin/.
+COPY files/bin/vcf2geno /usr/bin/.
