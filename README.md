@@ -5,63 +5,71 @@
 
 This repository includes the Michigan Imputation Server Workflow ported to Nextflow.
 
-## Getting Started
-
-```
-docker build -t genepi/nf-imputationserver:latest .
-```
-
 ## Run with test data
 
-```
-nextflow run main.nf -profile development -c tests/test_single_vcf.config
-```
-
-## Run testcases
+The pipeline provides small test data to verify installation:
 
 ```
-nf-test test
+nextflow run main.nf -c tests/test_single_vcf.config
+```
+
+## Run with custom configuration
+
+`job.config`:
+
+```
+params {
+    project                 = "my-test-project"
+    build                   = "hg19"
+    files                   = "tests/input/three/*.vcf.gz"
+    population              = "eur"
+    mode                    = "imputation"
+    refpanel_yaml           = "tests/hapmap-2/2.0.0/imputation-hapmap2.yaml"
+    output                  = "output"
+}
+```
+
+Run pipeline with `job.config` configuration:
+
+```
+nextflow run main.nf -c job.config
 ```
 
 ## Parameters
 
-| Parameter             | Default Value                         | Description                               |
-| --------------------- | ------------------------------------- | ----------------------------------------- |
-| `project`             | `null`                                | Project name                              |
-| `project_date`        | `date`                                | Project date                              |
-| `files`               | `null`                                | List of input files                       |
-| `population`          | `null`                                | Population information                    |
-| `refpanel_yaml`       | `null`                                | Reference panel YAML file                 |
-| `mode`                | `imputation`                          | Processing mode (e.g., 'imputation')      |
-| `phasing`             | `eagle`                               | Phasing method (e.g., 'eagle')            |
-| `minimac_window`      | `500000`                              | Minimac window size                       |
-| `minimac_min_ratio`   | `0.00001`                             | Minimac minimum ratio                     |
-| `chunksize`           | `20000000`                            | Chunk size for processing                 |
-| `phasing_window`      | `5000000`                             | Phasing window size                       |
-| `cpus`                | `1`                                   | Number of CPUs to use                     |
-| `min_samples`         | `20`                                  | Minimum number of samples                 |
-| `max_samples`         | `50000`                               | Maximum number of samples                 |
-| `imputation.enabled`  | `true`                                | Enable or disable imputation              |
-| `ancestry.enabled`    | `false`                               | Enable or disable ancestry analysis       |
-| `ancestry.dim`        | `10`                                  | Ancestry analysis dimension               |
-| `ancestry.dim_high`   | `20`                                  | High dimension for ancestry analysis      |
-| `ancestry.batch_size` | `50`                                  | Batch size for ancestry analysis          |
-| `ancestry.reference`  | `null`                                | Ancestry reference data                   |
-| `ancestry.max_pcs`    | `8`                                   | Maximum principal components for ancestry |
-| `ancestry.k`          | `10`                                  | K value for ancestry analysis             |
-| `ancestry.threshold`  | `0.75`                                | Ancestry threshold                        |
-| `r2Filter`            | `0`                                   | R2 filter value                           |
-| `password`            | `null`                                | Password for authentication               |
-| `pipeline_version`    | `michigan-imputationserver-1.6.0-rc5` | Pipeline version                          |
-| `eagle_version`       | `eagle-2.4`                           | Eagle version                             |
-| `beagle_version`      | `beagle.18May20.d20.jar`              | Beagle version                            |
-| `imputation_version`  | `minimac4-1.0.2`                      | Imputation version                        |
-| `config.send_mail`    | `false`                               | Enable or disable email notifications     |
-| `user.name`           | `null`                                | User's name                               |
-| `user.email`          | `null`                                | User's email                              |
-| `service.name`        | `nf-imputationserver`                 | Service name                              |
-| `service.email`       | `null`                                | Service email                             |
-| `service.url`         | `null`                                | Service URL                               |
+| Parameter             | Default Value         | Description                                        |
+| --------------------- | --------------------- | -------------------------------------------------- |
+| `project`             | `null`                | Project name                                       |
+| `project_date`        | `date`                | Project date                                       |
+| `files`               | `null`                | List of input files                                |
+| `population`          | `null`                | Population information                             |
+| `refpanel_yaml`       | `null`                | Reference panel YAML file                          |
+| `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
+| `phasing`             | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
+| `minimac_window`      | `500000`              | Minimac window size                                |
+| `minimac_min_ratio`   | `0.00001`             | Minimac minimum ratio                              |
+| `chunksize`           | `20000000`            | Chunk size for processing                          |
+| `phasing_window`      | `5000000`             | Phasing window size                                |
+| `cpus`                | `1`                   | Number of CPUs to use                              |
+| `min_samples`         | `20`                  | Minimum number of samples needed                   |
+| `max_samples`         | `50000`               | Maximum number of samples allowed                  |
+| `imputation.enabled`  | `true`                | Enable or disable imputation                       |
+| `ancestry.enabled`    | `false`               | Enable or disable ancestry analysis                |
+| `ancestry.dim`        | `10`                  | Ancestry analysis dimension                        |
+| `ancestry.dim_high`   | `20`                  | High dimension for ancestry analysis               |
+| `ancestry.batch_size` | `50`                  | Batch size for ancestry analysis                   |
+| `ancestry.reference`  | `null`                | Ancestry reference data                            |
+| `ancestry.max_pcs`    | `8`                   | Maximum principal components for ancestry          |
+| `ancestry.k`          | `10`                  | K value for ancestry analysis                      |
+| `ancestry.threshold`  | `0.75`                | Ancestry threshold                                 |
+| `r2Filter`            | `0`                   | R2 filter value                                    |
+| `password`            | `null`                | Password for encryption                            |
+| `config.send_mail`    | `false`               | Enable or disable email notifications              |
+| `user.name`           | `null`                | User's name                                        |
+| `user.email`          | `null`                | User's email                                       |
+| `service.name`        | `nf-imputationserver` | Service name                                       |
+| `service.email`       | `null`                | Service email                                      |
+| `service.url`         | `null`                | Service URL                                        |
 
 ## Reference Panel Configuration
 
@@ -121,7 +129,7 @@ Note: the population id has to be the same as in the legend files.
 
 ### Example YAML
 
-Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for the Michigan Imputation Server, including details about its version, data sources, and populations represented.
+Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for the Michigan Imputation Server, including details about its version, data sources, and populations represented. The files are stored on AWS S3 and are directly consumed by the pipeline from there.
 
 ```yaml
 name: HapMap 2
@@ -150,6 +158,135 @@ properties:
 
 In the example YAML configuration provided, you may have noticed the presence of the `$chr` variable in some URLs. This variable is a placeholder for the chromosome number and will be replaced by the Nextflow pipeline.
 
-## Legend Files
+### Legend Files
 
 A legend file is a tab-delimited file consisting of 5 columns (`id`, `position`, `a0`, `a1`, `all.aaf`).
+
+---
+
+## Run with Cloudgene
+
+### Requirements:
+
+- Install Nextflow
+- Docker or Singularity
+- Java 14
+
+### Installation
+
+- Install cloudgene3: `curl -s install.cloudgene.io | bash -s 3.0.0-beta4`
+- Download latest `nf-imputationserver-xx.zip` from releases
+- Install nf-impuationserver app: `cloudgene install nf-imputationserver-xx.zip`
+- Install hapmap2 referenece panel: `cloudgene install https://genepi.i-med.ac.at/downloads/imputation/imputation-hapmap2.zip`
+- Start cloudgene server: `cloudgene server`
+- Open [http://localhost:8082](http://localhost:8082)
+- Login with default admin account: username `admin` and password `admin1978`
+
+### Default Configuration
+
+The default configuration runs with Docker and uses Nextflow's [local executor](https://www.nextflow.io/docs/latest/executor.html#local).
+
+### Running on SLURM
+
+Configure via web interface (Applications -> imputationserver -> Settings) or adapt/create file `apps/imputationserver/nextflow.config` and add the following:
+
+```
+process {
+  executor = 'slurm'
+  queue = 'QueueName'  // replace with your Queue name
+}
+
+errorStrategy = {task.exitStatus == 143 ? 'retry' : 'terminate'}
+maxErrors = '-1'
+maxRetries = 3
+```
+
+See more about SLURM [Nextflow Documentation](https://www.nextflow.io/docs/latest/executor.html#slurm).
+
+### Running on AWS Batch
+
+1. Create AWS Batch queue and AMI role (see [Nextflow Documentation](https://www.nextflow.io/docs/latest/aws.html#aws-batch))
+2. Configure via web interface (Applications -> imputationserver -> Settings) or adapt/create file `apps/imputationserver/nextflow.config` and add the following:
+
+```
+aws {
+  region = 'eu-central-1'
+  client {
+    uploadChunkSize = 10485760
+  }
+  batch {
+    cliPath = '/home/ec2-user/miniconda/bin/aws'
+    executionRole = 'arn:aws:iam::***' // replace with your AMI role
+  }
+}
+
+process {
+  executor = 'awsbatch'
+  queue = 'QueueName'  // replace with your Queue name
+  scratch = false
+}
+```
+
+Optional add [Wave](https://www.nextflow.io/docs/latest/wave.html) and [Fusion](https://www.nextflow.io/docs/latest/fusion.html) support to improve performance:
+
+```
+wave {
+  enabled = true
+  endpoint = 'https://wave.seqera.io'
+}
+
+fusion {
+  enabled = true
+}
+```
+
+### Activate mail support
+
+- Configure mail server in Settings -> General -> Mail
+- Configure Nextflow to use Cloudgenes mail settings by add the following to the global configuration (Settings -> General -> Nextflow) or adapt/create files `config/nextflow.confing` (see [Nextflow Documention](https://www.nextflow.io/docs/latest/config.html#config-mail) for all available mail settings)
+
+```
+mail {
+    smtp.host = "${CLOUDGENE_SMTP_HOST}"
+    smtp.port = "${CLOUDGENE_SMTP_PORT}"
+    smtp.user = "${CLOUDGENE_SMTP_USER}"
+    smtp.password = "${CLOUDGENE_SMTP_PASSWORD}"
+    smtp.auth = true
+    smtp.starttls.enable = true
+    smtp.ssl.protocols = 'TLSv1.2'
+}
+```
+
+- Add `params.config.send_mail = true` to the application specific configuration to activate mail notifications in the nf-imputationserver pipeline
+
+### Adapt default parameters
+
+Parameters can be changed in the `nextflow.config`` file of the application. Example:
+
+```
+params.chunk_size = 500000
+params.minimac_window = 100000
+```
+
+## Development
+
+### Build docker image locally
+
+```
+docker build -t genepi/nf-imputationserver:latest .
+```
+
+### Run testcases
+
+```
+nf-test test
+```
+
+## License
+
+nf-imputationserver is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
+
+## Contact
+
+- [Sebastian Schönherr](mailto:sebastian.schoenherr@i-med.ac.at)
+- [Lukas Forer](mailto:lukas.forer@i-med.ac.at)
