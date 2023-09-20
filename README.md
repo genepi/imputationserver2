@@ -175,12 +175,13 @@ A legend file is a tab-delimited file consisting of 5 columns (`id`, `position`,
 ### Installation
 
 - Install cloudgene3: `curl -s install.cloudgene.io | bash -s 3.0.0-beta4`
-- Download latest `nf-imputationserver-xx.zip` from releases
-- Install nf-impuationserver app: `cloudgene install nf-imputationserver-xx.zip`
-- Install hapmap2 referenece panel: `cloudgene install https://genepi.i-med.ac.at/downloads/imputation/imputation-hapmap2.zip`
-- Start cloudgene server: `cloudgene server`
+- Download latest source code zip file from releases
+- Install nf-impuationserver app: `./cloudgene install nf-imputationserver-2.0.0-beta1.zip`
+- Install hapmap2 referenece panel: `./cloudgene install https://genepi.i-med.ac.at/downloads/imputation/imputation-hapmap2.zip`
+- Start cloudgene server: `./cloudgene server`
 - Open [http://localhost:8082](http://localhost:8082)
 - Login with default admin account: username `admin` and password `admin1978`
+- Imputation can be tested with the following [test file](https://github.com/genepi/nf-imputationserver/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
 
 ### Default Configuration
 
@@ -226,6 +227,8 @@ process {
   scratch = false
 }
 ```
+
+3. Got to Settings -> General and set Workspace to "S3" and enter the location of a subfolder in an S3 bucket. Enter the location of a subfolder in an S3 bucket. Currently, it must be a subfolder; a bucket won't work (Example: `s3://cloudgene/workspace`).
 
 Optional add [Wave](https://www.nextflow.io/docs/latest/wave.html) and [Fusion](https://www.nextflow.io/docs/latest/fusion.html) support to improve performance:
 
