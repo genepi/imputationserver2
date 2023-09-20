@@ -32,8 +32,6 @@ params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
 legend_files_ch = Channel.from ( 1..22 )
         .map { it -> file(params.refpanel.legend_pattern.replaceAll('\\$chr', it.toString())) }
 
-
-
 include { INPUT_VALIDATION } from './input_validation'
 include { QUALITY_CONTROL } from './quality_control'
 include { PHASING } from './phasing'
@@ -53,18 +51,17 @@ workflow IMPUTATIONSERVER {
             INPUT_VALIDATION.out,
             legend_files_ch.collect()
         )
-
+        //TODO: add phasing only mode
         if ("${params.mode}" != 'qc-only') {
 
             PHASING(
-                QUALITY_CONTROL.out.chunks_vcf,
-                QUALITY_CONTROL.out.chunks_csv
+                QUALITY_CONTROL.out.qc_metafiles
             )
 
             if ("${params.mode}" == 'imputation') {
             
                 IMPUTATION(
-                    PHASING.out
+                    PHASING.out.phased_ch
                 )
                 
                 ENCRYPTION(

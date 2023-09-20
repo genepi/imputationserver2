@@ -3,7 +3,6 @@ import groovy.json.JsonOutput
 process INPUT_VALIDATION_VCF {
 
     publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
-    memory = { 1.GB }
 
     input:
     path(vcf_files)
@@ -12,11 +11,18 @@ process INPUT_VALIDATION_VCF {
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
     
     script:
+    def avail_mem = 1024
+    if (!task.memory) {
+        log.info '[Input Validation VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = (task.memory.mega*0.8).intValue()
+    }
+
     """
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
     # TODO: add contact, mail, ...
-    java -Xmx16G -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+    java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         validate \
         --population ${params.population} \
         --phasing ${params.phasing} \

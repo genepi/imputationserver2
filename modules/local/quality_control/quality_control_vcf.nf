@@ -23,6 +23,13 @@ process QUALITY_CONTROL_VCF {
     statisticsDir = 'statistics'
     mafFile = 'maf.txt'
 
+    def avail_mem = 1024
+    if (!task.memory) {
+        log.info '[Quality Control VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = (task.memory.mega*0.8).intValue()
+    }
+
     """
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
@@ -32,7 +39,7 @@ process QUALITY_CONTROL_VCF {
     mkdir ${statisticsDir}
   
     # TODO: add lifover and set chain directory
-    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
+    java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         run-qc \
         --population ${params.population} \
         --reference reference-panel.json \

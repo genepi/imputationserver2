@@ -6,30 +6,42 @@ process COMPRESSION_ENCRYPTION_VCF {
     tag "Merge Chromosome ${chr}"
 
     input:
-    tuple val(chr), path(imputed_vcf_header), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_header), path(imputed_meta_vcf_data)
+    tuple val(chr), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
     
     output:
-    path("*.zip"), emit: encrypted_files
-
+    path("*.zip"), emit: encrypted_file
+    path("*.md5"), emit: md5_file, optional: true
+    
     script:
-    """
-    # TODO: fix encryption to work with files out of the box
-    mkdir chunks
-    mkdir chunks/${chr}
-    mv *.vcf.gz chunks/${chr}
-    mv *.info chunks/${chr}
+    def imputed_joined = ArrayUtil.sort(imputed_vcf_data)
+    def meta_joined = ArrayUtil.sort(imputed_meta_vcf_data)
+    def info_joined = ArrayUtil.sort(imputed_info)
+    def prefix = "chr${chr}"
+    def imputed_name = "${prefix}.dose.vcf.gz"
+    def meta_name = "${prefix}_empiricalDose.vcf.gz"
+    def zip_name = "chr_${chr}.zip"
+    def info_name = "${prefix}.info"
+    def aes = params.encryption.aes ? "-mem=AES256" : ""
 
-    java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
-        encrypt \
-        --input chunks \
-        --phasing ${params.phasing} \
-        --aesEncryption ${params.aesEncryption} \
-        --meta ${params.meta} \
-        --reference ${params.refpanel.id} \
-        --mode ${params.mode} \
-        --password ${params.encryption_password} \
-        --report cloudgene.report.json \
-        --output ./
-    """
+    """  
+    bcftools concat -n ${imputed_joined} -o ${imputed_name} -Oz
+    tabix ${imputed_name}
+    csvtk concat ${info_joined} > ${info_name}
+    bgzip ${info_name}
+    
+    if [[ "${params.meta}" == "true" ]]
+    then
+        bcftools concat -n ${meta_joined} -o ${meta_name} -Oz
+        tabix ${meta_name}
+    fi
 
+    7z a -tzip ${aes} -p"${params.encryption_password}" ${zip_name} ${prefix}*
+    rm *vcf.gz* *info
+
+    if [[ "${params.md5}" == "true" ]]
+    then
+        md5sum ${zip_name} > ${zip_name}.md5
+    fi
+    """
+ 
 }
