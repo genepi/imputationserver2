@@ -191,13 +191,14 @@ The default configuration runs with Docker and uses Nextflow's [local executor](
 Configure via web interface (Applications -> imputationserver -> Settings) or adapt/create file `apps/imputationserver/nextflow.config` and add the following:
 
 ```
-process.executor = 'slurm'
+process {
+  executor = 'slurm'
+  queue = 'QueueName'  // replace with your Queue name
+}
+
 errorStrategy = {task.exitStatus == 143 ? 'retry' : 'terminate'}
 maxErrors = '-1'
 maxRetries = 3
-singularity.enabled = true
-singularity.autoMounts = true
-docker.enabled  = false
 ```
 
 See more about SLURM [Nextflow Documentation](https://www.nextflow.io/docs/latest/executor.html#slurm).
