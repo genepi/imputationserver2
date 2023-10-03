@@ -18,7 +18,7 @@ process ESTIMATE_ANCESTRY {
     csvtk concat ${study_pcs} > study.ProPC.coord
 
     java -jar /opt/imputationserver-utils/imputationserver-utils.jar \
-        estimate-popluation \
+        estimate-ancestry \
         --samples ${reference_samples} \
         --reference-pc ${reference_pc_coord} \
         --study-pc study.ProPC.coord \
