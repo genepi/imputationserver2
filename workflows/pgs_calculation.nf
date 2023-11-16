@@ -29,7 +29,8 @@ workflow PGS_CALCULATION {
     CREATE_HTML_REPORT(
         MERGE_CHUNKS_SCORES.out.collect(),
         MERGE_CHUNKS_INFOS.out.collect(),
-        file(params.pgscatalog.meta, checkIfExists:true)
+        file(params.pgscatalog.meta, checkIfExists:true),
+        estimated_ancestry.collect().ifEmpty([])
     )
 
 }
