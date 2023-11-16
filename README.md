@@ -276,7 +276,7 @@ params.minimac_window = 100000
 ### Build docker image locally
 
 ```
-docker build -t genepi/nf-imputationserver:latest .
+docker build -t genepi/imputation-docker:latest .
 ```
 
 ### Run testcases

@@ -28,5 +28,5 @@ workflow IMPUTATION {
     )
 
     emit: 
-    imputed_chunks = MINIMAC4.out.imputed_chunks.groupTuple()
+    imputed_chunks = MINIMAC4.out.imputed_chunks
 }

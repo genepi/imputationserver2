@@ -38,6 +38,8 @@ include { PHASING } from './phasing'
 include { IMPUTATION } from './imputation'
 include { ENCRYPTION } from './encryption'
 include { ANCESTRY_ESTIMATION } from './ancestry_estimation'
+include { PGS_CALCULATION } from './pgs_calculation'
+
 
 workflow IMPUTATIONSERVER {
 
@@ -52,27 +54,36 @@ workflow IMPUTATIONSERVER {
             legend_files_ch.collect()
         )
         //TODO: add phasing only mode
-        if ("${params.mode}" != 'qc-only') {
+        if (params.mode != 'qc-only') {
 
             PHASING(
                 QUALITY_CONTROL.out.qc_metafiles
             )
 
-            if ("${params.mode}" == 'imputation') {
+            if (params.mode == 'imputation') {
             
                 IMPUTATION(
                     PHASING.out.phased_ch
                 )
                 
                 ENCRYPTION(
-                    IMPUTATION.out
+                    IMPUTATION.out.groupTuple()
                 )
             }
         }
     }
     
-    if (params.ancestry.enabled){
+    if (params.ancestry.enabled) {
         ANCESTRY_ESTIMATION()
+    }
+
+    if(params.pgs.enabled) {
+
+        PGS_CALCULATION(
+            IMPUTATION.out,
+            params.ancestry.enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
+        )
+        
     }
 
 }

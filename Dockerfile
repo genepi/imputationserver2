@@ -48,12 +48,13 @@ RUN chmod +x /opt/minimac4/minimac4
 
 
 # Install PGS-CALC
-ENV PGS_CALC_VERSION=v0.9.14
-RUN mkdir "/opt/pgs-calc"
+ENV PGS_CALC_VERSION="1.5.5"
+RUN mkdir /opt/pgs-calc
 WORKDIR "/opt/pgs-calc"
-RUN wget https://github.com/lukfor/pgs-calc/releases/download/${PGS_CALC_VERSION}/installer.sh  && \
-    bash installer.sh && \
-    mv pgs-calc.jar /usr/bin/.
+RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSION}/pgs-calc-${PGS_CALC_VERSION}.tar.gz && \
+    tar -xf pgs-calc-*.tar.gz
+ENV PATH="/opt/pgs-calc:${PATH}"
+
 
 
 # Install imputationserver-utils
@@ -78,3 +79,5 @@ ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
 
 COPY files/bin/trace /usr/bin/.
 COPY files/bin/vcf2geno /usr/bin/.
+
+

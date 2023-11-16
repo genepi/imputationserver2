@@ -41,4 +41,7 @@ workflow ANCESTRY_ESTIMATION {
         references.first{it.getExtension()=="samples"}
     )
   
+    emit: 
+    estimated_ancestry =  ESTIMATE_ANCESTRY.out.populations.collect()
+
 }
