@@ -1,11 +1,11 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 MAINTAINER Lukas Forer <lukas.forer@i-med.ac.at> / Sebastian Schönherr <sebastian.schoenherr@i-med.ac.at>
 
 # Install compilers
 RUN apt-get update && apt-get install -y wget build-essential zlib1g-dev liblzma-dev libbz2-dev libxau-dev
 
 #  Install miniconda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_23.9.0-0-Linux-x86_64.sh -O ~/miniconda.sh && \
   /bin/bash ~/miniconda.sh -b -p /opt/conda
 ENV PATH=/opt/conda/bin:${PATH}
 
@@ -48,12 +48,13 @@ RUN chmod +x /opt/minimac4/minimac4
 
 
 # Install PGS-CALC
-ENV PGS_CALC_VERSION=v0.9.14
-RUN mkdir "/opt/pgs-calc"
+ENV PGS_CALC_VERSION="1.5.5"
+RUN mkdir /opt/pgs-calc
 WORKDIR "/opt/pgs-calc"
-RUN wget https://github.com/lukfor/pgs-calc/releases/download/${PGS_CALC_VERSION}/installer.sh  && \
-    bash installer.sh && \
-    mv pgs-calc.jar /usr/bin/.
+RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSION}/pgs-calc-${PGS_CALC_VERSION}.tar.gz && \
+    tar -xf pgs-calc-*.tar.gz
+ENV PATH="/opt/pgs-calc:${PATH}"
+
 
 
 # Install imputationserver-utils
@@ -78,3 +79,6 @@ ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
 
 COPY files/bin/trace /usr/bin/.
 COPY files/bin/vcf2geno /usr/bin/.
+
+
+
