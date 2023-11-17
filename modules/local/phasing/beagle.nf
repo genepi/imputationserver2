@@ -3,7 +3,7 @@ process BEAGLE {
     tag "${chunkfile}"
 
     input:
-    tuple val(chr), path(bcf), val(start), val(end), val(phasing_status), path(chunkfile), val(snps), val(in_reference),  path(map_beagle)
+    tuple val(chr), path(bcf), val(start), val(end), val(phasing_status), path(chunkfile), path(map_beagle)
     val phasing_method
 
     output:

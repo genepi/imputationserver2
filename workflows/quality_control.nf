@@ -29,7 +29,7 @@ workflow QUALITY_CONTROL {
     chunks_csv_index
         .combine(chunks_vcf_index, by: 0)
         .map{
-            row-> tuple(row[1], row[2], row[3], row[4], file(row[8]), row[6], row[7])
+            row-> tuple(row[1], row[2], row[3], row[4], file(row[8]))
         }
         .set { metafiles_ch }
 

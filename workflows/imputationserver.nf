@@ -51,17 +51,26 @@ workflow IMPUTATIONSERVER {
             INPUT_VALIDATION.out,
             legend_files_ch.collect()
         )
-        //TODO: add phasing only mode
+
         if ("${params.mode}" != 'qc-only') {
 
-            PHASING(
-                QUALITY_CONTROL.out.qc_metafiles
+            imputation_ch =  QUALITY_CONTROL.out.qc_metafiles
+
+            if ("${params.phasing}" != 'no_phasing') { 
+
+                PHASING(
+                    imputation_ch
             )
 
+            imputation_ch = PHASING.out.phased_ch
+
+            }
+     
+        
             if ("${params.mode}" == 'imputation') {
             
                 IMPUTATION(
-                    PHASING.out.phased_ch
+                    imputation_ch
                 )
                 
                 ENCRYPTION(

@@ -3,7 +3,7 @@ process EAGLE {
     tag "${chunkfile}"
 
     input:
-    tuple val(chr), path(bcf), path(bcf_csi), val(start), val(end), val(phasing_status), path(chunkfile), val(snps), val(in_reference)
+    tuple val(chr), path(bcf), path(bcf_csi), val(start), val(end), val(phasing_status), path(chunkfile)
     path map_eagle
 
     output:
