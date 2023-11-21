@@ -23,11 +23,6 @@ process COMPRESSION_ENCRYPTION_VCF {
     def info_name = "${prefix}.info"
     def aes = params.encryption.aes ? "-mem=AES256" : ""
     def panel_version = RefPanelUtil.loadFromFile(params.refpanel_yaml).id
-    def phasing_version = "no_phasing"
-    switch(params.phasing) { 
-        case "eagle":  phasing_version ="${params.eagle_version}"; break;
-        case "beagle": phasing_version ="${params.beagle_version}"; break;
-    }
     
     """  
     # concat info files 
@@ -35,11 +30,9 @@ process COMPRESSION_ENCRYPTION_VCF {
     bgzip ${info_name}
     
     # concat dosage files and update header 
-    # TODO: a new file is written with the new header, should we add this on a chunk level and ove this block to imputation module and re-header there?
     bcftools concat -n ${imputed_joined} -o tmp_${imputed_name} -Oz
     echo "##mis_pipeline=${params.pipeline_version}" > add_header.txt
-    echo "##mis_imputation=${params.imputation_version}" >> add_header.txt
-    echo "##mis_phasing=${phasing_version}" >> add_header.txt
+    echo "##mis_phasing=${params.phasing}" >> add_header.txt
     echo "##mis_panel=${panel_version}" >> add_header.txt
     bcftools annotate -h add_header.txt tmp_${imputed_name} -o ${imputed_name} -Oz
     rm tmp_${imputed_name}

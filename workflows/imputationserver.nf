@@ -59,15 +59,15 @@ workflow IMPUTATIONSERVER {
 
         if (params.mode != 'qc-only') {
 
-            imputation_ch =  QUALITY_CONTROL.out.qc_metafiles
+            phased_ch =  QUALITY_CONTROL.out.qc_metafiles
 
             if (params.phasing != 'no_phasing') { 
 
                 PHASING(
-                    imputation_ch
+                    QUALITY_CONTROL.out.qc_metafiles
                 )
 
-                imputation_ch = PHASING.out.phased_ch
+                phased_ch = PHASING.out.phased_ch
 
             }
      
@@ -75,7 +75,7 @@ workflow IMPUTATIONSERVER {
             if (params.mode == 'imputation') {
             
                 IMPUTATION(
-                    imputation_ch
+                    phased_ch
                 )
                 
                 ENCRYPTION(

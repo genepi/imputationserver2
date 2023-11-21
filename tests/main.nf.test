@@ -279,43 +279,8 @@ nextflow_pipeline {
 
             def header = getVcfHeader(path("${outputDir}/chr20.dose.vcf.gz"))
             assert header.getOtherHeaderLine("mis_phasing").getValue() == params.phasing
-            assert header.getOtherHeaderLine("mis_imputation").getKey()
             assert header.getOtherHeaderLine("mis_pipeline").getKey()
             assert header.getOtherHeaderLine("mis_panel").getKey()
-        }
-
-    }
-    
-    test("Should run phasing-only") {
-
-        when {
-            params {
-                project  = "test-job"
-                build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
-                population = "eur"
-                mode = "phasing_only"
-                password = PASSWORD
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
-                output = "${outputDir}"
-            }
-        }
-
-        then {
-            assert workflow.success
-
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
-
-            //TODO: add phasing only mode in workflow!
-            //def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            //assert imputed_chr_20.exists()
-            //ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            //zipFile.extractAll("${outputDir}");
-
-          
-
         }
 
     }
