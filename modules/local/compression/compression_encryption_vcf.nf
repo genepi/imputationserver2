@@ -18,7 +18,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     def info_joined = ArrayUtil.sort(imputed_info)
     def prefix = "chr${chr}"
     def imputed_name = "${prefix}.dose.vcf.gz"
-    def meta_name = "${prefix}_empiricalDose.vcf.gz"
+    def meta_name = "${prefix}.empiricalDose.vcf.gz"
     def zip_name = "chr_${chr}.zip"
     def info_name = "${prefix}.info"
     def aes = params.encryption.aes ? "-mem=AES256" : ""
