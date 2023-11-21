@@ -13,6 +13,11 @@ for (param in requiredParams) {
     }
 }
 
+//TODO create json validation file
+if (params.phasing != 'eagle' && !params.phasing != 'beagle' && params.phasing != 'no_phasing' ) {
+    exit 1, "For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
+}
+
 
 // create random password when not set by user
 if (params.password == null) {
@@ -38,8 +43,6 @@ include { PHASING } from './phasing'
 include { IMPUTATION } from './imputation'
 include { ENCRYPTION } from './encryption'
 include { ANCESTRY_ESTIMATION } from './ancestry_estimation'
-include { PGS_CALCULATION } from './pgs_calculation'
-
 
 workflow IMPUTATIONSERVER {
 
@@ -56,35 +59,37 @@ workflow IMPUTATIONSERVER {
 
         if (params.mode != 'qc-only') {
 
-            imputation_ch =  QUALITY_CONTROL.out.qc_metafiles
+            phased_ch =  QUALITY_CONTROL.out.qc_metafiles
 
-            if ("${params.phasing}" != 'no_phasing') { 
+            if (params.phasing != 'no_phasing') { 
 
                 PHASING(
-                    imputation_ch
+                    QUALITY_CONTROL.out.qc_metafiles
                 )
 
-                if (params.mode == 'imputation') {
-                    imputation_ch = PHASING.out.phased_ch
-                }
+                phased_ch = PHASING.out.phased_ch
+
             }
+     
+        
+            if (params.mode == 'imputation') {
             
-            IMPUTATION(
-                imputation_ch
-            )
-            
-            ENCRYPTION(
-                IMPUTATION.out.groupTuple()
-            )
-            
+                IMPUTATION(
+                    phased_ch
+                )
+                
+                ENCRYPTION(
+                    IMPUTATION.out.groupTuple()
+                )
+            }
         }
     }
     
-    if (params.ancestry.enabled) {
+    if (params.ancestry.enabled){
         ANCESTRY_ESTIMATION()
     }
 
-    if(params.pgs.enabled) {
+    if (params.pgs.enabled) {
 
         PGS_CALCULATION(
             IMPUTATION.out,
@@ -92,7 +97,7 @@ workflow IMPUTATIONSERVER {
         )
         
     }
-
+    
 }
 
 
