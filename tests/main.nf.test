@@ -66,18 +66,19 @@ nextflow_pipeline {
         }
 
     }
-
+    
     test("Should run with phased data") {
 
         when {
             params {
-                project  = "test-job"
+                project  = "testPipelineWithPhased"
                 build = "hg19"
                 files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
                 output = "${outputDir}"
+                phasing = "no_phasing"
             }
         }
 
@@ -92,19 +93,56 @@ nextflow_pipeline {
             assert imputed_chr_20.exists()
             ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
             zipFile.extractAll("${outputDir}");
-
-            //TODO: this is from imputationserver-utils.jar. How to include? use alternative?
-            /*VcfFile file = VcfFileUtil.load("${outputDir}/chr20.dose.vcf.gz", 100000000, false);
-
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
             assert file.getChromosome() == "20"
             assert file.getNoSamples() == 51;
             assert file.isPhased()
-            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT*/
-
+            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            
             //check correct number of snps in info.gz file
-            //TODO: phasing executed every time, therefore ONLY_IN_INPUT is currently not available
-           // assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+
+        }
+
+    }
+
+    test("Should run with phased data and meta option") {
+
+        when {
+            params {
+                project  = "testPipelineWithPhasedAndMetaOption"
+                build = "hg19"
+                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            def fileMeta = path("${outputDir}/chr20.empiricalDose.vcf.gz").vcf
+            assert fileMeta.getNoSnps() == 7735
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51;
+            assert file.isPhased()
+            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            
+            //check correct number of snps in info.gz file
+            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+
         }
 
     }
