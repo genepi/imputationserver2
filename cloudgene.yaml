@@ -88,7 +88,6 @@ workflow:
       values:
         qconly: Quality Control Only
         imputation: Quality Control & Imputation
-        phasing: Quality Control & Phasing Only
 
     - id: aesEncryption
       description: AES 256 encryption
