@@ -9,7 +9,6 @@ workflow PHASING {
 
     chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
 
-    //TODO: phasing currently always executed, indepedent of detected phasing status in input files
     if (params.phasing == 'eagle' && params.refpanel.refEagle != null) {
 
         phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: false)
@@ -57,15 +56,6 @@ workflow PHASING {
         BEAGLE ( beagle_bcf_metafiles_map_ch )
 
         phased_ch = BEAGLE.out.beagle_phased_ch
-
-    }
-
-    if ("${params.phasing}" == 'no_phasing') {
-
-        
-        metafiles_ch
-            .map {it -> tuple(it[0],it[1],it[2],it[3],file(it[4])) }
-            .set {phased_ch}
 
     }
 
