@@ -13,6 +13,11 @@ for (param in requiredParams) {
     }
 }
 
+//TODO create json validation file
+if (params.phasing != 'eagle' && !params.phasing != 'beagle' && params.phasing != 'no_phasing' ) {
+    exit 1, "For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
+}
+
 
 // create random password when not set by user
 if (params.password == null) {
@@ -52,7 +57,7 @@ workflow IMPUTATIONSERVER {
             legend_files_ch.collect()
         )
 
-        if ("${params.mode}" != 'qc-only') {
+        if (params.mode != 'qc-only') {
 
             imputation_ch =  QUALITY_CONTROL.out.qc_metafiles
 
@@ -60,32 +65,38 @@ workflow IMPUTATIONSERVER {
 
                 PHASING(
                     imputation_ch
-            )
+                )
 
-            imputation_ch = PHASING.out.phased_ch
-
+                if (params.mode == 'imputation') {
+                    imputation_ch = PHASING.out.phased_ch
+                }
             }
-     
-        
-            if ("${params.mode}" == 'imputation') {
             
-                IMPUTATION(
-                    imputation_ch
-                )
-                
-                ENCRYPTION(
-                    IMPUTATION.out
-                )
-            }
+            IMPUTATION(
+                imputation_ch
+            )
+            
+            ENCRYPTION(
+                IMPUTATION.out.groupTuple()
+            )
+            
         }
     }
     
-    if (params.ancestry.enabled){
+    if (params.ancestry.enabled) {
         ANCESTRY_ESTIMATION()
     }
 
-}
+    if(params.pgs.enabled) {
 
+        PGS_CALCULATION(
+            IMPUTATION.out,
+            params.ancestry.enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
+        )
+        
+    }
+
+}
 
 workflow.onComplete {
     //TODO: use templates
