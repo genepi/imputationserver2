@@ -62,21 +62,21 @@ workflow IMPUTATIONSERVER {
 
                 PHASING(
                     imputation_ch
-            )
+                )
 
-            if (params.mode == 'imputation') {
-            imputation_ch = PHASING.out.phased_ch
-
+                if (params.mode == 'imputation') {
+                    imputation_ch = PHASING.out.phased_ch
+                }
             }
             
-                IMPUTATION(
-                    imputation_ch
-                )
-                
-                ENCRYPTION(
-                    IMPUTATION.out.groupTuple()
-                )
-            }
+            IMPUTATION(
+                imputation_ch
+            )
+            
+            ENCRYPTION(
+                IMPUTATION.out.groupTuple()
+            )
+            
         }
     }
     
