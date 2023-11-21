@@ -61,42 +61,36 @@ workflow IMPUTATIONSERVER {
 
             imputation_ch =  QUALITY_CONTROL.out.qc_metafiles
 
-            if ("${params.phasing}" != 'no_phasing') { 
+            if (params.phasing != 'no_phasing') { 
 
                 PHASING(
                     imputation_ch
                 )
 
-                if (params.mode == 'imputation') {
-                    imputation_ch = PHASING.out.phased_ch
-                }
+                imputation_ch = PHASING.out.phased_ch
+
             }
+     
+        
+            if (params.mode == 'imputation') {
             
-            IMPUTATION(
-                imputation_ch
-            )
-            
-            ENCRYPTION(
-                IMPUTATION.out.groupTuple()
-            )
-            
+                IMPUTATION(
+                    imputation_ch
+                )
+                
+                ENCRYPTION(
+                    IMPUTATION.out
+                )
+            }
         }
     }
     
-    if (params.ancestry.enabled) {
+    if (params.ancestry.enabled){
         ANCESTRY_ESTIMATION()
     }
-
-    if(params.pgs.enabled) {
-
-        PGS_CALCULATION(
-            IMPUTATION.out,
-            params.ancestry.enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
-        )
-        
-    }
-
+    
 }
+
 
 workflow.onComplete {
     //TODO: use templates

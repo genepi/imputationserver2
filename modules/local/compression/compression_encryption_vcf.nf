@@ -22,23 +22,41 @@ process COMPRESSION_ENCRYPTION_VCF {
     def zip_name = "chr_${chr}.zip"
     def info_name = "${prefix}.info"
     def aes = params.encryption.aes ? "-mem=AES256" : ""
-
+    def panel_version = RefPanelUtil.loadFromFile(params.refpanel_yaml).id
+    def phasing_version = "no_phasing"
+    switch(params.phasing) { 
+        case "eagle":  phasing_version ="${params.eagle_version}"; break;
+        case "beagle": phasing_version ="${params.beagle_version}"; break;
+    }
+    
     """  
-    bcftools concat -n ${imputed_joined} -o ${imputed_name} -Oz
-    tabix ${imputed_name}
+    # concat info files 
     csvtk concat ${info_joined} > ${info_name}
     bgzip ${info_name}
     
-    if [[ "${params.meta}" == "true" ]]
+    # concat dosage files and update header 
+    # TODO: a new file is written with the new header, should we add this on a chunk level and ove this block to imputation module and re-header there?
+    bcftools concat -n ${imputed_joined} -o tmp_${imputed_name} -Oz
+    echo "##mis_pipeline=${params.pipeline_version}" > add_header.txt
+    echo "##mis_imputation=${params.imputation_version}" >> add_header.txt
+    echo "##mis_phasing=${phasing_version}" >> add_header.txt
+    echo "##mis_panel=${panel_version}" >> add_header.txt
+    bcftools annotate -h add_header.txt tmp_${imputed_name} -o ${imputed_name} -Oz
+    rm tmp_${imputed_name}
+    tabix ${imputed_name}
+
+    # write meta files
+    if [[ ${params.meta} ]]
     then
         bcftools concat -n ${meta_joined} -o ${meta_name} -Oz
         tabix ${meta_name}
     fi
 
+    # zip files
     7z a -tzip ${aes} -p"${params.encryption_password}" ${zip_name} ${prefix}*
     rm *vcf.gz* *info
 
-    if [[ "${params.md5}" == "true" ]]
+    if [[ ${params.md5} ]]
     then
         md5sum ${zip_name} > ${zip_name}.md5
     fi
