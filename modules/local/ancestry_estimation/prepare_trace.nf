@@ -2,8 +2,6 @@ import groovy.json.JsonOutput
 
 process PREPARE_TRACE {
 
-    publishDir params.output, mode: 'copy'
-
     input:
     path(vcf_files)
     path(reference_sites)

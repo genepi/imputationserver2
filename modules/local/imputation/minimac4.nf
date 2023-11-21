@@ -7,7 +7,7 @@ process MINIMAC4 {
     path minimac_map
 
     output:
-    tuple val(chr), file("*.dose.vcf.gz"), file("*.info"), file("*.empiricalDose.vcf.gz"), emit: imputed_chunks
+    tuple val(chr), val(start), val(end), file("*.dose.vcf.gz"), file("*.info"), file("*.empiricalDose.vcf.gz"), emit: imputed_chunks
 
     script:
     def map = minimac_map ? '--referenceEstimates --map ' + minimac_map : ''

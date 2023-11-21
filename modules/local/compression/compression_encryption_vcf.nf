@@ -6,7 +6,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     tag "Merge Chromosome ${chr}"
 
     input:
-    tuple val(chr), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
+    tuple val(chr), val(start), val(end), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
     
     output:
     path("*.zip"), emit: encrypted_file

@@ -79,7 +79,7 @@ workflow IMPUTATIONSERVER {
                 )
                 
                 ENCRYPTION(
-                    IMPUTATION.out
+                    IMPUTATION.out.groupTuple()
                 )
             }
         }
@@ -87,6 +87,15 @@ workflow IMPUTATIONSERVER {
     
     if (params.ancestry.enabled){
         ANCESTRY_ESTIMATION()
+    }
+
+    if (params.pgs.enabled) {
+
+        PGS_CALCULATION(
+            IMPUTATION.out,
+            params.ancestry.enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
+        )
+        
     }
     
 }

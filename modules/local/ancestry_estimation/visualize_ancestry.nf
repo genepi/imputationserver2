@@ -25,7 +25,7 @@ process VISUALIZE_ANCESTRY {
         ),
         intermediates_dir='\$PWD',
         knit_root_dir='\$PWD',
-        output_file='\$PWD/08-estimated-populations.html'
+        output_file='\$PWD/estimated-populations.html'
     )"
     """
 

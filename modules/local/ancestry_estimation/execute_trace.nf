@@ -18,12 +18,14 @@ process EXECUTE_TRACE {
     batch_name = "batch_${samples.baseName}"
 
     """
-    # extract samples form vcf
-    bcftools view --samples-file ${samples} -Oz ${vcf_file} > ${batch_name}.vcf.gz
-    tabix ${batch_name}.vcf.gz
+    tabix ${vcf_file}
 
-    # convert to geno. TODO: check peopleIncludeFile option instead of bcftools.
-    vcf2geno --inVcf ${batch_name}.vcf.gz --rangeFile ${reference_range} --out ${batch_name}
+    # convert to geno
+    vcf2geno \
+        --inVcf ${vcf_file} \
+        --rangeFile ${reference_range} \
+        --peopleIncludeFile ${samples} \
+        --out ${batch_name}
 
     # write config file for trace
     echo "GENO_FILE ${reference_geno}" > trace.config
@@ -34,7 +36,7 @@ process EXECUTE_TRACE {
     echo "OUT_PREFIX ${batch_name}" >> trace.config
 
     # execute trace with config file
-    trace -p trace.config > trace.log
+    trace -p trace.config
     """
 
 }
