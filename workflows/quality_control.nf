@@ -8,9 +8,19 @@ workflow QUALITY_CONTROL {
     legend_files_ch
     
     main:
+
+    def chain_file = []
+    def panel_version = RefPanelUtil.loadFromFile(params.refpanel_yaml).build
+    if(!panel_version.equals(params.build)) {
+        def name = params.build + "To" + panel_version + ".over.chain.gz"
+        chain_file = file("$projectDir/files/chains/" + name, checkIfExists: true)
+    } 
+
     QUALITY_CONTROL_VCF(
         validated_files,
-        legend_files_ch
+        legend_files_ch,
+        chain_file,
+        panel_version
     )
 
     QUALITY_CONTROL_VCF.out.chunks_vcf

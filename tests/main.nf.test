@@ -19,10 +19,10 @@ nextflow_pipeline {
             params {
                 project  = "test-job"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 mode = "qc-only"
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
             }   
         }
@@ -44,10 +44,10 @@ nextflow_pipeline {
             params {
                 project  = "test-job"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 mode = "qc-only"
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
             }
         }
@@ -73,10 +73,10 @@ nextflow_pipeline {
             params {
                 project  = "testPipelineWithPhased"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 password = PASSWORD
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = "no_phasing"
             }
@@ -112,10 +112,10 @@ nextflow_pipeline {
             params {
                 project  = "testPipelineWithPhasedAndMetaOption"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 password = PASSWORD
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = "no_phasing"
             }
@@ -153,10 +153,10 @@ nextflow_pipeline {
             params {
                 project  = "testPipelineWithPhasedAndEmptyPhasing"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 password = PASSWORD
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = ""
             }
@@ -176,10 +176,10 @@ nextflow_pipeline {
             params {
                 project  = "testPipelineWithPhasedAndNoPhasingSelected"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 password = PASSWORD
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = "no_phasing"
             }
@@ -215,11 +215,11 @@ nextflow_pipeline {
             params {
                 project  = "testPipelineWithEagle"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 phasing = "no_phasing"
                 password = PASSWORD
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = "eagle"
             }
@@ -256,11 +256,11 @@ nextflow_pipeline {
             params {
                 project  = "testValidatePanelWithEagle"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 phasing = "no_phasing"
                 password = PASSWORD
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
             }
         }
@@ -291,12 +291,12 @@ nextflow_pipeline {
             params {
                 project  = "testPipelineWithEagleAndR2Filter"
                 build = "hg19"
-                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
                 phasing = "no_phasing"
                 password = PASSWORD
                 r2Filter = 0.5
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
             }
         }
@@ -327,4 +327,190 @@ nextflow_pipeline {
 
     }
 
+    test("Should run with phased data from hg19 to hg38") {
+
+        when {
+            params {
+                project  = "testPipelineWithEagleHg38ToHg19"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
+            assert file.isPhased()
+
+            assert TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT == file.getNoSnps()
+          
+        }
+
+    }
+
+    test("Should run with eagle from hg19 to hg38") {
+
+        when {
+            params {
+                project  = "testPipelineWithEagleHg19ToHg38"
+                files = "$projectDir/tests/data/input/chr20-unphased/*vcf.gz"
+                population = "eur"
+                build = "hg19"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
+            assert file.isPhased()
+
+            assert TOTAL_REFPANEL_CHR20_B38 == file.getNoSnps()
+          
+        }
+
+    }
+
+    test("Should run with eagle from hg38 to hg38") {
+
+        when {
+            params {
+                project  = "testPipelineWithEagleHg38ToHg38"
+                build = "hg38"
+                files = "$projectDir/tests/data/input/chr20-unphased-hg38/*vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
+            assert file.isPhased()
+
+            assert TOTAL_REFPANEL_CHR20_B38 == file.getNoSnps()
+          
+        }
+
+    }
+    
+    test("Should run without phasing from hg38 to hg19") {
+
+        when {
+            params {
+                project  = "testPipelineWithPhasedHg38ToHg19"
+                build = "hg38"
+                files = "$projectDir/tests/data/input/chr20-phased-hg38/*vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
+            assert file.isPhased()
+
+            assert TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT == file.getNoSnps()
+          
+        }
+
+    }
+
+    test("Should run with eagle from hg38 to hg19") {
+
+        when {
+            params {
+                project  = "testPipelineWithEagleHg38ToHg19"
+                build = "hg38"
+                files = "$projectDir/tests/data/input/chr20-unphased-hg38/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
+            assert file.isPhased()
+
+            assert TOTAL_REFPANEL_CHR20_B37 == file.getNoSnps()
+          
+        }
+
+    }
 }

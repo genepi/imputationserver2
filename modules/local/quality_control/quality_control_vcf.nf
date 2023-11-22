@@ -9,6 +9,8 @@ process QUALITY_CONTROL_VCF {
     input:
     path(vcf_files)
     path(legend_files)
+    path(chain_file)
+    val(panel_version)
 
     output:
     path("${metaFilesDir}/*"), emit: chunks_csv
@@ -22,7 +24,7 @@ process QUALITY_CONTROL_VCF {
     metaFilesDir = 'metafiles'
     statisticsDir = 'statistics'
     mafFile = 'maf.txt'
-
+    def chain = (!panel_version.equals(params.build)) ? "--chain ${chain_file}": ''
     def avail_mem = 1024
     if (!task.memory) {
         log.info '[Quality Control VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
@@ -37,7 +39,7 @@ process QUALITY_CONTROL_VCF {
     mkdir ${chunksDir}
     mkdir ${metaFilesDir}
     mkdir ${statisticsDir}
-  
+    echo ${chain_file}
     # TODO: add lifover and set chain directory
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         run-qc \
@@ -51,6 +53,7 @@ process QUALITY_CONTROL_VCF {
         --statistics-out ${statisticsDir} \
         --metafiles-out ${metaFilesDir} \
         --report cloudgene.report.json \
+        $chain \
         $vcf_files 
     """
 
