@@ -285,4 +285,46 @@ nextflow_pipeline {
 
     }
 
+    test("Should run with eagle and r2 filter") {
+
+        when {
+            params {
+                project  = "testPipelineWithEagleAndR2Filter"
+                build = "hg19"
+                files = "$projectDir/tests/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                phasing = "no_phasing"
+                password = PASSWORD
+                r2Filter = 0.5
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-chr20/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
+            assert file.isPhased()
+
+            def lines = path("${outputDir}/chr20.info.gz").linesGzip.size() - 1
+            assert file.getNoSnps() == lines
+
+            assert TOTAL_REFPANEL_CHR20_B37 > file.getNoSnps()
+          
+        }
+
+    }
+
 }
