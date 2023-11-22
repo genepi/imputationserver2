@@ -35,6 +35,20 @@ process MINIMAC4 {
         --meta \
         --minRatio ${params.minimac_min_ratio} \
         $map
+
+     # apply R2 filter
+   if [[ ${params.r2Filter} > 0 ]]
+   then
+       
+       # filter info file
+       awk '{ if (\$7 > ${params.r2Filter}) print \$0 }' ${chunkfile_name}.info  > ${chunkfile_name}.filtered.info
+       rm ${chunkfile_name}.info
+
+       # filter dosage files
+       bcftools filter -i 'INFO/R2>${params.r2Filter}' ${chunkfile_name}.dose.vcf.gz -o ${chunkfile_name}.data.dose.vcf.gz -Oz 
+       rm ${chunkfile_name}.dose.vcf.gz 
+   fi
+   
   """
   
 }
