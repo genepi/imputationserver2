@@ -43,6 +43,7 @@ include { PHASING } from './phasing'
 include { IMPUTATION } from './imputation'
 include { ENCRYPTION } from './encryption'
 include { ANCESTRY_ESTIMATION } from './ancestry_estimation'
+include { PGS_CALCULATION } from './pgs_calculation'
 
 workflow IMPUTATIONSERVER {
 
