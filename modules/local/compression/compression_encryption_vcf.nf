@@ -39,7 +39,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     tabix ${imputed_name}
 
     # write meta files
-    if [[ ${params.meta} ]]
+    if [[ "${params.meta}" = true ]]
     then
         bcftools concat --threads ${task.cpus} -n ${meta_joined} -o ${meta_name} -Oz
         tabix ${meta_name}
@@ -49,7 +49,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     7z a -tzip ${aes} -p"${params.encryption_password}" ${zip_name} ${prefix}*
     rm *vcf.gz* *info
 
-    if [[ ${params.md5} ]]
+    if [[ "${params.md5}" = true ]]
     then
         md5sum ${zip_name} > ${zip_name}.md5
     fi
