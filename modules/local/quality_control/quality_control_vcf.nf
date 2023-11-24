@@ -40,7 +40,7 @@ process QUALITY_CONTROL_VCF {
     mkdir ${metaFilesDir}
     mkdir ${statisticsDir}
     echo ${chain_file}
-    # TODO: add lifover and set chain directory
+
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         run-qc \
         --population ${params.population} \
