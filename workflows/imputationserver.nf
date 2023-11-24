@@ -1,6 +1,5 @@
 if (params.refpanel_yaml){
     params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
-    println params.refpanel
 }
 
 requiredParams = [
@@ -14,7 +13,6 @@ for (param in requiredParams) {
 }
 
 //TODO create json validation file
-print params.phasing
 if (params.phasing != 'eagle' && params.phasing != 'beagle' && params.phasing != 'no_phasing' ) {
     exit 1, "For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
 }
@@ -35,8 +33,11 @@ Channel
 // Find legend files from full pattern and make legend file pattern relative
 params.refpanel.legend_pattern = "${params.refpanel.legend}"
 params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
-legend_files_ch = Channel.from ( 1..22 )
-        .map { it -> file(params.refpanel.legend_pattern.replaceAll('\\$chr', it.toString())) }
+
+legend_files_ch = Channel.of(1..22, 'X', 'MT')
+    .map {
+        it -> file(PatternUtil.parse(params.refpanel.legend_pattern, [chr: it]))
+    }
 
 include { INPUT_VALIDATION } from './input_validation'
 include { QUALITY_CONTROL } from './quality_control'
