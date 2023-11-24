@@ -5,6 +5,8 @@ properties:
   legend: ${app_local_folder}/legends/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz
   mapEagle: ${app_local_folder}/map/genetic_map_hg19_withX.txt.gz
   refEagle: ${app_local_folder}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
+  refBeagle: ${app_local_folder}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bref3
+  mapBeagle: ${app_local_folder}/map/plink.chr$chr.GRCh37.map
   populations:
     - id: eur
       name: EUR

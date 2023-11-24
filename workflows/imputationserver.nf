@@ -14,7 +14,8 @@ for (param in requiredParams) {
 }
 
 //TODO create json validation file
-if (params.phasing != 'eagle' && !params.phasing != 'beagle' && params.phasing != 'no_phasing' ) {
+print params.phasing
+if (params.phasing != 'eagle' && params.phasing != 'beagle' && params.phasing != 'no_phasing' ) {
     exit 1, "For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
 }
 
