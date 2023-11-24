@@ -419,6 +419,7 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
                 output = "${outputDir}"
+                phasing = "eagle"
             }
         }
 
@@ -456,6 +457,7 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
                 output = "${outputDir}"
+                phasing = "eagle"
             }
         }
 
@@ -531,6 +533,7 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
+                phasing = "eagle"
             }
         }
 
