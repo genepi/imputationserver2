@@ -26,7 +26,7 @@ process MINIMAC4 {
         --end $end \
         --window ${params.minimac_window} \
         --prefix ${chunkfile_name} \
-        --cpus ${params.cpus} \
+        --cpus ${task.cpus} \
         --chr $chr_mapped \
         $isChrM \
         --noPhoneHome \
@@ -41,11 +41,11 @@ process MINIMAC4 {
    then
        
        # filter info file
-       awk '{ if (\$7 > ${params.r2Filter}) print \$0 }' ${chunkfile_name}.info  > ${chunkfile_name}.filtered.info
+       csvtk filter --num-cpus ${task.cpus} ${chunkfile_name}.info -f "Rsq>${params.r2Filter}" -t > ${chunkfile_name}.filtered.info
        rm ${chunkfile_name}.info
 
        # filter dosage files
-       bcftools filter -i 'INFO/R2>${params.r2Filter}' ${chunkfile_name}.dose.vcf.gz -o ${chunkfile_name}.data.dose.vcf.gz -Oz 
+       bcftools filter --threads ${task.cpus} -i 'INFO/R2>${params.r2Filter}' ${chunkfile_name}.dose.vcf.gz -o ${chunkfile_name}.data.dose.vcf.gz -Oz 
        rm ${chunkfile_name}.dose.vcf.gz 
    fi
    

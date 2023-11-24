@@ -28,6 +28,7 @@ process EAGLE {
         --bpEnd $end \
         --allowRefAltSwap \
         --vcfOutFormat z \
-        --keepMissingPloidyX
+        --keepMissingPloidyX \
+        --numThreads ${task.cpus} 
     """
 }
