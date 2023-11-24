@@ -8,9 +8,18 @@ process MERGE_CHUNKS_INFOS {
   output:
   path "*.info", emit: merged_info_files
 
+  script:
+  def avail_mem = 1024
+  if (!task.memory) {
+      log.info '[MERGE_CHUNKS_INFOS] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+  } else {
+      avail_mem = (task.memory.mega*0.8).intValue()
+  }
+
   """
-  pgs-calc merge-info ${report_chunks} \
-    --out ${params.project}.info
+  java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
+      merge-info ${report_chunks} \
+      --out ${params.project}.info
   """
 
 }

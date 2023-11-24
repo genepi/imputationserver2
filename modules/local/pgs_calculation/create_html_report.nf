@@ -14,9 +14,16 @@ process CREATE_HTML_REPORT {
 
     script:
     samples = params.ancestry.enabled ? "--samples ${estimated_ancestry}" : ""
+    def avail_mem = 1024
+    if (!task.memory) {
+        log.info '[CREATE_HTML_REPORT] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = (task.memory.mega*0.8).intValue()
+    }
 
     """
-    pgs-calc report \
+    java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
+        report \
         --data ${merged_score} \
         --info ${merged_info} \
         --meta ${scores_meta} \
