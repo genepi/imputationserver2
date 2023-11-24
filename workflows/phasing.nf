@@ -36,7 +36,7 @@ workflow PHASING {
             .map {
                 it -> tuple(
                     it.toString(),
-                    file(Patterns.parse(params.refpanel.refBeagle, [chr: it]))
+                    file(PatternUtil.parse(params.refpanel.refBeagle, [chr: it]))
                 )
             }
 
@@ -44,7 +44,7 @@ workflow PHASING {
             .map {
                 it -> tuple(
                     it.toString(),
-                    file(Patterns.parse(params.refpanel.mapBeagle, [chr: it]))
+                    file(PatternUtil.parse(params.refpanel.mapBeagle, [chr: it]))
                 )
             }
 

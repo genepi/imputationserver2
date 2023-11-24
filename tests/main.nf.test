@@ -251,6 +251,46 @@ nextflow_pipeline {
 
     }
 
+    test("Should run with beagle") {
+
+        when {
+            params {
+                project  = "testPipelineWithBeagle"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                phasing = "no_phasing"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "beagle"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
+            assert imputed_chr_20.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51;
+            assert file.isPhased()
+            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+            //check correct number of snps in info.gz file
+            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+
+        }
+
+    }
+
     test("Should run with eagle and validate header") {
 
         when {
