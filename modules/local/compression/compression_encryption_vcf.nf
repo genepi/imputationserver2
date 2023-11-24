@@ -30,12 +30,12 @@ process COMPRESSION_ENCRYPTION_VCF {
     bgzip ${info_name}
     
     # concat dosage files and update header 
-    bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o tmp_${imputed_name} -Oz
+    bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
     echo "##mis_pipeline=${params.pipeline_version}" > add_header.txt
     echo "##mis_phasing=${params.phasing}" >> add_header.txt
     echo "##mis_panel=${panel_version}" >> add_header.txt
-    bcftools annotate --threads ${task.cpus} -h add_header.txt tmp_${imputed_name} -o ${imputed_name} -Oz
-    rm tmp_${imputed_name}
+    bcftools annotate --threads ${task.cpus} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
+    rm intermediate_${imputed_name}
     tabix ${imputed_name}
 
     # write meta files
@@ -46,7 +46,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     fi
 
     # zip files
-    7z a -tzip ${aes} -p"${params.encryption_password}" ${zip_name} ${prefix}*
+    7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
     rm *vcf.gz* *info
 
     if [[ "${params.md5}" = true ]]
