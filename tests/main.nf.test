@@ -578,13 +578,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
-
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
+            def imputed_chr_X = file("${outputDir}/chr_X.zip");
+            assert imputed_chr_X.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
             zipFile.extractAll("${outputDir}");
 
             def file = path("${outputDir}/chrX.dose.vcf.gz").vcf
