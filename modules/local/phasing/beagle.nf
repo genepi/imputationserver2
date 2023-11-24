@@ -26,6 +26,5 @@ process BEAGLE {
         chrom=${chr_mapped}:${start}-${end} \
         map=${map_beagle} \
         impute=false 
-
     """
 }
