@@ -118,6 +118,7 @@ nextflow_pipeline {
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = "no_phasing"
+                meta = true
             }
         }
 
