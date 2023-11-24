@@ -26,7 +26,7 @@ process MINIMAC4 {
         --end $end \
         --window ${params.minimac_window} \
         --prefix ${chunkfile_name} \
-        --cpus ${params.cpus} \
+        --cpus ${task.cpus} \
         --chr $chr_mapped \
         $isChrM \
         --noPhoneHome \

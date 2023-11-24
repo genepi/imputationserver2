@@ -27,7 +27,7 @@ process QUALITY_CONTROL_VCF {
     def chain = (!panel_version.equals(params.build)) ? "--chain ${chain_file}": ''
     def avail_mem = 1024
     if (!task.memory) {
-        log.info '[Quality Control VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+        log.info '[QUALITY_CONTROL_VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
     } else {
         avail_mem = (task.memory.mega*0.8).intValue()
     }

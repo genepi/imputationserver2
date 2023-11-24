@@ -13,7 +13,7 @@ process INPUT_VALIDATION_VCF {
     script:
     def avail_mem = 1024
     if (!task.memory) {
-        log.info '[Input Validation VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+        log.info '[INPUT_VALIDATION_VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
     } else {
         avail_mem = (task.memory.mega*0.8).intValue()
     }

@@ -38,5 +38,4 @@ process EXECUTE_TRACE {
     # execute trace with config file
     trace -p trace.config
     """
-
 }

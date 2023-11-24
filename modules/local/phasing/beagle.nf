@@ -22,10 +22,10 @@ process BEAGLE {
         ref=${bcf}  \
         gt=${chunkfile} \
         out=${chunkfile_name}.phased \
-        nthreads=1 \
+        nthreads=${task.cpus}        
         chrom=${chr_mapped}:${start}-${end}  \
         map=${map_beagle} \
-        impute=false
+        impute=false 
 
     """
 }
