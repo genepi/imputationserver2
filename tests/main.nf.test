@@ -594,4 +594,37 @@ nextflow_pipeline {
 
     }
 
+    test("Should run with phased chrX data and hg38") {
+
+        when {
+            params {
+                project  = "testChrXPipelineWithPhasedHg38"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chrX-phased/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX-hg38/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def imputed_chr_X = file("${outputDir}/chr_X.zip");
+            assert imputed_chr_X.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chrX.dose.vcf.gz").vcf
+            assert file.getChromosome() == "X"
+            assert file.getNoSamples() == 26
+            assert file.isPhased()
+
+            assert TOTAL_REFPANEL_CHRX_B38 == file.getNoSnps()
+          
+        }
+
+    }
 }

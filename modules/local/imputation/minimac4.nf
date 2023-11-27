@@ -12,8 +12,6 @@ process MINIMAC4 {
     script:
     def map = minimac_map ? '--referenceEstimates --map ' + minimac_map : ''
     def chunkfile_name = "${chunkfile}".replaceAll('.vcf.gz', '')
-    // change name for sorting
-    chunkfile_name = chunkfile_name.replaceAll('PAR1','1').replaceAll('nonPAR','2').replaceAll('PAR2','3')
     def chr_cleaned = "${chr}".startsWith('X.') ? 'X' : "${chr}"
     def chr_mapped = "${params.refpanel.build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
     def isChrM = "${chr}" == 'MT' ? '--myChromosome ' + "${chr}" : ''
