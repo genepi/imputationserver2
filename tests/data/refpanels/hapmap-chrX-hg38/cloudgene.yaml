@@ -1,0 +1,14 @@
+properties:
+  id: phase1
+  build: hg38
+  genotypes: ${app_local_folder}/m3vcfs/$chr.1000g.Phase1.v3.With.Parameter.Estimates.hg38.m3vcf.gz
+  legend: ${app_local_folder}/legends/1000g_chr$chr_impute.hg38.legend.gz
+  mapEagle: ${app_local_folder}/map/genetic_map_hg38_withX.txt.gz
+  refEagle: ${app_local_folder}/bcfs/ALL.$chr.phase1_v3.snps_indels_svs.genotypes.all.noSingleton.recode.hg38.bcf
+  populations:
+    - id: eur
+      name: EUR
+      samples: 60
+    - id: mixed
+      name: Mixed
+      samples: -1
