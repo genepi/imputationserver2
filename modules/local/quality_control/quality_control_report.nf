@@ -16,7 +16,7 @@ process QUALITY_CONTROL_REPORT {
             input = '${maf_file}',
             name = '${params.project}',
             population = '${params.population}',
-            version = '${params.pipeline_version}',
+            version = '${workflow.manifest.version}',
             date = '${params.project_date}',
             service = '${params.service.name}'
         ),

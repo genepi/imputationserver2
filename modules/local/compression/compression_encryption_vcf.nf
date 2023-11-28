@@ -31,7 +31,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     
     # concat dosage files and update header 
     bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
-    echo "##mis_pipeline=${params.pipeline_version}" > add_header.txt
+    echo "##mis_pipeline=${workflow.manifest.version}" > add_header.txt
     echo "##mis_phasing=${params.phasing}" >> add_header.txt
     echo "##mis_panel=${panel_version}" >> add_header.txt
     bcftools annotate --threads ${task.cpus} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
