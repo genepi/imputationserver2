@@ -36,8 +36,14 @@ params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
 
 legend_files_ch = Channel.of(1..22, 'X', 'MT')
     .map {
-        it -> file(PatternUtil.parse(params.refpanel.legend_pattern, [chr: it]))
+        it -> 
+            def legend_file = file(PatternUtil.parse(params.refpanel.legend_pattern, [chr: it]))
+            if(!legend_file.exists()){
+                return null;
+            }  
+            return legend_file; 
     }
+
 
 include { INPUT_VALIDATION } from './input_validation'
 include { QUALITY_CONTROL } from './quality_control'

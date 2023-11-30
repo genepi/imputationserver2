@@ -11,18 +11,20 @@ workflow PHASING {
 
     if (params.phasing == 'eagle' && params.refpanel.refEagle != null) {
 
-        phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: false)
+        phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: true)
 
         phasing_reference_ch = chromosomes
             .map {
-                it -> tuple(
-                    it.toString(),
-                    file(PatternUtil.parse(params.refpanel.refEagle, [chr: it])),
-                    file(PatternUtil.parse(params.refpanel.refEagle + ".csi", [chr: it]))
-                )
+                it -> 
+                    def eagle_file = file(PatternUtil.parse(params.refpanel.refEagle, [chr: it]))
+                    def eagle_file_index = file(PatternUtil.parse(params.refpanel.refEagle + ".csi", [chr: it]))
+                    if(!eagle_file.exists() || !eagle_file_index.exists()){
+                        return null;
+                    }
+                    return tuple(it.toString(),eagle_file,eagle_file_index)
             }
 
-        eagle_bcf_metafiles_ch =  phasing_reference_ch.combine(metafiles_ch, by: 0)
+        eagle_bcf_metafiles_ch = phasing_reference_ch.combine(metafiles_ch, by: 0)
 
         EAGLE ( eagle_bcf_metafiles_ch, phasing_map_ch )
 
@@ -34,18 +36,22 @@ workflow PHASING {
 
         phasing_reference_ch = chromosomes
             .map {
-                it -> tuple(
-                    it.toString(),
-                    file(PatternUtil.parse(params.refpanel.refBeagle, [chr: it]))
-                )
+                it -> 
+                    def beagle_file = file(PatternUtil.parse(params.refpanel.refBeagle, [chr: it]))
+                    if(!beagle_file.exists()){
+                        return null;
+                    }
+                    return tuple(it.toString(),beagle_file)
             }
 
         phasing_map_ch = chromosomes
             .map {
-                it -> tuple(
-                    it.toString(),
-                    file(PatternUtil.parse(params.refpanel.mapBeagle, [chr: it]))
-                )
+                it ->
+                    def beagle_map_file = file(PatternUtil.parse(params.refpanel.mapBeagle, [chr: it]))
+                    if(!beagle_map_file.exists()){
+                        return null;
+                    }
+                    return tuple(it.toString(),beagle_map_file)
             }
 
         beagle_bcf_metafiles_ch = phasing_reference_ch.combine(metafiles_ch, by: 0)

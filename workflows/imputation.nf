@@ -15,11 +15,14 @@ workflow IMPUTATION {
     chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
     minimac_m3vcf_ch = chromosomes
         .map {
-            it -> tuple(
-                it.toString(),
-                file(PatternUtil.parse(params.refpanel.genotypes, [chr: it]))
-            )
+            it -> 
+                def genotypes_file = file(PatternUtil.parse(params.refpanel.genotypes, [chr: it]))
+                    if(!genotypes_file.exists()){
+                        return null;
+                    }
+                return tuple(it.toString(),genotypes_file); 
         }
+
     phased_m3vcf_ch = phased_ch.combine(minimac_m3vcf_ch, by: 0)
 
     MINIMAC4 ( 
