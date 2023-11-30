@@ -10,7 +10,7 @@ workflow QUALITY_CONTROL {
     main:
 
     def chain_file = []
-    def panel_version = RefPanelUtil.loadFromFile(params.refpanel_yaml).build
+    def panel_version = params.refpanel.build
     if(!panel_version.equals(params.build)) {
         def name = params.build + "To" + panel_version + ".over.chain.gz"
         chain_file = file("$projectDir/files/chains/" + name, checkIfExists: true)

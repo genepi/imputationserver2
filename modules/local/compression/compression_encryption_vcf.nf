@@ -22,7 +22,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     def zip_name = "chr_${chr}.zip"
     def info_name = "${prefix}.info"
     def aes = params.encryption.aes ? "-mem=AES256" : ""
-    def panel_version = RefPanelUtil.loadFromFile(params.refpanel_yaml).id
+    def panel_version = params.refpanel.id
     
     """  
     # concat info files 
