@@ -55,6 +55,8 @@ process QUALITY_CONTROL_VCF {
         --report cloudgene.report.json \
         $chain \
         $vcf_files 
+
+    python -m json.tool cloudgene.report.json       
     """
 
 }

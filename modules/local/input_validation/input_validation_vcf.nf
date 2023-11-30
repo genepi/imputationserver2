@@ -33,6 +33,8 @@ process INPUT_VALIDATION_VCF {
         --maxSamples ${params.max_samples} \
         --report cloudgene.report.json \
         $vcf_files 
+
+    python -m json.tool cloudgene.report.json    
     """
 
 }
