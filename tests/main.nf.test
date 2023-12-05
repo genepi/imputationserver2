@@ -320,7 +320,8 @@ nextflow_pipeline {
             ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
             zipFile.extractAll("${outputDir}");
 
-            def header = getVcfHeader(path("${outputDir}/chr20.dose.vcf.gz"))
+            def header = path("${outputDir}/chr20.dose.vcf.gz").vcfHeader
+       
             assert header.getOtherHeaderLine("mis_phasing").getValue() == params.phasing
             assert header.getOtherHeaderLine("mis_pipeline").getKey()
             assert header.getOtherHeaderLine("mis_panel").getKey()
@@ -370,11 +371,66 @@ nextflow_pipeline {
 
     }
 
+    test("Should not run with unphased and empty phasing") {
+
+        when {
+            params {
+                project  = "testPipelineWithEmptyPhasing"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-unphased/*.vcf.gz"
+                population = "eur"
+                phasing = "no_phasing"
+                password = PASSWORD
+                r2Filter = 0.5
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.failed
+
+        }
+
+    }
+
+    test("Should write typed only sites") {
+
+        when {
+            params {
+                project  = "testWriteTypedSitesOnly"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-unphased/*.vcf.gz"
+                population = "eur"
+                phasing = "eagle"
+                password = PASSWORD
+                r2Filter = 0.5
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def quality_control_log = file("${outputDir}/cloudgene.report.json")
+            assert quality_control_log.exists()
+            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+
+            def typed_only = file("${outputDir}/statistics/typed-only.txt");
+            assert typed_only.exists()
+            assert typed_only.readLines().size() == ONLY_IN_INPUT + 1
+
+
+        }
+
+    }
+
     test("Should run with phased data from hg19 to hg38") {
 
         when {
             params {
-                project  = "testPipelineWithEagleHg38ToHg19"
+                project  = "testPipelineWithPhasedHg19ToHg38"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*vcf.gz"
                 population = "eur"
@@ -594,6 +650,46 @@ nextflow_pipeline {
 
     }
 
+    test("Should impute chrX and correctly impute one SNP") {
+
+        when {
+            params {
+                project  = "testChrXLeaveOneOutPipelinePhased"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chrX-phased-loo/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def imputed_chr_X = file("${outputDir}/chr_X.zip");
+            assert imputed_chr_X.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chrX.dose.vcf.gz").vcf
+            assert file.getChromosome() == "X"
+            assert file.getNoSamples() == 26
+            assert file.isPhased()
+            assert TOTAL_REFPANEL_CHRX_B37 == file.getNoSnps()
+
+            // SNP 26963697 excluded from input and imputed! true genotypes:
+     		// 1,1|1,1|1,1|1,1,1|1,1,1|1,1|1,1,0,1|1,1|0,1,1,1,1,1,1|1,1,1|1,1|1,1|1,1|1,1|1,1|0,
+            def line = getVcfLine(path("${outputDir}/chrX.dose.vcf.gz"), 26963697)
+            assert line.getHetCount() == 2
+            assert line.getHomRefCount() == 1
+            assert line.getHomVarCount() == 23
+          
+        }
+
+    }
+
     test("Should run with phased chrX data and hg38") {
 
         when {
@@ -661,4 +757,36 @@ nextflow_pipeline {
         }
 
     }    
+
+    test("Should run with chrMT") {
+
+        when {
+            params {
+                project  = "testChrMTPipeline"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chrMT/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/phylotree-chrMT/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+            }
+        }
+
+        then {
+            assert workflow.success
+            def imputed_chr_MT = file("${outputDir}/chr_MT.zip");
+            assert imputed_chr_MT.exists()
+            ZipFile zipFile = new ZipFile(imputed_chr_MT, PASSWORD.toCharArray());
+            zipFile.extractAll("${outputDir}");
+
+            def file = path("${outputDir}/chrMT.dose.vcf.gz").vcf
+            assert file.getChromosome() == "MT"
+            assert file.getNoSamples() == 5435
+            assert file.isPhased()
+          
+        }
+
+    }    
+
 }
