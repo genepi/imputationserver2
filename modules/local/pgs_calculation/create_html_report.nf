@@ -39,8 +39,8 @@ process CREATE_HTML_REPORT {
         $samples \
         --out scores.details.html
 
-
-    pgs-calc report \
+    java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
+        report \
         --data ${merged_score} \
         --info ${merged_info} \
         --meta ${scores_meta} \
