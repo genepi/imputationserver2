@@ -9,6 +9,7 @@ process CREATE_HTML_REPORT {
     path(estimated_ancestry)
 
     output:
+    path "scores/*.html"
     path "*.html", emit: html_report
     path "*.coverage.txt", emit: coverage_report
 
@@ -24,11 +25,20 @@ process CREATE_HTML_REPORT {
     """
     java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
         report \
-        --data ${merged_score} \
         --info ${merged_info} \
         --meta ${scores_meta} \
         $samples \
         --out scores.html
+
+    java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
+        report \
+        --data ${merged_score} \
+        --info ${merged_info} \
+        --meta ${scores_meta} \
+        --template multi-page \
+        $samples \
+        --out scores.details.html
+
 
     pgs-calc report \
         --data ${merged_score} \
