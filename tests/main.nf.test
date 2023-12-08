@@ -789,4 +789,34 @@ nextflow_pipeline {
 
     }    
 
+    test("Should run with pgs calculation") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "${projectDir}/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+
+                pgs = [
+                    enabled: true,
+                    min_r2: 0,
+                    fix_strand_flips: false                    
+                ]
+
+                pgscatalog = [
+                    scores: "${projectDir}/tests/data/input/pgs/test-scores.chr20.txt.gz",
+                    meta: "${projectDir}/tests/data/input/pgs/test-scores.chr20.json"
+                ]
+            }
+        }
+
+        then {
+
+        }
+    }
+
 }
