@@ -799,7 +799,7 @@ nextflow_pipeline {
             params {
                 project = "test-job"
                 build = "hg19"
-                files = "${projectDir}/tests/data/input/chr20-phased/*.vcf.gz"
+                files = "${projectDir}/tests/data/input/chr20-unphased/*.vcf.gz"
                 population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "${projectDir}/tests/data/refpanels/hapmap2/cloudgene.yaml"
@@ -809,6 +809,10 @@ nextflow_pipeline {
                     enabled: true,
                     min_r2: 0,
                     fix_strand_flips: false                    
+                ]
+
+                encryption = [
+                    enabled: false
                 ]
 
                 pgscatalog = [
@@ -821,15 +825,15 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def readerExpected = new CsvTableReader("tests/data/input/pgs/expected.txt", ',' as char)
+            //TODO: check which expected file is correct!
+            def readerExpected = new CsvTableReader("tests/data/input/chr20-unphased/scores.expected.txt", ',' as char)
             def readerActual = new CsvTableReader("${outputDir}/scores.txt", ',' as char)
             assert readerActual.getColumns().length == 3
 
             while (readerExpected.next() && readerActual.next()) {
                 assert readerExpected.getString("sample") == readerActual.getString("sample")
-                // TODO: check differences!
-                // assert readerExpected.getDouble("PGS000018") == readerActual.getDouble("PGS000018")
-                // assert readerExpected.getDouble("PGS000027") == readerActual.getDouble("PGS000027")
+                assert Math.abs(readerExpected.getDouble("PGS000018") - readerActual.getDouble("PGS000018")) < 0.00001
+                assert Math.abs(readerExpected.getDouble("PGS000027") - readerActual.getDouble("PGS000027")) < 0.00001
             }
             readerExpected.close()
             readerActual.close()
@@ -856,6 +860,10 @@ nextflow_pipeline {
                     category: "Body measurement"              
                 ]
 
+                encryption = [
+                    enabled: false
+                ]
+
                 pgscatalog = [
                     scores: "${projectDir}/tests/data/input/pgs/test-scores.chr20.txt.gz",
                     meta: "${projectDir}/tests/data/input/pgs/test-scores.chr20.json"
@@ -866,14 +874,14 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def readerExpected = new CsvTableReader("tests/data/input/pgs/expected.txt", ',' as char)
+            //TODO: check which expected file is correct!
+            def readerExpected = new CsvTableReader("tests/data/input/chr20-unphased/scores.expected.txt", ',' as char)
             def readerActual = new CsvTableReader("${outputDir}/scores.txt", ',' as char)
             assert readerActual.getColumns().length == 2 //only sample and PGS000027
 
             while (readerExpected.next() && readerActual.next()) {
                 assert readerExpected.getString("sample") == readerActual.getString("sample")
-                // TODO: check differences!
-                //assert readerExpected.getDouble("PGS000027") == readerActual.getDouble("PGS000027")
+                assert Math.abs(readerExpected.getDouble("PGS000027") - readerActual.getDouble("PGS000027")) < 0.00001
             }
             readerExpected.close();
             readerActual.close();
