@@ -11,11 +11,13 @@ process EAGLE {
 
     script:
     //define basename without ending (do not use simpleName due to X.*)
-    def chunkfile_name = "$chunkfile".replaceAll('.vcf.gz', '')
+    def chunkfile_name = chunkfile.toString().replaceAll('.vcf.gz', '')
     // replace X.nonPAR etc with X for phasing
-    def chr_cleaned = "${chr}".startsWith('X.') ? 'X' : "${chr}"
-    def chr_mapped = "${params.refpanel.build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
- 
+    def chr_cleaned = chr.startsWith('X.') ? 'X' : chr
+    def chr_mapped = params.refpanel.build == 'hg38' ? 'chr' + chr_cleaned : chr_cleaned
+    def phasing_start = start.toLong() - params.phasing_window
+    phasing_start = phasing_start < 0 ? 1 : phasing_start
+    def phasing_end = end.toLong() + params.phasing_window
     """
     tabix $chunkfile
     eagle \
@@ -24,8 +26,8 @@ process EAGLE {
         --geneticMapFile ${map_eagle} \
         --outPrefix ${chunkfile_name}.phased \
         --chrom $chr_mapped \
-        --bpStart $start \
-        --bpEnd $end \
+        --bpStart $phasing_start \
+        --bpEnd $phasing_end \
         --allowRefAltSwap \
         --vcfOutFormat z \
         --keepMissingPloidyX \

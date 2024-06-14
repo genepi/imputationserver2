@@ -10,18 +10,21 @@ process BEAGLE {
 
     script:
     //define basename without ending (do not use simpleName due to X.*)
-    def chunkfile_name = "$chunkfile".replaceAll('.vcf.gz', '')
+    def chunkfile_name = chunkfile.toString().replaceAll('.vcf.gz', '')
     // replace X.nonPAR etc with X for phasing
-    def chr_cleaned = "${chr}".startsWith('X.') ? 'X' : "${chr}"
-    def chr_mapped = "${params.refpanel.build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
-  
+    def chr_cleaned = chr.startsWith('X.') ? 'X' : chr
+    def chr_mapped = params.refpanel.build == 'hg38' ? 'chr' + chr_cleaned : chr_cleaned
+    def phasing_start = start.toLong() - params.phasing_window
+    phasing_start = phasing_start < 0 ? 1 : phasing_start
+    def phasing_end = end.toLong() + params.phasing_window
+    
     """
     java -jar /usr/bin/beagle.18May20.d20.jar \
         ref=${bcf}  \
         gt=${chunkfile} \
         out=${chunkfile_name}.phased \
         nthreads=${task.cpus} \
-        chrom=${chr_mapped}:${start}-${end} \
+        chrom=${chr_mapped}:${phasing_start}-${phasing_end} \
         map=${map_beagle} \
         impute=false 
     """

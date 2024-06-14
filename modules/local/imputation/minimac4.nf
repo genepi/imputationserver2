@@ -11,10 +11,10 @@ process MINIMAC4 {
 
     script:
     def map = minimac_map ? '--referenceEstimates --map ' + minimac_map : ''
-    def chunkfile_name = "${chunkfile}".replaceAll('.vcf.gz', '')
-    def chr_cleaned = "${chr}".startsWith('X.') ? 'X' : "${chr}"
-    def chr_mapped = "${params.refpanel.build}" == 'hg38' ? 'chr' + "${chr_cleaned}" : "${chr_cleaned}"
-    def isChrM = "${chr}" == 'MT' ? '--myChromosome ' + "${chr}" : ''
+    def chunkfile_name = chunkfile.toString().replaceAll('.vcf.gz', '')
+    def chr_cleaned = chr.startsWith('X.') ? 'X' : chr
+    def chr_mapped = (params.refpanel.build == 'hg38') ? 'chr' + chr_cleaned : chr_cleaned
+    def isChrM = (chr == 'MT') ? '--myChromosome ' + chr : ''
 
     """
     minimac4 \
