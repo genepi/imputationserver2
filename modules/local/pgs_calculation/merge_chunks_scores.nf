@@ -19,7 +19,7 @@ process MERGE_CHUNKS_SCORES {
   """
   java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
       merge-score ${score_chunks} \
-      --out ${params.project}.scores.txt
+      --out scores.txt
   """
 
 }

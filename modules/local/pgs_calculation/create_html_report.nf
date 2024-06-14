@@ -11,7 +11,7 @@ process CREATE_HTML_REPORT {
     output:
     path "scores/*.html"
     path "*.html", emit: html_report
-    path "*.coverage.txt", emit: coverage_report
+    path "*.coverage", emit: coverage_report
 
     script:
     samples = params.ancestry.enabled ? "--samples ${estimated_ancestry}" : ""
@@ -45,7 +45,7 @@ process CREATE_HTML_REPORT {
         --info ${merged_info} \
         --meta ${scores_meta} \
         --template txt \
-        --out scores.coverage.txt
+        --out scores.coverage
     """
 
 }

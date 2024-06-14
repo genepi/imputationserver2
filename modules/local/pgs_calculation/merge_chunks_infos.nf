@@ -19,7 +19,7 @@ process MERGE_CHUNKS_INFOS {
   """
   java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
       merge-info ${report_chunks} \
-      --out ${params.project}.info
+      --out scores.info
   """
 
 }

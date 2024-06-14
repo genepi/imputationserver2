@@ -5,6 +5,7 @@ process CALCULATE_CHUNKS {
     input:
     tuple val(chr), val(start), val(end), path(vcf_file),  path(info_file),  path(empirical_vcf_file)
     tuple(path(scores_txt), path(scores_info), path(scores_index))
+    path(scores)
 
     output:
     path "*.txt", emit: scores_chunks
@@ -24,6 +25,7 @@ process CALCULATE_CHUNKS {
         apply ${vcf_file} \
         --ref ${scores_txt} \
         --out ${name}.scores.txt \
+        --include-scores ${scores} \
         --info ${name}.scores.info \
         --start ${start} \
         --end ${end} \

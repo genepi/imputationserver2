@@ -50,7 +50,7 @@ ENV PATH="/opt/minimac4:${PATH}"
 RUN chmod +x /opt/minimac4/minimac4
 
 # Install PGS-CALC
-ENV PGS_CALC_VERSION="1.6.0"
+ENV PGS_CALC_VERSION="1.6.1"
 RUN mkdir /opt/pgs-calc
 WORKDIR "/opt/pgs-calc"
 RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSION}/pgs-calc-${PGS_CALC_VERSION}.tar.gz && \
