@@ -1,6 +1,6 @@
-id: imputationserver
-name: Genotype Imputation (Minimac4)
-description: This is the new Michigan Imputation Server Pipeline using <a href="https://github.com/statgen/Minimac4">Minimac4</a>. Documentation can be found <a href="http://imputationserver.readthedocs.io/en/latest/">here</a>.<br><br>If your input data is <b>GRCh37/hg19</b> please ensure chromosomes are encoded without prefix  (e.g. <b>20</b>).<br>If your input data is <b>GRCh38hg38</b> please ensure chromosomes are encoded with prefix 'chr' (e.g. <b>chr20</b>).
+id: imputationserver-pgs
+name: Polygenic Score Calculation
+description: "You can upload genotyped data and the application imputes your genotypes, performs ancestry estimation and finally calculates Polygenic Risk Scores.<br><br>No dataset at hand? No problem, download our example dataset: <a href=\"https://imputationserver.sph.umich.edu/resources/50-samples.zip\" class=\"btn btn-sm btn-secondary\" style=\"color:#ffffff !important\"><i class=\"fa fa-file\"></i> 50-samples.zip</a><br><br>"
 version: 2.0.0-dev
 website: https://imputationserver.readthedocs.io
 category:
@@ -13,6 +13,8 @@ workflow:
       # params without UI
       params:
         project: "${CLOUDGENE_JOB_NAME}"
+        pgs:
+          enabled: true
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -31,6 +33,9 @@ workflow:
         - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
+          view: progressbar
+          label: "Ploygenic Scores"
         - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           label: "Compression and Encryption"
 
@@ -107,6 +112,27 @@ workflow:
         true: yes
         false: no
       visible: true
+
+    - id: myseparator0
+      type: separator
+
+    - id: info2
+      type: info
+      description: <b>PGS Calculation</b><br><small class="text-muted">Please select a collection of polygenic scores to enable on the fly PGS calculation.</small>
+
+    - id: pgscatalog
+      description: Scores
+      type: app_list
+      required: true
+      category: PGSPanel
+
+    - id: pgs_subset
+      description: Trait Category
+      type: list
+      values:
+        bind: pgscatalog
+        property: categories
+        category: PGSPanel
 
     - id: myseparator
       type: separator
