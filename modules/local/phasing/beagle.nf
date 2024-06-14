@@ -16,7 +16,7 @@ process BEAGLE {
     def chr_mapped = params.refpanel.build == 'hg38' ? 'chr' + chr_cleaned : chr_cleaned
     def phasing_start = start.toLong() - params.phasing_window
     phasing_start = phasing_start < 0 ? 1 : phasing_start
-    def phasing_end = end.toInttoLongger() + params.phasing_window
+    def phasing_end = end.toLong() + params.phasing_window
     
     """
     java -jar /usr/bin/beagle.18May20.d20.jar \
