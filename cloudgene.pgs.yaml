@@ -15,6 +15,9 @@ workflow:
         project: "${CLOUDGENE_JOB_NAME}"
         pgs:
           enabled: true
+          category: "${pgs_category}"
+        encryption:
+          enabled: false
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -35,7 +38,7 @@ workflow:
           label: "Imputation"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
           view: progressbar
-          label: "Ploygenic Scores"
+          label: "Polygenic Scores"
         - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           label: "Compression and Encryption"
 
@@ -126,7 +129,7 @@ workflow:
       required: true
       category: PGSPanel
 
-    - id: pgs_subset
+    - id: pgs_category
       description: Trait Category
       type: list
       values:

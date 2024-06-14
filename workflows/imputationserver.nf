@@ -87,9 +87,11 @@ workflow IMPUTATIONSERVER {
                     phased_ch
                 )
                 
-                ENCRYPTION(
-                    IMPUTATION.out.groupTuple()
-                )
+                if (params.encryption.enabled === true || params.encryption.enabled === "true") {
+                    ENCRYPTION(
+                        IMPUTATION.out.groupTuple()
+                    )
+                }
             }
         }
     }
@@ -131,6 +133,7 @@ workflow.onComplete {
     }
 
     //job successful
+    //TODO: check if encrpytion.emnabled. otherweise send email/or report ok without password
     if (params.config.send_mail){
         sendMail{
             to "${params.user.email}"
