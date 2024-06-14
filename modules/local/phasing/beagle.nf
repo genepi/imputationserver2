@@ -21,7 +21,7 @@ process BEAGLE {
     """
     java -jar /usr/bin/beagle.18May20.d20.jar \
         ref=${bcf}  \
-        gt=${chunkfile} \ss
+        gt=${chunkfile} \
         out=${chunkfile_name}.phased \
         nthreads=${task.cpus} \
         chrom=${chr_mapped}:${phasing_start}-${phasing_end} \
