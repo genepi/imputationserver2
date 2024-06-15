@@ -96,7 +96,10 @@ workflow IMPUTATIONSERVER {
         }
     }
     
-    if (params.ancestry.enabled){
+    // handles empty objects (e.g. cloudgene)
+    ancestry_enabled = params.ancestry != null && params.ancestry != "" && params.ancestry.enabled
+
+    if (ancestry_enabled) {
         ANCESTRY_ESTIMATION()
     }
 
@@ -104,7 +107,7 @@ workflow IMPUTATIONSERVER {
 
         PGS_CALCULATION(
             IMPUTATION.out,
-            params.ancestry.enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
+            ancestry_enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
         )
         
     }

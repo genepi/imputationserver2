@@ -137,6 +137,12 @@ workflow:
         property: categories
         category: PGSPanel
 
+    - id: ancestry
+      description: Ancestry Estimation
+      type: app_list
+      required: false
+      category: AncestryPanel
+
     - id: myseparator
       type: separator
 

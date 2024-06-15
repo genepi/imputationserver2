@@ -1,0 +1,9 @@
+name: HGDP_238_chr22
+description: HGDP_238_chr22
+version: 2.0.0
+website: http://imputationserver.sph.umich.edu
+category: AncestryPanel
+
+properties:
+  enabled: true
+  references: "${app_local_folder}/HGDP_238_chr22.*"
