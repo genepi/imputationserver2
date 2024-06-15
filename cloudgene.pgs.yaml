@@ -16,8 +16,7 @@ workflow:
         pgs:
           enabled: true
           category: "${pgs_category}"
-        encryption:
-          enabled: false
+        merge_results: false #no merge and encryption
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -30,17 +29,27 @@ workflow:
           label: "Input Validation"
         - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
           label: "Quality Control"
+        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
+          label: "Quality Control Report"
         - process: "IMPUTATIONSERVER:PHASING:EAGLE"
           view: progressbar
           label: "Phasing"
         - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:FILTER_BY_CATEGORY"
+          label: "Prepare Polygenic Scores"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
           view: progressbar
-          label: "Polygenic Scores"
+          label: "Calculate Polygenic Scores"
         - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           label: "Compression and Encryption"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_SCORES"
+          label: "Merge Polygenic Scores"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_INFOS"
+          label: "Analyze Polygenic Scores "
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CREATE_HTML_REPORT"
+          label: "Create Ploygenic Score Report"
 
   inputs:
     - id: refpanel

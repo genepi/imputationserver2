@@ -87,7 +87,7 @@ workflow IMPUTATIONSERVER {
                     phased_ch
                 )
                 
-                if (params.encryption.enabled === true || params.encryption.enabled === "true") {
+                if (params.merge_results === true || params.merge_results === "true") {
                     ENCRYPTION(
                         IMPUTATION.out.groupTuple()
                     )
@@ -145,6 +145,11 @@ workflow.onComplete {
         }
         report.ok("Sent email with password to <b>${params.user.email}</b>")
     } else {
-        report.ok("Encrypted results with password <b>${params.encryption_password}</b>")
+        //TODO: simplify. cloudgene sets as "true". nextflow as true.
+        if ((params.merge_results === true ||  params.merge_results === "true") &&
+            (params.encryption.enabled === true || params.encryption.enabled === "true")) {
+            report.ok("Encrypted results with password <b>${params.encryption_password}</b>")
+        }    
     }
+    report.ok("Done.")
 }

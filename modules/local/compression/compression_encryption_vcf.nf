@@ -9,8 +9,9 @@ process COMPRESSION_ENCRYPTION_VCF {
     tuple val(chr), val(start), val(end), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
     
     output:
-    path("*.zip"), emit: encrypted_file
+    path("*.zip"), emit: encrypted_file, optional: true
     path("*.md5"), emit: md5_file, optional: true
+    path("chr${chr}*"), emit: raw_files, optional: true
     
     script:
     def imputed_joined = ArrayUtil.sort(imputed_vcf_data)
@@ -46,8 +47,11 @@ process COMPRESSION_ENCRYPTION_VCF {
     fi
 
     # zip files
-    7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
-    rm *vcf.gz* *info
+    if [[ "${params.encryption.enabled}" = true ]]
+    then    
+        7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
+        rm *vcf.gz* *info
+    fi
 
     if [[ "${params.md5}" = true ]]
     then

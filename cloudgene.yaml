@@ -25,6 +25,8 @@ workflow:
           label: "Input Validation"
         - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
           label: "Quality Control"
+        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
+          label: "Quality Control Report"          
         - process: "IMPUTATIONSERVER:PHASING:EAGLE"
           view: progressbar
           label: "Phasing"
