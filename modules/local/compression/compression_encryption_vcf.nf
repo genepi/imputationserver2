@@ -50,7 +50,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     if [[ "${params.encryption.enabled}" = true ]]
     then    
         7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
-        rm *vcf.gz* *info
+        rm *vcf.gz* *info.gz
     fi
 
     if [[ "${params.md5}" = true ]]

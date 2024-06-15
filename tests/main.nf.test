@@ -36,20 +36,19 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            assert !file("${outputDir}/chr_20.zip").exists()
+            assert !file("${outputDir}/chr20.dose.vcf.gz").exists()
 
-            def typed_file = file("${outputDir}/statistics/typed-only.txt")
-            assert typed_file.exists()
-            
-            def snps_file = file("${outputDir}/statistics/snps-excluded.txt")
-            assert snps_file.exists()            
+            def log = file("${outputDir}/cloudgene.report.json")
+            with(log) {
+                assert exists()
+                assert text.contains("Remaining sites in total: 7,735")     
+            }
             
             assert snapshot(
-                quality_control_log.text,
-                typed_file.text,
-                snps_file.text
+                log.text,
+                file("${outputDir}/statistics/typed-only.txt").text,
+                file("${outputDir}/statistics/snps-excluded.txt").text
             ).match()
        
         }
@@ -74,23 +73,29 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            with(file("${outputDir}/cloudgene.report.json")) {
+                assert exists()
+                assert text.contains("Remaining sites in total: 7,735")     
+            }
+           
+            assert !file("${outputDir}/chr20.dose.vcf.gz").exists()
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51;
-            assert file.isPhased()
-            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
             
-            //check correct number of snps in info.gz file
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
-
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            }
+            
+            with(zip.extract("chr20.info.gz")) {
+                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            }
         }
 
     }
@@ -114,25 +119,33 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            with(file("${outputDir}/cloudgene.report.json")) {
+                assert exists()
+                assert text.contains("Remaining sites in total: 7,735")     
+            }
+           
+            assert !file("${outputDir}/chr20.dose.vcf.gz").exists()
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            def fileMeta = path("${outputDir}/chr20.empiricalDose.vcf.gz").vcf
-            assert fileMeta.getNoSnps() == 7735
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51;
-            assert file.isPhased()
-            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
+
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            }
             
-            //check correct number of snps in info.gz file
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            with(zip.extract("chr20.empiricalDose.vcf.gz").vcf) {
+                assert getNoSnps() == 7735
+            }
 
+            with(zip.extract("chr20.info.gz")) {
+                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            }
         }
 
     }
@@ -154,7 +167,6 @@ nextflow_pipeline {
 
         then {
             assert workflow.failed
-
         }
 
     }
@@ -262,23 +274,25 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
-            assert snapshot(quality_control_log.text).match()
+            def log = file("${outputDir}/cloudgene.report.json")
+            with(log) {
+                assert exists()
+                assert text.contains("Remaining sites in total: 7,735")
+            }
+            assert snapshot(log.text).match()
 
+            assert !file("${outputDir}/chr_20.zip").exists()
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert !imputed_chr_20.exists()
-
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51;
-            assert file.isPhased()
-            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37
-
-            //check correct number of snps in info.gz file
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            with(path("${outputDir}/chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+            }
+            
+            with(path("${outputDir}/chr20.info.gz")) {
+                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            }
 
         }
 
@@ -420,7 +434,6 @@ nextflow_pipeline {
 
         then {
             assert workflow.failed
-
         }
 
     }
