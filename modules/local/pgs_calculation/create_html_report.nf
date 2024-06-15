@@ -14,7 +14,7 @@ process CREATE_HTML_REPORT {
     path "*.coverage", emit: coverage_report
 
     script:
-    samples = params.ancestry.enabled ? "--samples ${estimated_ancestry}" : ""
+    samples = (params.ancestry != null && params.ancestry != "" && params.ancestry.enabled) ? "--samples ${estimated_ancestry}" : ""
     def avail_mem = 1024
     if (!task.memory) {
         log.info '[CREATE_HTML_REPORT] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
