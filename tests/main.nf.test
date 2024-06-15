@@ -39,35 +39,18 @@ nextflow_pipeline {
             def quality_control_log = file("${outputDir}/cloudgene.report.json")
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
-       
-        }
 
-    }
-
-    test("Should run QC-only and check statistic files") {
-
-        when {
-            params {
-                project  = "test-job"
-                build = "hg19"
-                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
-                mode = "qc-only"
-                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
-                output = "${outputDir}"
-            }
-        }
-
-        then {
-            assert workflow.success
-
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
             def typed_file = file("${outputDir}/statistics/typed-only.txt")
             assert typed_file.exists()
+            
             def snps_file = file("${outputDir}/statistics/snps-excluded.txt")
-            assert snps_file.exists()
+            assert snps_file.exists()            
+            
+            assert snapshot(
+                quality_control_log.text,
+                typed_file.text,
+                snps_file.text
+            ).match()
        
         }
 
@@ -282,6 +265,7 @@ nextflow_pipeline {
             def quality_control_log = file("${outputDir}/cloudgene.report.json")
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            assert snapshot(quality_control_log.text).match()
 
 
             def imputed_chr_20 = file("${outputDir}/chr_20.zip");
