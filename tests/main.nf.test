@@ -1,9 +1,6 @@
-@GrabResolver(name='genepi-maven', root='https://genepi.i-med.ac.at/maven')
 @Grab(group='net.lingala.zip4j', module='zip4j', version='2.11.5')
-@Grab(group='genepi', module='genepi-io', version='1.2.0')
 
 import net.lingala.zip4j.ZipFile
-import genepi.io.table.reader.CsvTableReader
 
 nextflow_pipeline {
 
@@ -93,8 +90,10 @@ nextflow_pipeline {
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
             
-            with(zip.extract("chr20.info.gz")) {
-                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            with(zip.extract("chr20.info.gz").csv(decompress: true, sep: "\t")) {
+                assert rowCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+                assert columnCount == 13
+                assert "Rsq" in columns
             }
         }
 
@@ -866,18 +865,9 @@ nextflow_pipeline {
             assert workflow.success
 
             //TODO: check which expected file is correct!
-            def readerExpected = new CsvTableReader("tests/data/input/chr20-unphased/scores.expected.txt", ',' as char)
-            def readerActual = new CsvTableReader("${outputDir}/scores.txt", ',' as char)
-            assert readerActual.getColumns().length == 3
-
-            while (readerExpected.next() && readerActual.next()) {
-                assert readerExpected.getString("sample") == readerActual.getString("sample")
-                assert Math.abs(readerExpected.getDouble("PGS000018") - readerActual.getDouble("PGS000018")) < 0.00001
-                assert Math.abs(readerExpected.getDouble("PGS000027") - readerActual.getDouble("PGS000027")) < 0.00001
-            }
-            readerExpected.close()
-            readerActual.close()
-
+            def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
+            def actual = csv("${outputDir}/scores.txt")
+            assertTableEquals actual, expected
         }
     }
 
@@ -918,17 +908,14 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            //TODO: check which expected file is correct!
-            def readerExpected = new CsvTableReader("tests/data/input/chr20-unphased/scores.expected.txt", ',' as char)
-            def readerActual = new CsvTableReader("${outputDir}/scores.txt", ',' as char)
-            assert readerActual.getColumns().length == 2 //only sample and PGS000027
-
-            while (readerExpected.next() && readerActual.next()) {
-                assert readerExpected.getString("sample") == readerActual.getString("sample")
-                assert Math.abs(readerExpected.getDouble("PGS000027") - readerActual.getDouble("PGS000027")) < 0.00001
-            }
-            readerExpected.close();
-            readerActual.close();
+            def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
+            
+            def actual = csv("${outputDir}/scores.txt")
+            with(actual){
+                assert columnNames == ["sample", "PGS000027"]
+                assert columns["sample"] == expected.columns["sample"]
+                assertArrayEquals columns["PGS000027"], expected.columns["PGS000027"]
+            } 
 
         }
     }
