@@ -87,14 +87,19 @@ workflow IMPUTATIONSERVER {
                     phased_ch
                 )
                 
-                ENCRYPTION(
-                    IMPUTATION.out.groupTuple()
-                )
+                if (params.merge_results === true || params.merge_results === "true") {
+                    ENCRYPTION(
+                        IMPUTATION.out.groupTuple()
+                    )
+                }
             }
         }
     }
     
-    if (params.ancestry.enabled){
+    // handles empty objects (e.g. cloudgene)
+    ancestry_enabled = params.ancestry != null && params.ancestry != "" && params.ancestry.enabled
+
+    if (ancestry_enabled) {
         ANCESTRY_ESTIMATION()
     }
 
@@ -102,7 +107,7 @@ workflow IMPUTATIONSERVER {
 
         PGS_CALCULATION(
             IMPUTATION.out,
-            params.ancestry.enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
+            ancestry_enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
         )
         
     }
@@ -131,6 +136,7 @@ workflow.onComplete {
     }
 
     //job successful
+    //TODO: check if encrpytion.emnabled. otherweise send email/or report ok without password
     if (params.config.send_mail){
         sendMail{
             to "${params.user.email}"
@@ -139,6 +145,11 @@ workflow.onComplete {
         }
         report.ok("Sent email with password to <b>${params.user.email}</b>")
     } else {
-        report.ok("Encrypted results with password <b>${params.encryption_password}</b>")
+        //TODO: simplify. cloudgene sets as "true". nextflow as true.
+        if ((params.merge_results === true ||  params.merge_results === "true") &&
+            (params.encryption.enabled === true || params.encryption.enabled === "true")) {
+            report.ok("Encrypted results with password <b>${params.encryption_password}</b>")
+        }    
     }
+    report.ok("Done.")
 }

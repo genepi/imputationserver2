@@ -3,7 +3,8 @@ process CALCULATE_CHUNKS {
     tag "${vcf_file}"
 
     input:
-    tuple val(chr), val(start), val(end), file(vcf_file),  file(info_file),  file(empirical_vcf_file)
+    tuple val(chr), val(start), val(end), path(vcf_file),  path(info_file),  path(empirical_vcf_file)
+    tuple(path(scores_txt), path(scores_info), path(scores_index))
     path(scores)
 
     output:
@@ -22,8 +23,9 @@ process CALCULATE_CHUNKS {
     """
     java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
         apply ${vcf_file} \
-        --ref ${scores.join(',')} \
+        --ref ${scores_txt} \
         --out ${name}.scores.txt \
+        --include-scores ${scores} \
         --info ${name}.scores.info \
         --start ${start} \
         --end ${end} \

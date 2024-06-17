@@ -1,0 +1,171 @@
+id: imputationserver-pgs
+name: Polygenic Score Calculation
+description: "You can upload genotyped data and the application imputes your genotypes, performs ancestry estimation and finally calculates Polygenic Risk Scores.<br><br>No dataset at hand? No problem, download our example dataset: <a href=\"https://imputationserver.sph.umich.edu/resources/50-samples.zip\" class=\"btn btn-sm btn-secondary\" style=\"color:#ffffff !important\"><i class=\"fa fa-file\"></i> 50-samples.zip</a><br><br>"
+version: 2.0.0-dev
+website: https://imputationserver.readthedocs.io
+category:
+
+workflow:
+  steps:
+    - name: Quality Control and Imputation
+      type: nextflow
+      script: main.nf
+      # params without UI
+      params:
+        project: "${CLOUDGENE_JOB_NAME}"
+        pgs:
+          enabled: true
+          category: "${pgs_category}"
+        merge_results: false #no merge and encryption
+        user:
+          email: "${CLOUDGENE_USER_EMAIL}"
+          name: "${CLOUDGENE_USER_NAME}"
+        service:
+          name: "${CLOUDGENE_SERVICE_NAME}"
+          email: "${CLOUDGENE_CONTACT_EMAIL}"
+          url: "${CLOUDGENE_SERVICE_URL}"
+      processes:
+        - process: "IMPUTATIONSERVER:INPUT_VALIDATION:INPUT_VALIDATION_VCF"
+          label: "Input Validation"
+        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
+          label: "Quality Control"
+        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
+          label: "Quality Control Report"
+        - process: "IMPUTATIONSERVER:PHASING:EAGLE"
+          view: progressbar
+          label: "Phasing"
+        - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
+          view: progressbar
+          label: "Imputation"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:FILTER_BY_CATEGORY"
+          label: "Prepare Polygenic Scores"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
+          view: progressbar
+          label: "Calculate Polygenic Scores"
+        - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
+          label: "Compression and Encryption"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_SCORES"
+          label: "Merge Polygenic Scores"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_INFOS"
+          label: "Analyze Polygenic Scores "
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CREATE_HTML_REPORT"
+          label: "Create Ploygenic Score Report"
+
+  inputs:
+    - id: refpanel
+      description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
+      type: app_list
+      category: RefPanel
+
+    - id: files
+      description: Input Files (<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41" target="_blank">VCF</a>)
+      type: local-folder
+      pattern: "*.vcf.gz"
+
+    - id: build
+      description: Array Build
+      type: list
+      value: hg19
+      values:
+        hg19: GRCh37/hg19
+        hg38: GRCh38/hg38
+      details: Please note that the final SNP coordinates always match the reference build.
+
+    - id: r2Filter
+      description: rsq Filter
+      type: list
+      value: 0
+      values:
+        0: off
+        0.001: 0.001
+        0.1: 0.1
+        0.2: 0.2
+        0.3: 0.3
+
+    - id: phasing
+      description: Phasing
+      type: list
+      value: eagle
+      values:
+        eagle: Eagle v2.4 (phased output)
+        no_phasing: No phasing
+
+    - id: population
+      description: Population
+      type: list
+      values:
+        bind: refpanel
+        property: populations
+        category: RefPanel
+
+    - id: mode
+      description: Mode
+      type: list
+      value: imputation
+      values:
+        qconly: Quality Control Only
+        imputation: Quality Control & Imputation
+
+    - id: aesEncryption
+      description: AES 256 encryption
+      details: Imputation Server encrypts all zip files by default. Please note that AES encryption does not work with standard unzip programs. Use 7z instead.
+      type: checkbox
+      value: no
+      values:
+        true: yes
+        false: no
+      visible: true
+
+    - id: meta
+      description: Generate Meta-imputation file
+      type: checkbox
+      value: no
+      values:
+        true: yes
+        false: no
+      visible: true
+
+    - id: myseparator0
+      type: separator
+
+    - id: info2
+      type: info
+      description: <b>PGS Calculation</b><br><small class="text-muted">Please select a collection of polygenic scores to enable on the fly PGS calculation.</small>
+
+    - id: pgscatalog
+      description: Scores
+      type: app_list
+      required: true
+      category: PGSPanel
+
+    - id: pgs_category
+      description: Trait Category
+      type: list
+      values:
+        bind: pgscatalog
+        property: categories
+        category: PGSPanel
+
+    - id: ancestry
+      description: Ancestry Estimation
+      type: app_list
+      required: false
+      category: AncestryPanel
+
+    - id: myseparator
+      type: separator
+
+    - id: check1
+      description: I will not attempt to re-identify or contact research participants.
+      type: terms_checkbox
+
+    - id: check2
+      description: I will report any inadvertent data release, security breach or other data management incident of which I become aware.
+      type: terms_checkbox
+
+  outputs:
+    - id: output
+      description: Output
+      type: local-folder
+      download: true
+      temp: false

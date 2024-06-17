@@ -1,3 +1,9 @@
+name: HapMap 2
+description: HapMap2 Reference Panel for Michigan Imputation Server
+version: 2.0.0
+website: http://imputationserver.sph.umich.edu
+category: RefPanel
+
 properties:
   id: hapmap2-chr20
   build: hg19

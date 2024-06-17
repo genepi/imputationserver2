@@ -6,3 +6,4 @@ work
 .DS_Store
 .nf-test
 cloudgene.report.json
+.nf-test.log
