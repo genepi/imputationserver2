@@ -1,0 +1,43 @@
+nextflow_process {
+
+    name "Test Process FILTER_BY_CATEGORY"
+    script "modules/local/pgs_calculation/filter_by_category.nf"
+    process "FILTER_BY_CATEGORY"
+
+    test("Should return no scores when all set as category") {
+
+        when {
+            process {
+                """
+                input[0] = file("${projectDir}/tests/data/input/pgs/test-scores.chr20.json")
+                input[1] = "all"
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert file(process.out.scores.get(0)).readLines().size() == 0
+        }
+
+    }
+
+    test("Should return scores for given category") {
+
+        when {
+            process {
+                """
+                input[0] = file("${projectDir}/tests/data/input/pgs/test-scores.chr20.json")
+                input[1] = "Body measurement"
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert file(process.out.scores.get(0)).readLines().size() == 1
+        }
+
+    }
+
+}
