@@ -1,0 +1,60 @@
+nextflow_process {
+
+    name "Test Process Minimac4"
+    script "modules/local/imputation/minimac4.nf"
+    process "MINIMAC4"
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                refpanel = [
+                    build: "hg19"
+                ]
+            }
+            process {
+                """
+                input[0] = tuple "20", 1, 100000, "status", file("${projectDir}/tests/data/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz"), file("${projectDir}/tests/data/refpanels/hapmap2/m3vcfs/hapmap_r22.chr20.CEU.hg19.recode.m3vcf.gz")
+                input[1] = []
+                """
+            }
+        }
+
+        then {
+            assert process.success           
+            def file = path(process.out.imputed_chunks.get(0).get(3)).vcf
+            assert file.getNoSnps() == 31
+            assert file.getChromosome() == "20"
+
+        }
+
+    }
+
+    test("Should output the same number of SNPS with different minimac4 window") {
+
+        when {
+            params {
+                refpanel = [
+                    build: "hg19"
+                ]
+                minimac_window = 5
+            }
+            process {
+                """
+                input[0] = tuple "20", 1, 100000, "status", file("${projectDir}/tests/data/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz"), file("${projectDir}/tests/data/refpanels/hapmap2/m3vcfs/hapmap_r22.chr20.CEU.hg19.recode.m3vcf.gz")
+                input[1] = []
+                """
+            }
+        }
+
+        then {
+            assert process.success           
+            def file = path(process.out.imputed_chunks.get(0).get(3)).vcf
+            assert file.getNoSnps() == 31
+            assert file.getChromosome() == "20"
+
+        }
+
+    }
+
+}

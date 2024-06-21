@@ -22,6 +22,37 @@ nextflow_process {
 
         then {
             assert process.success
+            def file = path(process.out.eagle_phased_ch.get(0).get(4)).vcf
+            assert file.getNoSnps() == 896
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
+        }
+
+    }
+
+    test("Should output less total phased SNPs with smaller phasing window") {
+
+        when {
+            params {
+                refpanel = [
+                    build: "hg19"
+                ]
+                phasing_window = 100000
+            }
+            process {
+                """
+                input[0] = tuple "20", file("${projectDir}/tests/data/refpanels/hapmap2/bcfs/hapmap_r22.chr20.CEU.hg19.recode.bcf"), file("${projectDir}/tests/data/refpanels/hapmap2/bcfs/hapmap_r22.chr20.CEU.hg19.recode.bcf.csi"), 1, 40000, "status", file("${projectDir}/tests/data/input/chr20-unphased/chr20.R50.merged.1.330k.recode.unphased.small.vcf.gz")
+                input[1] = file("${projectDir}/tests/data/refpanels/hapmap2/map/genetic_map_hg19_withX.txt.gz")
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            def file = path(process.out.eagle_phased_ch.get(0).get(4)).vcf
+            assert file.getNoSnps() == 14
+            assert file.getChromosome() == "20"
+            assert file.getNoSamples() == 51
         }
 
     }
