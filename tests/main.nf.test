@@ -749,8 +749,7 @@ nextflow_pipeline {
         }
 
         then {
-           /* assert workflow.success
-
+            assert workflow.success
             def imputed_chr_X = file("${outputDir}/chr_X.zip");
             assert imputed_chr_X.exists()
             ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
@@ -761,7 +760,7 @@ nextflow_pipeline {
             assert file.getNoSamples() == 26
             assert file.isPhased()
 
-            assert TOTAL_REFPANEL_CHRX_B38 == file.getNoSnps()*/
+            assert TOTAL_REFPANEL_CHRX_B38 == file.getNoSnps()
           
         }
 
@@ -783,7 +782,7 @@ nextflow_pipeline {
         }
 
         then {
-            /*assert workflow.success
+            assert workflow.success
 
             def imputed_chr_X = file("${outputDir}/chr_X.zip");
             assert imputed_chr_X.exists()
@@ -795,7 +794,7 @@ nextflow_pipeline {
             assert file.getNoSamples() == 26
             assert file.isPhased()
 
-            assert TOTAL_REFPANEL_CHRX_B38 == file.getNoSnps()*/
+            assert TOTAL_REFPANEL_CHRX_B38 == file.getNoSnps()
           
         }
 
