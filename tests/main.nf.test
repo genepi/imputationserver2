@@ -33,10 +33,6 @@ nextflow_pipeline {
             assert !file("${outputDir}/chr20.dose.vcf.gz").exists()
 
             def log = file("${outputDir}/cloudgene.report.json")
-            with(log) {
-                assert exists()
-                assert text.contains("Remaining sites in total: 7,735")     
-            }
             
             assert snapshot(
                 log.text,
@@ -66,10 +62,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            with(file("${outputDir}/cloudgene.report.json")) {
-                assert exists()
-                assert text.contains("Remaining sites in total: 7,735")     
-            }
+            def log = file("${outputDir}/cloudgene.report.json")
+            
+            assert snapshot(
+                log.text
+            ).match()
            
             assert !file("${outputDir}/chr20.dose.vcf.gz").exists()
 
@@ -115,10 +112,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            with(file("${outputDir}/cloudgene.report.json")) {
-                assert exists()
-                assert text.contains("Remaining sites in total: 7,735")     
-            }
+            def log = file("${outputDir}/cloudgene.report.json")
+            
+            assert snapshot(
+                log.text
+            ).match()
            
             assert !file("${outputDir}/chr20.dose.vcf.gz").exists()
 
@@ -139,9 +137,10 @@ nextflow_pipeline {
                 assert getNoSnps() == 7735
             }
 
-            with(zip.extract("chr20.info.gz")) {
-                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            with(zip.extract("chr20.info.gz").csv(decompress: true, sep: "\t")) {
+                assert rowCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
+
 
         }
 
@@ -186,9 +185,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+            
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -203,8 +204,8 @@ nextflow_pipeline {
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
 
-            with(zip.extract("chr20.info.gz")) {
-                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            with(zip.extract("chr20.info.gz").csv(decompress: true, sep: "\t")) {
+                assert rowCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
 
         }
@@ -230,9 +231,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+            
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -247,9 +250,9 @@ nextflow_pipeline {
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
             }
 
-            with(zip.extract("chr20.info.gz")) {
-                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
-            }            
+            with(zip.extract("chr20.info.gz").csv(decompress: true, sep: "\t")) {
+                assert rowCount == TOTAL_REFPANEL_CHR20_B37
+            }         
 
         }
 
@@ -278,12 +281,10 @@ nextflow_pipeline {
             assert workflow.success
 
             def log = file("${outputDir}/cloudgene.report.json")
-            with(log) {
-                assert exists()
-                assert text.contains("Remaining sites in total: 7,735")
-            }
-
-            assert snapshot(log.text).match()
+            
+            assert snapshot(
+                log.text
+            ).match()
 
             assert !file("${outputDir}/chr_20.zip").exists()
 
@@ -294,8 +295,8 @@ nextflow_pipeline {
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
             }
 
-            with(path("${outputDir}/chr20.info.gz")) {
-                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            with(path("${outputDir}/chr20.info.gz").csv(decompress: true, sep: "\t")) {
+                assert rowCount == TOTAL_REFPANEL_CHR20_B37
             }
 
         }
@@ -321,10 +322,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
-
+            def log = file("${outputDir}/cloudgene.report.json")
+            
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
 
@@ -340,8 +342,8 @@ nextflow_pipeline {
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
             }
 
-            with(zip.extract("chr20.info.gz")) {
-                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            with(zip.extract("chr20.info.gz").csv(decompress: true, sep: "\t")) {
+                assert rowCount == TOTAL_REFPANEL_CHR20_B37
             }
 
         }
@@ -366,9 +368,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+            
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -405,27 +409,29 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
                 assert isValid()
                 assert isEncrypted()            
             }
-
-            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+            
+            def file = zip.extract("chr20.dose.vcf.gz").vcf
+            with(file) {
                 assert getChromosome() == "20"
                 assert getNoSamples() == 51;
                 assert isPhased()
-
+                TOTAL_REFPANEL_CHR20_B37 > getNoSnps()
             }
 
-            with(zip.extract("chr20.info.gz")) {
-                assert linesGzip.size() -1 == getNoSnps()
-                assert TOTAL_REFPANEL_CHR20_B37 > getNoSnps()
-            }            
+            with(zip.extract("chr20.info.gz").csv(decompress: true, sep: "\t")) {
+                assert rowCount == file.getNoSnps()
+            }       
           
         }
 
@@ -472,13 +478,16 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
 
-            def typed_only = file("${outputDir}/statistics/typed-only.txt");
-            assert typed_only.exists()
-            assert typed_only.readLines().size() == ONLY_IN_INPUT + 1
+            assert snapshot(
+                log.text,
+                file("${outputDir}/statistics/typed-only.txt").text,
+            ).match()
+
+            def typed_only = path("${outputDir}/statistics/typed-only.txt").csv
+            // TODO: why is rowCount not resulting 78? (file contains 78)
+            assert typed_only.rowCount == ONLY_IN_INPUT
 
         }
 
@@ -502,9 +511,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -541,9 +552,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -580,9 +593,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -619,9 +634,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -658,9 +675,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text
+            ).match()
 
             def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
             with(zip) {
@@ -905,7 +924,7 @@ nextflow_pipeline {
 
     }
 
-    test("Should run with pgs calculatio and category filter") {
+    test("Should run with pgs calculation and category filter") {
 
         when {
             params {
@@ -938,9 +957,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def quality_control_log = file("${outputDir}/cloudgene.report.json")
-            assert quality_control_log.exists()
-            assert quality_control_log.text.contains("Remaining sites in total: 7,735")
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text
+            ).match()
 
             def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
             
