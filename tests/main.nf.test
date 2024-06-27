@@ -1,10 +1,6 @@
-@Grab(group='net.lingala.zip4j', module='zip4j', version='2.11.5')
-
-import net.lingala.zip4j.ZipFile
-
 nextflow_pipeline {
 
-    def PASSWORD = "test-password"
+    def PASSWORD = "LHX:VO{_72o"
 	def TOTAL_REFPANEL_CHR20_B37 = 63402;
 	def TOTAL_REFPANEL_CHR20_B38 = 63384;
 	def TOTAL_REFPANEL_CHRX_B37 = 1479509;
@@ -95,6 +91,7 @@ nextflow_pipeline {
                 assert columnCount == 13
                 assert "Rsq" in columns
             }
+
         }
 
     }
@@ -145,6 +142,7 @@ nextflow_pipeline {
             with(zip.extract("chr20.info.gz")) {
                 assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
+
         }
 
     }
@@ -170,7 +168,6 @@ nextflow_pipeline {
 
     }
     
-    // this testcould be deleted later, since now phasing must be actively deactivated
     test("Should run with phased data and no phasing selected") {
 
         when {
@@ -193,18 +190,22 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51;
-            assert file.isPhased()
-            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
-            
-            //check correct number of snps in info.gz file
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
+
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            }
+
+            with(zip.extract("chr20.info.gz")) {
+                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+            }
 
         }
 
@@ -233,19 +234,22 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51;
-            assert file.isPhased()
-            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+            }
 
-            //check correct number of snps in info.gz file
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            with(zip.extract("chr20.info.gz")) {
+                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            }            
 
         }
 
@@ -278,6 +282,7 @@ nextflow_pipeline {
                 assert exists()
                 assert text.contains("Remaining sites in total: 7,735")
             }
+
             assert snapshot(log.text).match()
 
             assert !file("${outputDir}/chr_20.zip").exists()
@@ -288,7 +293,7 @@ nextflow_pipeline {
                 assert isPhased()
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
             }
-            
+
             with(path("${outputDir}/chr20.info.gz")) {
                 assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
             }
@@ -320,18 +325,24 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51;
-            assert file.isPhased()
-            assert file.getNoSnps() == TOTAL_REFPANEL_CHR20_B37
-            //check correct number of snps in info.gz file
-            assert path("${outputDir}/chr20.info.gz").linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
+
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+            }
+
+            with(zip.extract("chr20.info.gz")) {
+                assert linesGzip.size() == 1 + TOTAL_REFPANEL_CHR20_B37
+            }
 
         }
 
@@ -359,16 +370,18 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def header = path("${outputDir}/chr20.dose.vcf.gz").vcfHeader
-       
-            assert header.getOtherHeaderLine("mis_phasing").getValue() == params.phasing
-            assert header.getOtherHeaderLine("mis_pipeline").getKey()
-            assert header.getOtherHeaderLine("mis_panel").getKey()
+            with(zip.extract("chr20.dose.vcf.gz").vcfHeader) {
+                assert getOtherHeaderLine("mis_phasing").getValue() == params.phasing
+                assert getOtherHeaderLine("mis_pipeline").getKey()
+                assert getOtherHeaderLine("mis_panel").getKey()
+            }
+
         }
 
     }
@@ -396,20 +409,23 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51
-            assert file.isPhased()
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
 
-            def lines = path("${outputDir}/chr20.info.gz").linesGzip.size() - 1
-            assert file.getNoSnps() == lines
+            }
 
-            assert TOTAL_REFPANEL_CHR20_B37 > file.getNoSnps()
+            with(zip.extract("chr20.info.gz")) {
+                assert linesGzip.size() -1 == getNoSnps()
+                assert TOTAL_REFPANEL_CHR20_B37 > getNoSnps()
+            }            
           
         }
 
@@ -464,7 +480,6 @@ nextflow_pipeline {
             assert typed_only.exists()
             assert typed_only.readLines().size() == ONLY_IN_INPUT + 1
 
-
         }
 
     }
@@ -491,17 +506,18 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51
-            assert file.isPhased()
-
-            assert TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT == file.getNoSnps()
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT == getNoSnps()                
+            }
           
         }
 
@@ -529,17 +545,18 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51
-            assert file.isPhased()
-
-            assert TOTAL_REFPANEL_CHR20_B38 == file.getNoSnps()
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                TOTAL_REFPANEL_CHR20_B38 == getNoSnps()                
+            }
           
         }
 
@@ -567,17 +584,18 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51
-            assert file.isPhased()
-
-            assert TOTAL_REFPANEL_CHR20_B38 == file.getNoSnps()
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                TOTAL_REFPANEL_CHR20_B38 == getNoSnps()                
+            }
           
         }
 
@@ -605,17 +623,18 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51
-            assert file.isPhased()
-
-            assert TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT == file.getNoSnps()
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT == getNoSnps()                
+            }
           
         }
 
@@ -643,17 +662,18 @@ nextflow_pipeline {
             assert quality_control_log.exists()
             assert quality_control_log.text.contains("Remaining sites in total: 7,735")
 
-            def imputed_chr_20 = file("${outputDir}/chr_20.zip");
-            assert imputed_chr_20.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_20, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_20.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chr20.dose.vcf.gz").vcf
-            assert file.getChromosome() == "20"
-            assert file.getNoSamples() == 51
-            assert file.isPhased()
-
-            assert TOTAL_REFPANEL_CHR20_B37 == file.getNoSnps()
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert getChromosome() == "20"
+                assert getNoSamples() == 51;
+                assert isPhased()
+                TOTAL_REFPANEL_CHR20_B37 == getNoSnps()                
+            }
           
         }
 
@@ -677,17 +697,18 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def imputed_chr_X = file("${outputDir}/chr_X.zip");
-            assert imputed_chr_X.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_X.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chrX.dose.vcf.gz").vcf
-            assert file.getChromosome() == "X"
-            assert file.getNoSamples() == 26
-            assert file.isPhased()
-
-            assert TOTAL_REFPANEL_CHRX_B37 == file.getNoSnps()
+            with(zip.extract("chrX.dose.vcf.gz").vcf) {
+                assert getChromosome() == "X"
+                assert getNoSamples() == 26;
+                assert isPhased()
+                TOTAL_REFPANEL_CHRX_B37 == getNoSnps()                
+            }
           
         }
 
@@ -711,23 +732,28 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def imputed_chr_X = file("${outputDir}/chr_X.zip");
-            assert imputed_chr_X.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_X.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chrX.dose.vcf.gz").vcf
-            assert file.getChromosome() == "X"
-            assert file.getNoSamples() == 26
-            assert file.isPhased()
-            assert TOTAL_REFPANEL_CHRX_B37 == file.getNoSnps()
+            def dosage = zip.extract("chrX.dose.vcf.gz")
+
+            with(dosage.vcf) {
+                assert getChromosome() == "X"
+                assert getNoSamples() == 26;
+                assert isPhased()
+                TOTAL_REFPANEL_CHRX_B37 == getNoSnps()                
+            }
 
             // SNP 26963697 excluded from input and imputed! true genotypes:
      		// 1,1|1,1|1,1|1,1,1|1,1,1|1,1|1,1,0,1|1,1|0,1,1,1,1,1,1|1,1,1|1,1|1,1|1,1|1,1|1,1|0,
-            def line = getVcfLine(path("${outputDir}/chrX.dose.vcf.gz"), 26963697)
-            assert line.getHetCount() == 2
-            assert line.getHomRefCount() == 1
-            assert line.getHomVarCount() == 23
+            with(getVcfLine(dosage,26963697)) {
+                assert getHetCount() == 2
+                assert getHomRefCount() == 1
+                assert getHomVarCount() == 23          
+            }
           
         }
 
@@ -750,18 +776,20 @@ nextflow_pipeline {
 
         then {
             assert workflow.success
-            def imputed_chr_X = file("${outputDir}/chr_X.zip");
-            assert imputed_chr_X.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
 
-            def file = path("${outputDir}/chrX.dose.vcf.gz").vcf
-            assert file.getChromosome() == "X"
-            assert file.getNoSamples() == 26
-            assert file.isPhased()
+            def zip = zip("${outputDir}/chr_X.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            assert TOTAL_REFPANEL_CHRX_B38 == file.getNoSnps()
-          
+            with(zip.extract("chrX.dose.vcf.gz").vcf) {
+                assert getChromosome() == "X"
+                assert getNoSamples() == 26;
+                assert isPhased()
+                TOTAL_REFPANEL_CHRX_B38 == getNoSnps()                
+            }
+
         }
 
     }
@@ -782,19 +810,21 @@ nextflow_pipeline {
         }
 
         then {
+
             assert workflow.success
 
-            def imputed_chr_X = file("${outputDir}/chr_X.zip");
-            assert imputed_chr_X.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_X, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
+            def zip = zip("${outputDir}/chr_X.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
 
-            def file = path("${outputDir}/chrX.dose.vcf.gz").vcf
-            assert file.getChromosome() == "X"
-            assert file.getNoSamples() == 26
-            assert file.isPhased()
-
-            assert TOTAL_REFPANEL_CHRX_B38 == file.getNoSnps()
+            with(zip.extract("chrX.dose.vcf.gz").vcf) {
+                assert getChromosome() == "X"
+                assert getNoSamples() == 26;
+                assert isPhased()
+                TOTAL_REFPANEL_CHRX_B38 == getNoSnps()                
+            }
           
         }
 
@@ -816,17 +846,21 @@ nextflow_pipeline {
         }
 
         then {
-            assert workflow.success
-            def imputed_chr_MT = file("${outputDir}/chr_MT.zip");
-            assert imputed_chr_MT.exists()
-            ZipFile zipFile = new ZipFile(imputed_chr_MT, PASSWORD.toCharArray());
-            zipFile.extractAll("${outputDir}");
 
-            def file = path("${outputDir}/chrMT.dose.vcf.gz").vcf
-            assert file.getChromosome() == "MT"
-            assert file.getNoSamples() == 5435
-            assert file.isPhased()
-          
+            assert workflow.success
+
+            def zip = zip("${outputDir}/chr_MT.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
+
+            with(zip.extract("chrMT.dose.vcf.gz").vcf) {
+                assert getChromosome() == "MT"
+                assert getNoSamples() == 5435;
+                assert isPhased()
+            }
+
         }
 
     }    
@@ -868,6 +902,7 @@ nextflow_pipeline {
             def actual = csv("${outputDir}/scores.txt")
             assertTableEquals actual, expected
         }
+
     }
 
     test("Should run with pgs calculatio and category filter") {
@@ -917,7 +952,7 @@ nextflow_pipeline {
             } 
 
         }
-    }
 
+    }
 
 }
