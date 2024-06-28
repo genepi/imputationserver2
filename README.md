@@ -10,7 +10,7 @@ This repository includes the Michigan Imputation Server Workflow ported to Nextf
 The pipeline provides small test data to verify installation:
 
 ```
-nextflow run main.nf -c tests/test_single_vcf.config
+nextflow run main.nf -c conf/test_single_vcf.config
 ```
 
 ## Run with custom configuration
