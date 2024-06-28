@@ -78,7 +78,7 @@ nextflow_pipeline {
             
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
@@ -128,7 +128,7 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
@@ -199,7 +199,7 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
@@ -245,7 +245,7 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
             }
@@ -290,7 +290,7 @@ nextflow_pipeline {
 
             with(path("${outputDir}/chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
             }
@@ -337,7 +337,7 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
                 assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
             }
@@ -424,9 +424,9 @@ nextflow_pipeline {
             def file = zip.extract("chr20.dose.vcf.gz").vcf
             with(file) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
-                TOTAL_REFPANEL_CHR20_B37 > getNoSnps()
+                assert TOTAL_REFPANEL_CHR20_B37 > getNoSnps()
             }
 
             with(zip.extract("chr20.info.gz").csv(decompress: true, sep: "\t")) {
@@ -526,9 +526,9 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
-                TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT == getNoSnps()                
+                assert TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT == getNoSnps()                
             }
           
         }
@@ -567,9 +567,9 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
-                TOTAL_REFPANEL_CHR20_B38 == getNoSnps()                
+                assert TOTAL_REFPANEL_CHR20_B38 == getNoSnps()                
             }
           
         }
@@ -608,9 +608,9 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
-                TOTAL_REFPANEL_CHR20_B38 == getNoSnps()                
+                assert TOTAL_REFPANEL_CHR20_B38 == getNoSnps()                
             }
           
         }
@@ -649,9 +649,9 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51;
+                assert getNoSamples() == 51
                 assert isPhased()
-                TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT == getNoSnps()                
+                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT               
             }
           
         }
@@ -692,7 +692,7 @@ nextflow_pipeline {
                 assert getChromosome() == "20"
                 assert getNoSamples() == 51;
                 assert isPhased()
-                TOTAL_REFPANEL_CHR20_B37 == getNoSnps()                
+                assert TOTAL_REFPANEL_CHR20_B37 == getNoSnps()                
             }
           
         }
@@ -727,7 +727,7 @@ nextflow_pipeline {
                 assert getChromosome() == "X"
                 assert getNoSamples() == 26;
                 assert isPhased()
-                TOTAL_REFPANEL_CHRX_B37 == getNoSnps()                
+                assert TOTAL_REFPANEL_CHRX_B37 == getNoSnps()                
             }
           
         }
@@ -764,7 +764,7 @@ nextflow_pipeline {
                 assert getChromosome() == "X"
                 assert getNoSamples() == 26;
                 assert isPhased()
-                TOTAL_REFPANEL_CHRX_B37 == getNoSnps()                
+                assert TOTAL_REFPANEL_CHRX_B37 == getNoSnps()                
             }
 
             // SNP 26963697 excluded from input and imputed! true genotypes:
@@ -807,7 +807,7 @@ nextflow_pipeline {
                 assert getChromosome() == "X"
                 assert getNoSamples() == 26;
                 assert isPhased()
-                TOTAL_REFPANEL_CHRX_B38 == getNoSnps()                
+                assert TOTAL_REFPANEL_CHRX_B38 == getNoSnps()                
             }
 
         }
@@ -843,7 +843,7 @@ nextflow_pipeline {
                 assert getChromosome() == "X"
                 assert getNoSamples() == 26;
                 assert isPhased()
-                TOTAL_REFPANEL_CHRX_B38 == getNoSnps()                
+                assert TOTAL_REFPANEL_CHRX_B38 == getNoSnps()                
             }
           
         }
