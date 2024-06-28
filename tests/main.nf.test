@@ -472,6 +472,7 @@ nextflow_pipeline {
                 r2Filter = 0.5
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
+                mode = "qc-only"
             }
         }
 
@@ -484,11 +485,11 @@ nextflow_pipeline {
                 log.text,
                 file("${outputDir}/statistics/typed-only.txt").text,
             ).match()
-
-            def typed_only = path("${outputDir}/statistics/typed-only.txt").csv
-            // TODO: why is rowCount not resulting 78? (file contains 78)
+            
+            // file starts with #, which is ignored by Tablesaw (also not used as header)
+            def typed_only = path("${outputDir}/statistics/typed-only.txt").csv(header: false)
             assert typed_only.rowCount == ONLY_IN_INPUT
-
+  
         }
 
     }
