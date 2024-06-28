@@ -1,0 +1,76 @@
+nextflow_pipeline {
+
+	def ONLY_IN_INPUT = 78;
+
+    name "Pipeline Tests for Quality Control"
+    script "main.nf"
+
+    test("Should run QC-only") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+            }   
+        }
+
+        then {
+            assert workflow.success
+
+            assert !file("${outputDir}/chr_20.zip").exists()
+            assert !file("${outputDir}/chr20.dose.vcf.gz").exists()
+
+            def log = file("${outputDir}/cloudgene.report.json")
+            
+            assert snapshot(
+                log.text,
+                file("${outputDir}/statistics/typed-only.txt").text,
+                file("${outputDir}/statistics/snps-excluded.txt").text
+            ).match()
+       
+        }
+
+    }
+
+    test("Should write typed only sites") {
+
+        when {
+            params {
+                project  = "testWriteTypedSitesOnly"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-unphased/*.vcf.gz"
+                population = "eur"
+                phasing = "eagle"
+                password = PASSWORD
+                r2Filter = 0.5
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                mode = "qc-only"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def log = file("${outputDir}/cloudgene.report.json")
+
+            assert snapshot(
+                log.text,
+                file("${outputDir}/statistics/typed-only.txt").text,
+            ).match()
+            
+            // file starts with #, which is ignored by Tablesaw (also not used as header)
+            with(path("${outputDir}/statistics/typed-only.txt").csv(header: false)) {
+                assert rowCount == ONLY_IN_INPUT
+            }
+  
+        }
+
+    }    
+    
+}

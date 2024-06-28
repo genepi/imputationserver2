@@ -7,18 +7,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:22:06.24788"
-    },
-    "Should write typed only sites": {
-        "content": [
-            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.unphased.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]",
-            "#Position\n20:161502:C:T\n20:775376:T:G\n20:775842:C:T\n20:1438230:C:T\n20:2638579:T:C\n20:3193842:C:A\n20:3580168:G:A\n20:3811433:T:C\n20:4063862:A:G\n20:4578080:G:A\n20:7541572:A:G\n20:7581461:T:G\n20:7928922:A:G\n20:8364799:G:T\n20:10243251:T:C\n20:11005238:A:C\n20:12173825:T:C\n20:13290738:T:C\n20:13582476:A:C\n20:13650883:T:G\n20:13929943:C:T\n20:13998098:G:A\n20:14794361:A:G\n20:14921606:G:A\n20:16066764:G:A\n20:16070941:C:T\n20:16116624:G:A\n20:16120763:A:G\n20:17596155:C:A\n20:17600357:G:A\n20:17845755:T:C\n20:18284404:C:T\n20:18389203:T:C\n20:19025636:C:T\n20:20130511:T:C\n20:20516020:T:C\n20:21628586:C:T\n20:21863397:A:G\n20:21939656:C:T\n20:23682810:A:G\n20:23725019:A:G\n20:24261606:T:C\n20:24691928:T:G\n20:24955981:T:C\n20:25136824:A:G\n20:25948327:A:G\n20:26307797:T:C\n20:31590686:C:A\n20:35673056:C:T\n20:39048873:A:C\n20:39792063:A:G\n20:40093956:A:C\n20:40387411:T:C\n20:40706295:T:C\n20:43506247:G:A\n20:43668473:G:A\n20:44011546:C:T\n20:46332216:T:C\n20:46435339:T:C\n20:47263751:T:C\n20:47479776:C:T\n20:48143362:T:C\n20:48403371:T:C\n20:50395283:T:C\n20:50475418:G:A\n20:53251910:G:A\n20:53515863:C:A\n20:54264333:C:T\n20:54692704:A:G\n20:54961463:T:C\n20:56637477:A:G\n20:57304273:C:T\n20:58098827:G:A\n20:58114167:T:C\n20:59121456:A:G\n20:61381218:G:A\n20:61644330:A:G\n20:61706750:C:T"
-        ],
-        "meta": {
-            "nf-test": "0.9.0-rc2",
-            "nextflow": "24.04.2"
-        },
-        "timestamp": "2024-06-27T17:18:25.930449"
+        "timestamp": "2024-06-28T10:50:38.953286"
     },
     "Should run without phasing from hg38 to hg19": {
         "content": [
@@ -28,17 +17,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:21:05.867433"
-    },
-    "Should run with pgs calculation and category filter": {
-        "content": [
-            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.unphased.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
-        ],
-        "meta": {
-            "nf-test": "0.9.0-rc2",
-            "nextflow": "24.04.2"
-        },
-        "timestamp": "2024-06-28T07:23:02.742858"
+        "timestamp": "2024-06-28T10:49:38.378276"
     },
     "Should run with eagle": {
         "content": [
@@ -48,7 +27,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:15:29.276304"
+        "timestamp": "2024-06-28T10:44:43.028162"
     },
     "Should run with phased data and no phasing selected": {
         "content": [
@@ -58,7 +37,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:14:29.443302"
+        "timestamp": "2024-06-28T10:43:42.937945"
     },
     "Should run with phased data from hg19 to hg38": {
         "content": [
@@ -68,7 +47,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:18:45.048736"
+        "timestamp": "2024-06-28T10:47:16.524003"
     },
     "Should run with beagle": {
         "content": [
@@ -78,17 +57,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:31:01.794722"
-    },
-    "Should run with eagle and without encryption and compression": {
-        "content": [
-            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.04.3"
-        },
-        "timestamp": "2024-06-15T14:38:57.145373"
+        "timestamp": "2024-06-28T10:46:09.539294"
     },
     "Should run with phased data": {
         "content": [
@@ -98,7 +67,17 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:13:49.207257"
+        "timestamp": "2024-06-28T10:43:01.868322"
+    },
+    "Should run with eagle and without encryption and compression": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:45:43.39791"
     },
     "Should run with eagle from hg19 to hg38": {
         "content": [
@@ -108,7 +87,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:19:45.920178"
+        "timestamp": "2024-06-28T10:48:17.754643"
     },
     "Should run with eagle and r2 filter": {
         "content": [
@@ -118,7 +97,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:17:16.827575"
+        "timestamp": "2024-06-28T10:46:49.355036"
     },
     "Should run with phased data and meta option": {
         "content": [
@@ -128,7 +107,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:14:08.6461"
+        "timestamp": "2024-06-28T10:43:21.751227"
     },
     "Should run with eagle and validate header": {
         "content": [
@@ -138,7 +117,7 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:16:56.826381"
+        "timestamp": "2024-06-28T10:46:28.955952"
     },
     "Should run with eagle from hg38 to hg38": {
         "content": [
@@ -148,18 +127,6 @@
             "nf-test": "0.9.0-rc2",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-27T17:20:46.40927"
-    },
-    "Should run QC-only": {
-        "content": [
-            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]",
-            "#Position\n20:161502:C:T\n20:775376:T:G\n20:775842:C:T\n20:1438230:C:T\n20:2638579:T:C\n20:3193842:C:A\n20:3580168:G:A\n20:3811433:T:C\n20:4063862:A:G\n20:4578080:G:A\n20:7541572:A:G\n20:7581461:T:G\n20:7928922:A:G\n20:8364799:G:T\n20:10243251:T:C\n20:11005238:A:C\n20:12173825:T:C\n20:13290738:T:C\n20:13582476:A:C\n20:13650883:T:G\n20:13929943:C:T\n20:13998098:G:A\n20:14794361:A:G\n20:14921606:G:A\n20:16066764:G:A\n20:16070941:C:T\n20:16116624:G:A\n20:16120763:A:G\n20:17596155:C:A\n20:17600357:G:A\n20:17845755:T:C\n20:18284404:C:T\n20:18389203:T:C\n20:19025636:C:T\n20:20130511:T:C\n20:20516020:T:C\n20:21628586:C:T\n20:21863397:A:G\n20:21939656:C:T\n20:23682810:A:G\n20:23725019:A:G\n20:24261606:T:C\n20:24691928:T:G\n20:24955981:T:C\n20:25136824:A:G\n20:25948327:A:G\n20:26307797:T:C\n20:31590686:C:A\n20:35673056:C:T\n20:39048873:A:C\n20:39792063:A:G\n20:40093956:A:C\n20:40387411:T:C\n20:40706295:T:C\n20:43506247:G:A\n20:43668473:G:A\n20:44011546:C:T\n20:46332216:T:C\n20:46435339:T:C\n20:47263751:T:C\n20:47479776:C:T\n20:48143362:T:C\n20:48403371:T:C\n20:50395283:T:C\n20:50475418:G:A\n20:53251910:G:A\n20:53515863:C:A\n20:54264333:C:T\n20:54692704:A:G\n20:54961463:T:C\n20:56637477:A:G\n20:57304273:C:T\n20:58098827:G:A\n20:58114167:T:C\n20:59121456:A:G\n20:61381218:G:A\n20:61644330:A:G\n20:61706750:C:T",
-            "#Position\tFilterType\t Info\n20:2187430:G:A\tMonomorphic\n20:24404652:C:T\tMonomorphic\n20:24424220:C:T\tMonomorphic\n20:25282967:C:T\tMonomorphic\n20:39005139:C:T\tMonomorphic\n20:45867852:A:G\tMonomorphic\n20:45873923:C:T\tMonomorphic\n20:48575315:C:T\tMonomorphic\n20:52269701:C:A\tMonomorphic\n20:54179856:G:T\tMonomorphic\n20:59363320:G:A\tMonomorphic"
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.04.3"
-        },
-        "timestamp": "2024-06-15T15:37:22.79833"
+        "timestamp": "2024-06-28T10:49:18.6986"
     }
 }
