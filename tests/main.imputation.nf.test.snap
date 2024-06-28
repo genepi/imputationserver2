@@ -1,0 +1,132 @@
+{
+    "Should run with eagle from hg38 to hg19": {
+        "content": [
+            "[{\"command\":\"MESSAGE\",\"params\":[\"Uploaded data is hg38 and reference is hg19.\",2]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Lift Over...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Lift Over [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.unphased.small.hg38.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Lift Over\",0]},{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.unphased.small.hg38.vcf.gz.lifted.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:50:38.953286"
+    },
+    "Should run without phasing from hg38 to hg19": {
+        "content": [
+            "[{\"command\":\"MESSAGE\",\"params\":[\"Uploaded data is hg38 and reference is hg19.\",2]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Lift Over...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Lift Over [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.hg38.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Lift Over\",0]},{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.hg38.vcf.gz.lifted.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:49:38.378276"
+    },
+    "Should run with eagle": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:44:43.028162"
+    },
+    "Should run with phased data and no phasing selected": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:43:42.937945"
+    },
+    "Should run with phased data from hg19 to hg38": {
+        "content": [
+            "[{\"command\":\"MESSAGE\",\"params\":[\"Uploaded data is hg19 and reference is hg38.\",2]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Lift Over...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Lift Over [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Lift Over\",0]},{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz.lifted.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:47:16.524003"
+    },
+    "Should run with beagle": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:46:09.539294"
+    },
+    "Should run with phased data": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:43:01.868322"
+    },
+    "Should run with eagle and without encryption and compression": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:45:43.39791"
+    },
+    "Should run with eagle from hg19 to hg38": {
+        "content": [
+            "[{\"command\":\"MESSAGE\",\"params\":[\"Uploaded data is hg19 and reference is hg38.\",2]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Lift Over...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Lift Over [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.unphased.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Lift Over\",0]},{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.unphased.small.vcf.gz.lifted.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:48:17.754643"
+    },
+    "Should run with eagle and r2 filter": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:46:49.355036"
+    },
+    "Should run with phased data and meta option": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:43:21.751227"
+    },
+    "Should run with eagle and validate header": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:46:28.955952"
+    },
+    "Should run with eagle from hg38 to hg38": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.unphased.small.hg38.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-28T10:49:18.6986"
+    }
+}
