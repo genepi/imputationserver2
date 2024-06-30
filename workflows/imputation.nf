@@ -27,7 +27,11 @@ workflow IMPUTATION {
 
     MINIMAC4 ( 
         phased_m3vcf_ch, 
-        minimac_map
+        minimac_map,
+        params.refpanel.build,        
+        params.imputation.window,
+        params.imputation.minimac_min_ratio,
+        params.imputation.min_r2
     )
 
     imputed_chunks_modified = MINIMAC4.out.imputed_chunks.
