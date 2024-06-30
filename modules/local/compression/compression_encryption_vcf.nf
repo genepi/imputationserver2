@@ -21,14 +21,13 @@ process COMPRESSION_ENCRYPTION_VCF {
     def imputed_name = "${prefix}.dose.vcf.gz"
     def meta_name = "${prefix}.empiricalDose.vcf.gz"
     def zip_name = "chr_${chr}.zip"
-    def info_name = "${prefix}.info"
+    def info_name = "${prefix}.info.gz"
     def aes = params.encryption.aes ? "-mem=AES256" : ""
     def panel_version = params.refpanel.id
     
     """  
     # concat info files 
-    csvtk concat ${info_joined} > ${info_name}
-    bgzip ${info_name}
+    bcftools concat --threads ${task.cpus} -n ${info_joined} -o ${info_name} -Oz
     
     # concat dosage files and update header 
     bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz

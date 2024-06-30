@@ -7,7 +7,7 @@ category: RefPanel
 properties:
   id: hapmap2-chr20
   build: hg19
-  genotypes: ${app_local_folder}/m3vcfs/hapmap_r22.chr$chr.CEU.hg19.recode.m3vcf.gz
+  genotypes: ${app_local_folder}/msavs/hapmap_r22.chr$chr.CEU.hg19.msav
   legend: ${app_local_folder}/legends/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz
   mapEagle: ${app_local_folder}/map/genetic_map_hg19_withX.txt.gz
   refEagle: ${app_local_folder}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf

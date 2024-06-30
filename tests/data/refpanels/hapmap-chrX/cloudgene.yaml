@@ -1,7 +1,7 @@
 properties:
   id: phase1
   build: hg19
-  genotypes: ${app_local_folder}/m3vcfs/$chr.1000g.Phase1.v3.With.Parameter.Estimates.m3vcf.gz
+  genotypes: ${app_local_folder}/msavs/$chr.1000g.Phase1.v3.With.Parameter.Estimates.msav
   legend: ${app_local_folder}/legends/1000g_chr$chr_impute.legend.gz
   mapEagle: ${app_local_folder}/map/genetic_map_hg19_withX.txt.gz
   populations:
