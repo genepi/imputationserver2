@@ -31,7 +31,7 @@ workflow IMPUTATION {
         params.refpanel.build,        
         params.imputation.window,
         params.imputation.minimac_min_ratio,
-        params.r2Filter
+        params.imputation.min_r2
     )
 
     imputed_chunks_modified = MINIMAC4.out.imputed_chunks.
