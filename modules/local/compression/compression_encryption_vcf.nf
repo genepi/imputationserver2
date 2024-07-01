@@ -36,7 +36,6 @@ process COMPRESSION_ENCRYPTION_VCF {
     echo "##mis_panel=${panel_version}" >> add_header.txt
     bcftools annotate --threads ${task.cpus} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
     rm intermediate_${imputed_name}
-    tabix ${imputed_name}
 
     # write meta files
     if [[ "${params.meta}" = true ]]
@@ -45,17 +44,23 @@ process COMPRESSION_ENCRYPTION_VCF {
         tabix ${meta_name}
     fi
 
+    # create tabix files
+    if [[ "${params.config.create_index}" = true ]]
+    then
+        tabix ${imputed_name}
+    fi    
+  
     # zip files
     if [[ "${params.encryption.enabled}" = true ]]
     then    
         7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
-        rm *vcf.gz* *info.gz
+        rm *vcf.gz* *info.gz add_header.txt
     fi
 
     if [[ "${params.md5}" = true ]]
     then
         md5sum ${zip_name} > ${zip_name}.md5
     fi
-    """
- 
+
+    """ 
 }
