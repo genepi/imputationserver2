@@ -56,10 +56,17 @@ process COMPRESSION_ENCRYPTION_VCF {
         7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
         rm *vcf.gz* *info.gz add_header.txt
     fi
-
-    if [[ "${params.md5}" = true ]]
+    
+    # create md5 of zip file
+    if [[ "${params.encryption.enabled}" = true && "${params.md5}" = true ]]
     then
         md5sum ${zip_name} > ${zip_name}.md5
+    fi
+
+    # create md5 of imputed file
+    if [[ "${params.encryption.enabled}" = false && "${params.md5}" = true ]]
+    then
+        md5sum ${imputed_name} > ${imputed_name}.md5
     fi
 
     """ 
