@@ -24,33 +24,60 @@ workflow:
           name: "${CLOUDGENE_SERVICE_NAME}"
           email: "${CLOUDGENE_CONTACT_EMAIL}"
           url: "${CLOUDGENE_SERVICE_URL}"
+      groups:
+        - id: validation
+          label: "Input Validation"
+        - id: qc
+          label: "Quality Control"          
+        - id: imputation
+          label: "Imputation and Phasing"
+        - id: pgs
+          label: "Polygenic Scores"                           
       processes:
         - process: "IMPUTATIONSERVER:INPUT_VALIDATION:INPUT_VALIDATION_VCF"
+          view: status
           label: "Input Validation"
+          group: "validation"
         - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
+          view: status
           label: "Quality Control"
+          group: "qc"
         - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
+          view: status
           label: "Quality Control Report"
+          group: "qc"
         - process: "IMPUTATIONSERVER:PHASING:EAGLE"
           view: progressbar
           label: "Phasing"
+          group: "imputation"
         - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:FILTER_BY_CATEGORY"
+          group: "imputation"
+        - process: "IMPUTATIONSERVER:PGS_CALCULATION:FILTER_BY_CATEGORY"        
+          view: label
           label: "Prepare Polygenic Scores"
+          group: "pgs"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
           view: progressbar
           label: "Calculate Polygenic Scores"
+          group: "pgs"
         - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
+          view: label
           label: "Compression and Encryption"
+          group: "pgs"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_SCORES"
+          view: label
           label: "Merge Polygenic Scores"
+          group: "pgs"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_INFOS"
+          view: label
           label: "Analyze Polygenic Scores "
+          group: "pgs"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:CREATE_HTML_REPORT"
+          view: label
           label: "Create Ploygenic Score Report"
-
+          group: "pgs"
   inputs:
     - id: refpanel
       description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
