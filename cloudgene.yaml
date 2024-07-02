@@ -30,7 +30,7 @@ workflow:
         - id: compression
           label: "Compression and Encryption"
       processes:
-        - process: INPUT_VALIDATION:INPUT_VALIDATION_VCF"
+        - process: "INPUT_VALIDATION:INPUT_VALIDATION_VCF"
           view: status
           label: "Input Validation"
           group: "validation"
