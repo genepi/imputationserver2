@@ -119,37 +119,46 @@ workflow.onComplete {
     //TODO: use templates
     //TODO: move in EmailHelper class
     //see https://www.nextflow.io/docs/latest/mail.html for configuration etc...
-   
+    // Nfcore Template: https://github.com/nf-core/rnaseq/blob/b89fac32650aacc86fcda9ee77e00612a1d77066/lib/NfcoreTemplate.groovy#L155
+
     def report = new CloudgeneReport()
    
-    //job failed
     if (!workflow.success) {
         if (params.config.send_mail){
             sendMail{
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} failed."
-                body "Hi ${params.user.name}, the job failed :("
+                body "Dear ${params.user.name}, \n Unfortunately, your job failed.\n\n More details about the errors can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
-        report.error("Imputation failed.")
-        return
-    }
-
-    //job successful
-    //TODO: check if encrpytion.emnabled. otherweise send email/or report ok without password
-    if (params.config.send_mail){
-        sendMail{
-            to "${params.user.email}"
-            subject "[${params.service.name}] Job ${params.project} is complete."
-            body "Hi ${params.user.name}, how are you! The password is: ${params.encryption_password}"
-        }
-        report.ok("Sent email with password to <b>${params.user.email}</b>")
+        report.ok("Imputation failed. We have sent a notification email to <b>${params.user.email}</b>") report.error("Imputation failed.")
     } else {
-        //TODO: simplify. cloudgene sets as "true". nextflow as true.
-        if ((params.merge_results === true ||  params.merge_results === "true") &&
+        // imputation results
+        if ((params.merge_results === true || params.merge_results === "true") &&
             (params.encryption.enabled === true || params.encryption.enabled === "true")) {
-            report.ok("Encrypted results with password <b>${params.encryption_password}</b>")
-        }    
+            
+            if (params.config.send_mail) {
+                sendMail{
+                    to "${params.user.email}"
+                    subject "[${params.service.name}] Job ${params.project} is complete."
+                    body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+                }
+                report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
+            } else {
+                report.ok("Data have been exported successfully. We encrypted the results with the following password <b>${params.encryption_password}</b>")
+            }
+        //PGS results
+        } else {
+            if (params.config.send_mail) {
+                sendMail{
+                    to "${params.user.email}"
+                    subject "[${params.service.name}] Job ${params.project} is complete."
+                    body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+                }
+                report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
+            } else {
+                report.ok("Data have been exported successfully.")
+            }
+        }
     }
-    report.ok("Done.")
 }
