@@ -34,47 +34,51 @@ workflow:
         - id: pgs
           label: "Polygenic Scores"                           
       processes:
-        - process: "IMPUTATIONSERVER:INPUT_VALIDATION:INPUT_VALIDATION_VCF"
+        - process: "INPUT_VALIDATION:INPUT_VALIDATION_VCF"
           view: status
           label: "Input Validation"
           group: "validation"
-        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
+        - process: "QUALITY_CONTROL:QUALITY_CONTROL_VCF"
           view: status
           label: "Quality Control"
           group: "qc"
-        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
+        - process: "QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
           view: status
           label: "Quality Control Report"
           group: "qc"
-        - process: "IMPUTATIONSERVER:PHASING:EAGLE"
+        - process: "PHASING:EAGLE"
           view: progressbar
-          label: "Phasing"
+          label: "Phasing with Eagle"
           group: "imputation"
-        - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
+        - process: "PHASING:BEAGLE"
+          view: progressbar
+          label: "Phasing with Beagle"
+          group: "imputation"
+        - process: "IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
           group: "imputation"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:FILTER_BY_CATEGORY"        
+        - process: "PGS_CALCULATION:FILTER_BY_CATEGORY"        
           view: label
           label: "Prepare Polygenic Scores"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
+        - process: "PGS_CALCULATION:CALCULATE_CHUNKS"
           view: progressbar
           label: "Calculate Polygenic Scores"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
+        - process: "ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           view: label
           label: "Compression and Encryption"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_SCORES"
+        - process: "PGS_CALCULATION:MERGE_CHUNKS_SCORES"
           view: label
           label: "Merge Polygenic Scores"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_INFOS"
+        - process: "PGS_CALCULATION:MERGE_CHUNKS_INFOS"
           view: label
           label: "Analyze Polygenic Scores "
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CREATE_HTML_REPORT"
+        - process: "PGS_CALCULATION:CREATE_HTML_REPORT"
           view: label
           label: "Create Ploygenic Score Report"
           group: "pgs"
