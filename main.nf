@@ -40,6 +40,13 @@ Channel
     .fromPath(params.files)
     .set {files}
 
+files.ifEmpty {
+    def report = new CloudgeneReport()
+    error("Error: No vcf.gz input files detected.")
+    report.error("No vcf.gz input files detected.")
+    exit 1
+}
+
 // Find legend files from full pattern and make legend file pattern relative
 params.refpanel.legend_pattern = "${params.refpanel.legend}"
 params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
@@ -140,7 +147,7 @@ workflow.onComplete {
                 body "Dear ${params.user.name}, \n Your job has failed.\n\n More details about the errors can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
-        report.error("Imputation failed. We have sent a notification email to <b>${params.user.email}</b>")
+        report.error("Imputation failed.")
         return
     }
 

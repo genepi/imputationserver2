@@ -1,0 +1,26 @@
+nextflow_pipeline {
+
+    name "Pipeline Tests for Input Validation"
+    script "main.nf"
+
+    test("Should fail due to wrong path") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gzz"
+                population = "eur"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+            }   
+        }
+
+        then {
+            assert workflow.failed
+        }
+
+    }
+
+}
