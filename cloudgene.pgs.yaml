@@ -43,7 +43,7 @@ workflow:
           label: "Quality Control"
           group: "qc"
         - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
-          view: status
+          view: label
           label: "Quality Control Report"
           group: "qc"
         - process: "IMPUTATIONSERVER:PHASING:EAGLE"
