@@ -124,41 +124,44 @@ workflow.onComplete {
     def report = new CloudgeneReport()
    
     if (!workflow.success) {
-        if (params.config.send_mail){
+        if (params.config.send_mail && params.user.email != null){
             sendMail{
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} failed."
-                body "Dear ${params.user.name}, \n Unfortunately, your job failed.\n\n More details about the errors can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+                body "Dear ${params.user.name}, \n Your job has failed.\n\n More details about the errors can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
-        report.ok("Imputation failed. We have sent a notification email to <b>${params.user.email}</b>") report.error("Imputation failed.")
-    } else {
-        // imputation results
-        if ((params.merge_results === true || params.merge_results === "true") &&
-            (params.encryption.enabled === true || params.encryption.enabled === "true")) {
-            
-            if (params.config.send_mail) {
-                sendMail{
-                    to "${params.user.email}"
-                    subject "[${params.service.name}] Job ${params.project} is complete."
-                    body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
-                }
-                report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
-            } else {
-                report.ok("Data have been exported successfully. We encrypted the results with the following password <b>${params.encryption_password}</b>")
-            }
-        //PGS results
-        } else {
-            if (params.config.send_mail) {
-                sendMail{
-                    to "${params.user.email}"
-                    subject "[${params.service.name}] Job ${params.project} is complete."
-                    body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
-                }
-                report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
-            } else {
-                report.ok("Data have been exported successfully.")
-            }
-        }
+        report.error("Imputation failed. We have sent a notification email to <b>${params.user.email}</b>")
+        return
     }
+
+    // imputation job
+    if ((params.merge_results === true || params.merge_results === "true") &&
+        (params.encryption.enabled === true || params.encryption.enabled === "true")) {       
+
+        if (params.config.send_mail && params.user.email != null) {
+            sendMail{
+                to "${params.user.email}"
+                subject "[${params.service.name}] Job ${params.project} is complete."
+                body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+            }
+            report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
+        } else {
+            report.ok("Data have been exported successfully. We encrypted the results with the following password <b>${params.encryption_password}</b>")
+        }
+        return
+    }
+
+    //PGS job
+    if (params.config.send_mail && params.user.email != null) {
+        sendMail{
+            to "${params.user.email}"
+            subject "[${params.service.name}] Job ${params.project} is complete."
+            body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+        }
+        report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
+    } else {
+        report.ok("Data have been exported successfully.")
+    }
+ 
 }
