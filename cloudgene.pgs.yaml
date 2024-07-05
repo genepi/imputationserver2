@@ -55,7 +55,7 @@ workflow:
           label: "Imputation"
           group: "imputation"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:FILTER_BY_CATEGORY"        
-          view: label
+          view: status
           label: "Prepare Polygenic Scores"
           group: "pgs"
         - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
@@ -178,6 +178,7 @@ workflow:
       type: app_list
       required: false
       category: AncestryPanel
+      emptySelection: Disabled
 
     - id: myseparator
       type: separator
