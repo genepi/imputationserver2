@@ -9,9 +9,9 @@ process CREATE_HTML_REPORT {
     path(estimated_ancestry)
 
     output:
-    path "scores/*.html"
-    path "*.html", emit: html_report
-    path "*.coverage", emit: coverage_report
+    path "scores.html", emit: html_report
+    path "scores.report.zip", emit: zip_report
+    path "scores.coverage", emit: coverage_report
 
     script:
     samples = (params.ancestry != null && params.ancestry != "" && params.ancestry.enabled) ? "--samples ${estimated_ancestry}" : ""
@@ -38,6 +38,9 @@ process CREATE_HTML_REPORT {
         --template multi-page \
         $samples \
         --out scores.details.html
+
+    7z a scores.report.zip scores.details.html scores
+    rm -rf scores.details.html scores
 
     java -Xmx${avail_mem}M -jar /opt/pgs-calc/pgs-calc.jar \
         report \
