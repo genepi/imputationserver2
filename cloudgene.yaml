@@ -1,9 +1,9 @@
 id: imputationserver
-name: Genotype Imputation (Minimac4)
+name: Genotype Imputation
 description: This is the new Michigan Imputation Server Pipeline using <a href="https://github.com/statgen/Minimac4">Minimac4</a>. Documentation can be found <a href="http://imputationserver.readthedocs.io/en/latest/">here</a>.<br><br>If your input data is <b>GRCh37/hg19</b> please ensure chromosomes are encoded without prefix  (e.g. <b>20</b>).<br>If your input data is <b>GRCh38hg38</b> please ensure chromosomes are encoded with prefix 'chr' (e.g. <b>chr20</b>).
 version: 2.0.0-dev
 website: https://imputationserver.readthedocs.io
-category:
+category: Application
 
 workflow:
   steps:
@@ -13,6 +13,7 @@ workflow:
       # params without UI
       params:
         project: "${CLOUDGENE_JOB_NAME}"
+        files: "${uploaded_files}/*.vcf.gz"
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -39,7 +40,7 @@ workflow:
           label: "Quality Control"
           group: "qc"
         - process: "QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
-          view: status
+          view: label
           label: "Quality Control Report"          
           group: "qc"
         - process: "PHASING:EAGLE"
@@ -65,10 +66,10 @@ workflow:
       type: app_list
       category: RefPanel
 
-    - id: files
+    - id: uploaded_files
       description: Input Files (<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41" target="_blank">VCF</a>)
-      type: local-folder
-      pattern: "*.vcf.gz"
+      type: local_folder
+      serialize: false
 
     - id: build
       description: Array Build
@@ -147,6 +148,6 @@ workflow:
   outputs:
     - id: output
       description: Output
-      type: local-folder
+      type: local_folder
       download: true
       temp: false

@@ -3,7 +3,7 @@ name: Polygenic Score Calculation
 description: "You can upload genotyped data and the application imputes your genotypes, performs ancestry estimation and finally calculates Polygenic Risk Scores.<br><br>No dataset at hand? No problem, download our example dataset: <a href=\"https://imputationserver.sph.umich.edu/resources/50-samples.zip\" class=\"btn btn-sm btn-secondary\" style=\"color:#ffffff !important\"><i class=\"fa fa-file\"></i> 50-samples.zip</a><br><br>"
 version: 2.0.0-dev
 website: https://imputationserver.readthedocs.io
-category:
+category: Application
 
 workflow:
   steps:
@@ -13,6 +13,7 @@ workflow:
       # params without UI
       params:
         project: "${CLOUDGENE_JOB_NAME}"
+        files: "${uploaded_files}/*.vcf.gz"
         pgs:
           enabled: true
           category: "${pgs_category}"
@@ -43,7 +44,7 @@ workflow:
           label: "Quality Control"
           group: "qc"
         - process: "QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
-          view: status
+          view: label
           label: "Quality Control Report"
           group: "qc"
         - process: "PHASING:EAGLE"
@@ -59,7 +60,7 @@ workflow:
           label: "Imputation"
           group: "imputation"
         - process: "PGS_CALCULATION:FILTER_BY_CATEGORY"        
-          view: label
+          view: status
           label: "Prepare Polygenic Scores"
           group: "pgs"
         - process: "PGS_CALCULATION:CALCULATE_CHUNKS"
@@ -82,16 +83,17 @@ workflow:
           view: label
           label: "Create Ploygenic Score Report"
           group: "pgs"
+
   inputs:
     - id: refpanel
       description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
       type: app_list
       category: RefPanel
 
-    - id: files
+    - id: uploaded_files
       description: Input Files (<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41" target="_blank">VCF</a>)
-      type: local-folder
-      pattern: "*.vcf.gz"
+      type: local_folder
+      serialize: false
 
     - id: build
       description: Array Build
@@ -157,7 +159,7 @@ workflow:
       visible: true
 
     - id: myseparator0
-      type: separator
+      type: group
 
     - id: info2
       type: info
@@ -176,12 +178,14 @@ workflow:
         bind: pgscatalog
         property: categories
         category: PGSPanel
+      serialize: false
 
     - id: ancestry
       description: Ancestry Estimation
       type: app_list
       required: false
       category: AncestryPanel
+      emptySelection: Disabled
 
     - id: myseparator
       type: separator
@@ -197,6 +201,6 @@ workflow:
   outputs:
     - id: output
       description: Output
-      type: local-folder
+      type: local_folder
       download: true
       temp: false
