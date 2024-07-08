@@ -74,7 +74,7 @@ workflow {
 
     println "Welcome to ${params.service.name}"
 
-    if (params.imputation.enabled){ 
+    if (params.imputation.enabled){
 
         INPUT_VALIDATION()
         
@@ -83,7 +83,7 @@ workflow {
             legend_files_ch.collect()
         )
 
-        if (params.mode != 'qc-only') {
+        if (params.mode == 'imputation') {
 
             phased_ch =  QUALITY_CONTROL.out.qc_metafiles
 
@@ -96,20 +96,17 @@ workflow {
                 phased_ch = PHASING.out.phased_ch
 
             }
-     
-        
-            if (params.mode == 'imputation') {
+                 
+            IMPUTATION(
+                phased_ch
+            )
             
-                IMPUTATION(
-                    phased_ch
+            if (params.merge_results === true) {
+                ENCRYPTION(
+                    IMPUTATION.out.groupTuple()
                 )
-                
-                if (params.merge_results === true || params.merge_results === "true") {
-                    ENCRYPTION(
-                        IMPUTATION.out.groupTuple()
-                    )
-                }
             }
+            
         }
     }
     
@@ -152,8 +149,7 @@ workflow.onComplete {
     }
 
     // imputation job
-    if ((params.merge_results === true || params.merge_results === "true") &&
-        (params.encryption.enabled === true || params.encryption.enabled === "true")) {       
+    if (params.merge_results === true && params.encryption.enabled === true) {
 
         if (params.config.send_mail && params.user.email != null) {
             sendMail{
