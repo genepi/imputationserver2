@@ -14,6 +14,12 @@ workflow:
       params:
         project: "${CLOUDGENE_JOB_NAME}"
         files: "${uploaded_files}/*.vcf.gz"
+        mode: "imputation"
+        population: "mixed"
+        phasing: "eagle"
+        meta: false
+        encryption:
+          aes: false
         pgs:
           enabled: true
           category: "${pgs_category}"
@@ -120,57 +126,11 @@ workflow:
     - id: r2Filter
       description: rsq Filter
       type: list
-      value: 0
+      value: 0.3
       values:
         0: off
-        0.001: 0.001
-        0.1: 0.1
-        0.2: 0.2
         0.3: 0.3
-
-    - id: phasing
-      description: Phasing
-      type: list
-      value: eagle
-      values:
-        eagle: Eagle v2.4 (phased output)
-        no_phasing: No phasing
-      visible: false
-
-    - id: population
-      description: Population
-      value: mixed
-      type: text
-      visible: false
-
-    - id: mode
-      description: Mode
-      type: list
-      value: imputation
-      values:
-        qc_only: Quality Control Only
-        imputation: Quality Control & Imputation
-      visible: false
-
-    - id: aesEncryption
-      description: AES 256 encryption
-      details: Imputation Server encrypts all zip files by default. Please note that AES encryption does not work with standard unzip programs. Use 7z instead.
-      type: checkbox
-      value: false
-      values:
-        true: true
-        false: false
-      visible: false
-      serialize: false
-
-    - id: meta
-      description: Generate Meta-imputation file
-      type: checkbox
-      value: false
-      values:
-        true: true
-        false: false
-      visible: false
+        0.8: 0.8
 
     - id: myseparator0
       type: group
