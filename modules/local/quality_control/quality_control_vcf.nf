@@ -2,7 +2,6 @@ import groovy.json.JsonOutput
 
 process QUALITY_CONTROL_VCF {
 
-    //TODO remove for cloudgene
     publishDir params.output, mode: 'copy', pattern: "*.json"
     publishDir params.output, mode: 'copy', pattern: "${statisticsDir}/*.txt"
 

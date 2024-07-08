@@ -14,6 +14,8 @@ workflow:
       params:
         project: "${CLOUDGENE_JOB_NAME}"
         files: "${uploaded_files}/*.vcf.gz"
+        encryption:
+          aes: ${aesEncryption}
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -31,27 +33,31 @@ workflow:
         - id: compression
           label: "Compression and Encryption"
       processes:
-        - process: "IMPUTATIONSERVER:INPUT_VALIDATION:INPUT_VALIDATION_VCF"
+        - process: "INPUT_VALIDATION:INPUT_VALIDATION_VCF"
           view: status
           label: "Input Validation"
           group: "validation"
-        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
+        - process: "QUALITY_CONTROL:QUALITY_CONTROL_VCF"
           view: status
           label: "Quality Control"
           group: "qc"
-        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
+        - process: "QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
           view: label
           label: "Quality Control Report"          
           group: "qc"
-        - process: "IMPUTATIONSERVER:PHASING:EAGLE"
+        - process: "PHASING:EAGLE"
           view: progressbar
-          label: "Phasing"
+          label: "Phasing with Eagle"
           group: "imputation"
-        - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
+        - process: "PHASING:BEAGLE"
+          view: progressbar
+          label: "Phasing with Beagle"
+          group: "imputation"          
+        - process: "IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
           group: "imputation"
-        - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
+        - process: "ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           view: progressbar
           label: "Compression and Encryption"
           group: "compression"
@@ -108,26 +114,27 @@ workflow:
       type: list
       value: imputation
       values:
-        qconly: Quality Control Only
+        qc_only: Quality Control Only
         imputation: Quality Control & Imputation
 
     - id: aesEncryption
       description: AES 256 encryption
       details: Imputation Server encrypts all zip files by default. Please note that AES encryption does not work with standard unzip programs. Use 7z instead.
       type: checkbox
-      value: no
+      value: false
       values:
-        true: yes
-        false: no
+        true: true
+        false: false
       visible: true
+      serialize: false
 
     - id: meta
       description: Generate Meta-imputation file
       type: checkbox
-      value: no
+      value: false
       values:
-        true: yes
-        false: no
+        true: true
+        false: false
       visible: true
 
     - id: myseparator
@@ -146,4 +153,3 @@ workflow:
       description: Output
       type: local_folder
       download: true
-      temp: false

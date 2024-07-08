@@ -268,7 +268,7 @@ Parameters can be changed in the `nextflow.config`` file of the application. Exa
 
 ```
 params.chunk_size = 500000
-params.minimac_window = 100000
+params.imputation.window = 100000
 ```
 
 ## Development

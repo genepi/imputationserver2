@@ -14,6 +14,12 @@ workflow:
       params:
         project: "${CLOUDGENE_JOB_NAME}"
         files: "${uploaded_files}/*.vcf.gz"
+        mode: "imputation"
+        population: "mixed"
+        phasing: "eagle"
+        meta: false
+        encryption:
+          aes: false
         pgs:
           enabled: true
           category: "${pgs_category}"
@@ -32,54 +38,71 @@ workflow:
           label: "Quality Control"          
         - id: imputation
           label: "Imputation and Phasing"
+        - id: ancestry
+          label: "Ancestry Estimation"  
         - id: pgs
           label: "Polygenic Scores"                           
       processes:
-        - process: "IMPUTATIONSERVER:INPUT_VALIDATION:INPUT_VALIDATION_VCF"
+        - process: "INPUT_VALIDATION:INPUT_VALIDATION_VCF"
           view: status
           label: "Input Validation"
           group: "validation"
-        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_VCF"
+        - process: "QUALITY_CONTROL:QUALITY_CONTROL_VCF"
           view: status
           label: "Quality Control"
           group: "qc"
-        - process: "IMPUTATIONSERVER:QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
+        - process: "QUALITY_CONTROL:QUALITY_CONTROL_REPORT"
           view: label
           label: "Quality Control Report"
           group: "qc"
-        - process: "IMPUTATIONSERVER:PHASING:EAGLE"
+        - process: "PHASING:EAGLE"
           view: progressbar
-          label: "Phasing"
+          label: "Phasing with Eagle"
           group: "imputation"
-        - process: "IMPUTATIONSERVER:IMPUTATION:MINIMAC4"
+        - process: "PHASING:BEAGLE"
+          view: progressbar
+          label: "Phasing with Beagle"
+          group: "imputation"
+        - process: "IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
           group: "imputation"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:FILTER_BY_CATEGORY"        
+        - process: "PGS_CALCULATION:FILTER_BY_CATEGORY"        
           view: status
           label: "Prepare Polygenic Scores"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CALCULATE_CHUNKS"
+        - process: "PGS_CALCULATION:CALCULATE_CHUNKS"
           view: progressbar
           label: "Calculate Polygenic Scores"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
+        - process: "ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           view: label
           label: "Compression and Encryption"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_SCORES"
+        - process: "PGS_CALCULATION:MERGE_CHUNKS_SCORES"
           view: label
           label: "Merge Polygenic Scores"
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:MERGE_CHUNKS_INFOS"
+        - process: "PGS_CALCULATION:MERGE_CHUNKS_INFOS"
           view: label
           label: "Analyze Polygenic Scores "
           group: "pgs"
-        - process: "IMPUTATIONSERVER:PGS_CALCULATION:CREATE_HTML_REPORT"
+        - process: "PGS_CALCULATION:CREATE_HTML_REPORT"
           view: label
           label: "Create Ploygenic Score Report"
           group: "pgs"
-
+        - process: "ANCESTRY_ESTIMATION:PREPARE_TRACE"
+          view: progressbar
+          label: "Prepare Data"
+          group: "ancestry"          
+        - process: "ANCESTRY_ESTIMATION:EXECUTE_TRACE"
+          view: progressbar
+          label: "Prepare Data"
+          group: "ancestry"
+        - process: "ANCESTRY_ESTIMATION:ESTIMATE_ANCESTRY"
+          view: label
+          label: "Estimate Ancestry"
+          group: "ancestry"            
   inputs:
     - id: refpanel
       description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
@@ -103,56 +126,11 @@ workflow:
     - id: r2Filter
       description: rsq Filter
       type: list
-      value: 0
+      value: 0.3
       values:
         0: off
-        0.001: 0.001
-        0.1: 0.1
-        0.2: 0.2
         0.3: 0.3
-
-    - id: phasing
-      description: Phasing
-      type: list
-      value: eagle
-      values:
-        eagle: Eagle v2.4 (phased output)
-        no_phasing: No phasing
-
-    - id: population
-      description: Population
-      type: list
-      values:
-        bind: refpanel
-        property: populations
-        category: RefPanel
-
-    - id: mode
-      description: Mode
-      type: list
-      value: imputation
-      values:
-        qconly: Quality Control Only
-        imputation: Quality Control & Imputation
-
-    - id: aesEncryption
-      description: AES 256 encryption
-      details: Imputation Server encrypts all zip files by default. Please note that AES encryption does not work with standard unzip programs. Use 7z instead.
-      type: checkbox
-      value: no
-      values:
-        true: yes
-        false: no
-      visible: true
-
-    - id: meta
-      description: Generate Meta-imputation file
-      type: checkbox
-      value: no
-      values:
-        true: yes
-        false: no
-      visible: true
+        0.8: 0.8
 
     - id: myseparator0
       type: group
@@ -199,4 +177,3 @@ workflow:
       description: Output
       type: local_folder
       download: true
-      temp: false

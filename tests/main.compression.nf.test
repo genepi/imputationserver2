@@ -1,0 +1,149 @@
+nextflow_pipeline {
+
+    name "Pipeline Tests for Compression/Encryption"
+    script "main.nf"  
+
+
+    test("Should create tabix files") {
+
+        when {
+            params {
+                project  = "testPipelineWithPhasedAndMetaOption"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+                meta = true
+            
+                encryption = [
+                    enabled: false
+                ]
+                config = [
+                    create_index: true
+                ]                        
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            assert file("${outputDir}/chr20.dose.vcf.gz.tbi").exists()
+
+        }
+
+    }
+
+
+    test("Should not create tabix files") {
+
+        when {
+            params {
+                project  = "testPipelineWithPhasedAndMetaOption"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+                meta = true
+            
+                encryption = [
+                    enabled: false
+                ]
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            assert !file("${outputDir}/chr20.dose.vcf.gz.tbi").exists()
+
+        }
+
+    }
+
+
+    test("Should not create zip md5 files when encryption disabled") {
+
+        when {
+            params {
+                project  = "testPipelineWithPhasedAndMetaOption"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+                meta = true
+            
+                encryption = [
+                    enabled: false
+                ]
+                md5 = true
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert !file("${outputDir}/chr_20.zip.md5").exists()
+        }
+
+    }
+
+
+    test("Should create zip md5 files when encryption enabled") {
+
+        when {
+            params {
+                project  = "testPipelineWithPhasedAndMetaOption"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+                meta = true      
+                md5 = true
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert file("${outputDir}/chr_20.zip.md5").exists()
+
+        }
+
+    }
+
+
+    test("Should create imputed md5 files when encryption disabled") {
+
+        when {
+            params {
+                project  = "testPipelineWithPhasedAndMetaOption"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                population = "eur"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = "no_phasing"
+                meta = true      
+                md5 = true
+
+                encryption = [
+                    enabled: false
+                ]
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert file("${outputDir}/chr20.dose.vcf.gz.md5").exists()
+
+        }
+
+    }
+
+}

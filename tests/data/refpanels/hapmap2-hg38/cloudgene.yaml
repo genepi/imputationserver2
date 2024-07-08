@@ -1,10 +1,10 @@
 properties:
   id: hapmap2-chr20-hg38
   build: hg38
-  genotypes: ${app_local_folder}/hapmap_r22.chr$chr.CEU.hg38.m3vcf.gz
-  legend: ${app_local_folder}/hapmap_r22.chr$chr.CEU.hg38_impute.legend.gz
-  mapEagle: ${app_local_folder}/genetic_map_hg38_withX.txt.gz
-  refEagle: ${app_local_folder}/hapmap_r22.chr$chr.CEU.hg38.bcf
+  genotypes: ${app_local_folder}/msavs/hapmap_r22.chr$chr.CEU.hg38.msav
+  legend: ${app_local_folder}/legends/hapmap_r22.chr$chr.CEU.hg38_impute.legend.gz
+  mapEagle: ${app_local_folder}/map/genetic_map_hg38_withX.txt.gz
+  refEagle: ${app_local_folder}/bcfs/hapmap_r22.chr$chr.CEU.hg38.bcf
   populations:
     - id: eur
       name: EUR

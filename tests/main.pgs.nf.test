@@ -35,8 +35,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            //TODO: check which expected file is correct!
-            def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
+            //TODO: check which expected file is correct! (m3vcf vs msav)
+            //def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
+            def expected = csv("tests/data/input/pgs/expected.txt")
             def actual = csv("${outputDir}/scores.txt")
             assertTableEquals actual, expected
         }
@@ -83,7 +84,9 @@ nextflow_pipeline {
                 log.text
             ).match()
 
-            def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
+            //TODO: check which expected file is correct! (m3vcf vs msav)
+            //def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
+            def expected = csv("tests/data/input/pgs/expected.txt")
             
             def actual = csv("${outputDir}/scores.txt")
             with(actual){

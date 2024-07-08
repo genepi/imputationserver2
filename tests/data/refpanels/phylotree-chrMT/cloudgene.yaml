@@ -1,7 +1,7 @@
 properties:
   id: chrMT
   build: hg19
-  genotypes: ${app_local_folder}/m3vcfs/chr$chr.phylotree17.m3vcf.gz
+  genotypes: ${app_local_folder}/msavs/chr$chr.phylotree17.msav
   legend: ${app_local_folder}/legends/chr$chr.phylotree17.legend.gz
   mapEagle: ${app_local_folder}/map/genetic_map_hg19_withX.txt.gz
   populations:
