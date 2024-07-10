@@ -19,7 +19,8 @@ nextflow_process {
                 input[2] = params.refpanel.build
                 input[3] = params.imputation.window
                 input[4] = params.imputation.minimac_min_ratio
-                input[5] = params.r2Filter
+                input[5] = params.imputation.min_r2
+                input[6] = params.imputation.decay
                 """
             }
         }
@@ -50,7 +51,8 @@ nextflow_process {
                 input[2] = params.refpanel.build
                 input[3] = params.imputation.window
                 input[4] = params.imputation.minimac_min_ratio
-                input[5] = params.r2Filter
+                input[5] = params.imputation.min_r2
+                input[6] = params.imputation.decay
                 """
             }
         }

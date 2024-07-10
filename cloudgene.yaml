@@ -16,6 +16,8 @@ workflow:
         files: "${uploaded_files}/*.vcf.gz"
         encryption:
           aes: ${aesEncryption}
+        imputation:
+          min_r2: ${r2Filter}          
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -92,7 +94,8 @@ workflow:
         0.1: 0.1
         0.2: 0.2
         0.3: 0.3
-
+      serialize: false
+      
     - id: phasing
       description: Phasing
       type: list

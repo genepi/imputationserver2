@@ -20,6 +20,8 @@ workflow:
         meta: false
         encryption:
           aes: false
+        imputation:
+          min_r2: ${r2Filter}          
         pgs:
           enabled: true
           category: "${pgs_category}"
@@ -131,7 +133,8 @@ workflow:
         0: off
         0.3: 0.3
         0.8: 0.8
-
+      serialize: false
+      
     - id: myseparator0
       type: group
 

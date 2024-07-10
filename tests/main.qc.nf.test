@@ -47,10 +47,12 @@ nextflow_pipeline {
                 population = "eur"
                 phasing = "eagle"
                 password = PASSWORD
-                r2Filter = 0.5
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 mode = "qc-only"
+                imputation = [
+                    min_r2: 0.5                
+                ]                      
             }
         }
 

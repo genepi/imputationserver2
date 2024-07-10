@@ -374,9 +374,11 @@ nextflow_pipeline {
                 population = "eur"
                 phasing = "no_phasing"
                 password = PASSWORD
-                r2Filter = 0.5
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
+                imputation = [
+                    min_r2: 0.5                
+                ]
             }
         }
 
@@ -422,9 +424,11 @@ nextflow_pipeline {
                 population = "eur"
                 phasing = "no_phasing"
                 password = PASSWORD
-                r2Filter = 0.5
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
+                imputation = [
+                    min_r2: 0.5                
+                ]                  
             }
         }
 

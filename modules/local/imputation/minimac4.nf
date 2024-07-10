@@ -9,6 +9,7 @@ process MINIMAC4 {
     val minimac_window
     val minimac_min_ratio
     val min_r2
+    val decay
 
     output:
     tuple val(chr), val(start), val(end), file("*.dose.vcf.gz"), file("*.info.gz"), file("*.empiricalDose.vcf.gz"), emit: imputed_chunks
@@ -34,6 +35,7 @@ process MINIMAC4 {
         --sites ${chunkfile_name}.info.gz \
         --empirical-output ${chunkfile_name}.empiricalDose.vcf.gz \
         --threads ${task.cpus} \
+        --decay $decay \
         $r2_filter \
         $map \
         ${m3vcf} \
