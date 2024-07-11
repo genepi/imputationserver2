@@ -45,14 +45,14 @@ nextflow_pipeline {
             }
             
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
             
             with(zip.extract("chr20.info.gz").vcf) {
-                assert snpCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
 
         }
@@ -95,17 +95,17 @@ nextflow_pipeline {
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
                 assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
             
             with(zip.extract("chr20.empiricalDose.vcf.gz").vcf) {
-                assert getNoSnps() == 7735
+                assert variantCount == 7735
             }
 
             with(zip.extract("chr20.info.gz").vcf) {
-                assert snpCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
 
 
@@ -167,14 +167,14 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
 
             with(zip.extract("chr20.info.gz").vcf) {
-                assert snpCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT
             }
 
         }
@@ -214,14 +214,14 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37
             }
 
             with(zip.extract("chr20.info.gz").vcf) {
-                assert snpCount == TOTAL_REFPANEL_CHR20_B37
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37
             }         
 
         }
@@ -260,14 +260,14 @@ nextflow_pipeline {
             assert !file("${outputDir}/chr_20.zip").exists()
 
             with(path("${outputDir}/chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37
             }
 
             with(path("${outputDir}/chr20.info.gz").vcf) {
-                assert snpCount == TOTAL_REFPANEL_CHR20_B37
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37
             }
 
         }
@@ -308,14 +308,14 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37
             }
 
             with(zip.extract("chr20.info.gz").vcf) {
-                assert snpCount == TOTAL_REFPANEL_CHR20_B37
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37
             }
 
         }
@@ -353,10 +353,10 @@ nextflow_pipeline {
                 assert isEncrypted()            
             }
 
-            with(zip.extract("chr20.dose.vcf.gz").vcfHeader) {
-                assert getOtherHeaderLine("mis_phasing").getValue() == params.phasing
-                assert getOtherHeaderLine("mis_pipeline").getKey()
-                assert getOtherHeaderLine("mis_panel").getKey()
+            with(zip.extract("chr20.dose.vcf.gz").vcf) {
+                assert header.getOtherHeaderLine("mis_phasing").getValue() == params.phasing
+                assert header.getOtherHeaderLine("mis_pipeline").getKey()
+                assert header.getOtherHeaderLine("mis_panel").getKey()
             }
 
         }
@@ -399,14 +399,14 @@ nextflow_pipeline {
             
             def file = zip.extract("chr20.dose.vcf.gz").vcf
             with(file) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() < TOTAL_REFPANEL_CHR20_B37
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount < TOTAL_REFPANEL_CHR20_B37
             }
 
             with(zip.extract("chr20.info.gz").vcf) {
-                assert snpCount == file.getNoSnps()
+                assert variantCount == file.variantCount
             }       
           
         }
@@ -470,10 +470,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT                
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT                
             }
           
         }
@@ -512,10 +512,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B38                
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B38                
             }
           
         }
@@ -554,10 +554,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert TOTAL_REFPANEL_CHR20_B38 == getNoSnps()                
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert TOTAL_REFPANEL_CHR20_B38 == variantCount                
             }
           
         }
@@ -596,10 +596,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT               
+                assert chromosome == "20"
+                assert sampleCount == 51
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37 + ONLY_IN_INPUT               
             }
           
         }
@@ -638,10 +638,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert getChromosome() == "20"
-                assert getNoSamples() == 51;
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHR20_B37                
+                assert chromosome == "20"
+                assert sampleCount == 51;
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHR20_B37                
             }
           
         }
@@ -674,10 +674,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chrX.dose.vcf.gz").vcf) {
-                assert getChromosome() == "X"
-                assert getNoSamples() == 26
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHRX_B37                
+                assert chromosome == "X"
+                assert sampleCount == 26
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHRX_B37                
             }
           
         }
@@ -712,10 +712,10 @@ nextflow_pipeline {
             def dosage = zip.extract("chrX.dose.vcf.gz")
 
             with(dosage.vcf) {
-                assert getChromosome() == "X"
-                assert getNoSamples() == 26;
-                assert isPhased()
-                assert TOTAL_REFPANEL_CHRX_B37 == getNoSnps()                
+                assert chromosome == "X"
+                assert sampleCount == 26;
+                assert phased
+                assert TOTAL_REFPANEL_CHRX_B37 == variantCount                
             }
 
             // SNP 26963697 excluded from input and imputed! true genotypes:
@@ -756,10 +756,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chrX.dose.vcf.gz").vcf) {
-                assert getChromosome() == "X"
-                assert getNoSamples() == 26;
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHRX_B38                
+                assert chromosome == "X"
+                assert sampleCount == 26;
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHRX_B38                
             }
 
         }
@@ -793,10 +793,10 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chrX.dose.vcf.gz").vcf) {
-                assert getChromosome() == "X"
-                assert getNoSamples() == 26
-                assert isPhased()
-                assert getNoSnps() == TOTAL_REFPANEL_CHRX_B38                
+                assert chromosome == "X"
+                assert sampleCount == 26
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHRX_B38                
             }
           
         }
@@ -830,9 +830,9 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chrMT.dose.vcf.gz").vcf) {
-                assert getChromosome() == "MT"
-                assert getNoSamples() == 5435
-                assert isPhased()
+                assert chromosome == "MT"
+                assert sampleCount == 5435
+                assert phased
             }
 
         }
