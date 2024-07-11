@@ -16,11 +16,12 @@ workflow:
         files: "${uploaded_files}/*.vcf.gz"
         mode: "imputation"
         population: "mixed"
-        phasing: "eagle"
-        meta: false
+        phasing:
+          engine: "eagle"
         encryption:
           aes: false
         imputation:
+          meta: false
           min_r2: ${r2Filter}          
         pgs:
           enabled: true

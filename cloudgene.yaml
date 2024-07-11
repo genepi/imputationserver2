@@ -16,8 +16,11 @@ workflow:
         files: "${uploaded_files}/*.vcf.gz"
         encryption:
           aes: ${aesEncryption}
+        phasing:
+          engine: ${phasing} 
         imputation:
-          min_r2: ${r2Filter}          
+          min_r2: ${r2Filter}        
+          meta: ${meta}     
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -97,12 +100,13 @@ workflow:
       serialize: false
       
     - id: phasing
-      description: Phasing
+      description: Phasing Engine
       type: list
       value: eagle
       values:
         eagle: Eagle v2.4 (phased output)
         no_phasing: No phasing
+      serialize: false
 
     - id: population
       description: Population
@@ -139,6 +143,7 @@ workflow:
         true: true
         false: false
       visible: true
+      serialize: false
 
     - id: myseparator
       type: separator

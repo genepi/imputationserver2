@@ -9,7 +9,7 @@ workflow PHASING {
 
     chromosomes = Channel.of(1..22, 'X.nonPAR', 'X.PAR1', 'X.PAR2', 'MT')
 
-    if (params.phasing == 'eagle' && params.refpanel.refEagle != null) {
+    if (params.phasing.engine == 'eagle' && params.refpanel.refEagle != null) {
 
         phasing_map_ch = file(params.refpanel.mapEagle, checkIfExists: true)
 
@@ -32,7 +32,7 @@ workflow PHASING {
 
     }
 
-    if (params.phasing == 'beagle' && params.refpanel.refBeagle != null) {
+    if (params.phasing.engine == 'beagle' && params.refpanel.refBeagle != null) {
 
         phasing_reference_ch = chromosomes
             .map {

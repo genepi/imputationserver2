@@ -46,7 +46,7 @@ process QUALITY_CONTROL_VCF {
         --reference reference-panel.json \
         --build ${params.build} \
         --maf-output ${mafFile} \
-        --phasing-window ${params.phasing_window} \
+        --phasing-window ${params.phasing.window} \
         --chunksize ${params.chunksize} \
         --chunks-out ${chunksDir} \
         --statistics-out ${statisticsDir} \

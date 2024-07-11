@@ -14,15 +14,17 @@ nextflow_pipeline {
                 population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
-                meta = true
-            
+                phasing = [
+                    engine: "no_phasing"                
+                ]
+                imputation = [
+                    meta: true,
+                    md5: true,
+                    index: true           
+                ]
                 encryption = [
                     enabled: false
-                ]
-                config = [
-                    create_index: true
-                ]                        
+                ]                     
             }
         }
 
@@ -46,9 +48,13 @@ nextflow_pipeline {
                 population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
-                meta = true
-            
+                imputation = [
+                    meta: true,
+                    md5: true               
+                ]
+                phasing = [
+                    engine: "no_phasing"                
+                ]    
                 encryption = [
                     enabled: false
                 ]
@@ -75,9 +81,13 @@ nextflow_pipeline {
                 population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
-                meta = true
-            
+                imputation = [
+                    meta: true,
+                    md5: true               
+                ]
+                phasing = [
+                    engine: "no_phasing"                
+                ]
                 encryption = [
                     enabled: false
                 ]
@@ -103,9 +113,13 @@ nextflow_pipeline {
                 population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
-                meta = true      
-                md5 = true
+                phasing = [
+                    engine: "no_phasing"                
+                ]
+                imputation = [
+                    meta: true,
+                    md5: true               
+                ]
             }
         }
 
@@ -128,9 +142,13 @@ nextflow_pipeline {
                 population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
-                meta = true      
-                md5 = true
+                phasing = [
+                    engine: "no_phasing"                
+                ]
+                imputation = [
+                    meta: true,
+                    md5: true               
+                ]
 
                 encryption = [
                     enabled: false

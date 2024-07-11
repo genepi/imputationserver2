@@ -15,9 +15,9 @@ process EAGLE {
     // replace X.nonPAR etc with X for phasing
     def chr_cleaned = chr.startsWith('X.') ? 'X' : chr
     def chr_mapped = params.refpanel.build == 'hg38' ? 'chr' + chr_cleaned : chr_cleaned
-    def phasing_start = start.toLong() - params.phasing_window
+    def phasing_start = start.toLong() - params.phasing.window
     phasing_start = phasing_start < 0 ? 1 : phasing_start
-    def phasing_end = end.toLong() + params.phasing_window
+    def phasing_end = end.toLong() + params.phasing.window
     """
     tabix $chunkfile
     eagle \

@@ -37,7 +37,9 @@ nextflow_process {
                 refpanel = [
                     build: "hg19"
                 ]
-                phasing_window = 100000
+                phasing = [
+                    window: 100000               
+                ]
             }
             process {
                 """

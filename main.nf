@@ -23,7 +23,9 @@ for (param in requiredParams) {
 }
 
 //TODO create json validation file
-if (params.phasing != 'eagle' && params.phasing != 'beagle' && params.phasing != 'no_phasing' ) {
+def engine = params.phasing.engine
+
+if (engine != 'eagle' && engine != 'beagle' && engine != 'no_phasing' ) {
     exit 1, "For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
 }
 
@@ -87,7 +89,7 @@ workflow {
 
             phased_ch =  QUALITY_CONTROL.out.qc_metafiles
 
-            if (params.phasing != 'no_phasing') { 
+            if (engine != 'no_phasing') { 
 
                 PHASING(
                     QUALITY_CONTROL.out.qc_metafiles

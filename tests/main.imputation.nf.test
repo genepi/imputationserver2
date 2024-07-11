@@ -23,7 +23,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -71,8 +73,12 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
-                meta = true
+                imputation = [
+                    meta: true           
+                ]
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -125,7 +131,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = ""
+                phasing = [
+                    engine: ""                
+                ]
             }
         }
 
@@ -147,7 +155,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -190,11 +200,12 @@ nextflow_pipeline {
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
-                phasing = "no_phasing"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "eagle"
+                phasing = [
+                    engine: "eagle"                
+                ]
             }
         }
 
@@ -237,11 +248,12 @@ nextflow_pipeline {
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
-                phasing = "no_phasing"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "eagle"
+                phasing = [
+                    engine: "eagle"                
+                ]
                 encryption = [
                     enabled: false
                 ]  
@@ -283,11 +295,12 @@ nextflow_pipeline {
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
-                phasing = "no_phasing"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "beagle"
+                phasing = [
+                    engine: "beagle"                
+                ]
             }
         }
 
@@ -323,7 +336,7 @@ nextflow_pipeline {
     }
 
 
-    test("Should run with eagle and validate header") {
+    test("Should run without phasing and validate header") {
 
         when {
             params {
@@ -331,10 +344,12 @@ nextflow_pipeline {
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
-                phasing = "no_phasing"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -354,7 +369,7 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert header.getOtherHeaderLine("mis_phasing").getValue() == params.phasing
+                assert header.getOtherHeaderLine("mis_phasing").getValue() == params.phasing.engine
                 assert header.getOtherHeaderLine("mis_pipeline").getKey()
                 assert header.getOtherHeaderLine("mis_panel").getKey()
             }
@@ -372,10 +387,12 @@ nextflow_pipeline {
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 population = "eur"
-                phasing = "no_phasing"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
                 imputation = [
                     min_r2: 0.5                
                 ]
@@ -414,7 +431,7 @@ nextflow_pipeline {
     }
 
 
-    test("Should not run with unphased and empty phasing") {
+    test("Should fail with unphased and empty phasing") {
 
         when {
             params {
@@ -422,10 +439,12 @@ nextflow_pipeline {
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-unphased/*.vcf.gz"
                 population = "eur"
-                phasing = "no_phasing"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
                 imputation = [
                     min_r2: 0.5                
                 ]                  
@@ -450,7 +469,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -492,7 +513,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "eagle"
+                phasing = [
+                    engine: "eagle"                
+                ]
             }
         }
 
@@ -534,7 +557,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "eagle"
+                phasing = [
+                    engine: "eagle"                
+                ]
             }
         }
 
@@ -576,7 +601,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -618,7 +645,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "eagle"
+                phasing = [
+                    engine: "eagle"                
+                ]
             }
         }
 
@@ -660,7 +689,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -696,7 +727,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -742,7 +775,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX-hg38/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -778,7 +813,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX-hg38/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 
@@ -815,7 +852,9 @@ nextflow_pipeline {
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/phylotree-chrMT/cloudgene.yaml"
                 output = "${outputDir}"
-                phasing = "no_phasing"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
             }
         }
 

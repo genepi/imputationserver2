@@ -99,6 +99,16 @@
         },
         "timestamp": "2024-06-28T10:46:49.355036"
     },
+    "Should run without phasing and validate header": {
+        "content": [
+            "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-07-11T17:46:12.986048"
+    },
     "Should run with phased data and meta option": {
         "content": [
             "[{\"command\":\"LOG\",\"params\":[\"Reference Panel Ranges: genome-wide\"]},{\"command\":\"BEGIN_TASK\",\"params\":[\"Running Calculating QC Statistics...\"]},{\"command\":\"UPDATE_TASK\",\"params\":[\"Calculating QC Statistics [1/1]\\n\\nAnalyze file chr20.R50.merged.1.330k.recode.small.vcf.gz...\",3]},{\"command\":\"END_TASK\",\"params\":[\"Calculating QC Statistics\",0]},{\"command\":\"MESSAGE\",\"params\":[\"\\u003cb\\u003eStatistics:\\u003c/b\\u003e \\nAlternative allele frequency \\u003e 0.5 sites: 2,296\\nReference Overlap: 99.00 %\\nMatch: 7,735\\nAllele switch: 0\\nStrand flip: 0\\nStrand flip and allele switch: 0\\nA/T, C/G genotypes: 0\\n\\u003cb\\u003eFiltered sites:\\u003c/b\\u003e \\nFilter flag set: 0\\nInvalid alleles: 0\\nMultiallelic sites: 0\\nDuplicated sites: 0\\nNonSNP sites: 0\\nMonomorphic sites: 11\\nAllele mismatch: 0\\nSNPs call rate \\u003c 90%: 0\",0]},{\"command\":\"MESSAGE\",\"params\":[\"Excluded sites in total: 11\\nRemaining sites in total: 7,735\\nSee snps-excluded.txt for details\\nTyped only sites: 78\\nSee typed-only.txt for details\\n\",2]}]"

@@ -32,20 +32,20 @@ process COMPRESSION_ENCRYPTION_VCF {
     # concat dosage files and update header 
     bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
     echo "##mis_pipeline=${workflow.manifest.version}" > add_header.txt
-    echo "##mis_phasing=${params.phasing}" >> add_header.txt
+    echo "##mis_phasing=${params.phasing.engine}" >> add_header.txt
     echo "##mis_panel=${panel_version}" >> add_header.txt
     bcftools annotate --threads ${task.cpus} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
     rm intermediate_${imputed_name}
 
     # write meta files
-    if [[ "${params.meta}" = true ]]
+    if [[ "${params.imputation.meta}" = true ]]
     then
         bcftools concat --threads ${task.cpus} -n ${meta_joined} -o ${meta_name} -Oz
         tabix ${meta_name}
     fi
 
     # create tabix files
-    if [[ "${params.config.create_index}" = true ]]
+    if [[ "${params.imputation.index}" = true ]]
     then
         tabix ${imputed_name}
     fi    
@@ -58,13 +58,13 @@ process COMPRESSION_ENCRYPTION_VCF {
     fi
     
     # create md5 of zip file
-    if [[ "${params.encryption.enabled}" = true && "${params.md5}" = true ]]
+    if [[ "${params.encryption.enabled}" = true && "${params.imputation.md5}" = true ]]
     then
         md5sum ${zip_name} > ${zip_name}.md5
     fi
 
     # create md5 of imputed file
-    if [[ "${params.encryption.enabled}" = false && "${params.md5}" = true ]]
+    if [[ "${params.encryption.enabled}" = false && "${params.imputation.md5}" = true ]]
     then
         md5sum ${imputed_name} > ${imputed_name}.md5
     fi
