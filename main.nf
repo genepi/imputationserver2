@@ -139,7 +139,7 @@ workflow.onComplete {
     def report = new CloudgeneReport()
    
     if (!workflow.success) {
-        if (params.config.send_mail && params.user.email != null){
+        if (params.send_mail && params.user.email != null){
             sendMail{
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} failed."
@@ -153,7 +153,7 @@ workflow.onComplete {
     // imputation job
     if (params.merge_results === true && params.encryption.enabled === true) {
 
-        if (params.config.send_mail && params.user.email != null) {
+        if (params.send_mail && params.user.email != null) {
             sendMail{
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} is complete."
@@ -167,7 +167,7 @@ workflow.onComplete {
     }
 
     //PGS job
-    if (params.config.send_mail && params.user.email != null) {
+    if (params.send_mail && params.user.email != null) {
         sendMail{
             to "${params.user.email}"
             subject "[${params.service.name}] Job ${params.project} is complete."
