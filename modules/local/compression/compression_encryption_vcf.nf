@@ -45,7 +45,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     fi
 
     # create tabix files
-    if [[ "${params.imputation.index}" = true ]]
+    if [[ "${params.imputation.create_index}" = true ]]
     then
         tabix ${imputed_name}
     fi    
