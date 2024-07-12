@@ -31,17 +31,6 @@ WORKDIR "/opt"
 RUN wget https://faculty.washington.edu/browning/beagle/beagle.${BEAGLE_VERSION}.jar && \
     mv beagle.${BEAGLE_VERSION}.jar /usr/bin/.
 
-# Install bcftools
-ENV BCFTOOLS_VERSION=1.13
-WORKDIR "/opt"
-RUN wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2  && \
-    tar xvfj bcftools-${BCFTOOLS_VERSION}.tar.bz2 && \
-    rm bcftools-${BCFTOOLS_VERSION}.tar.bz2 && \
-    cd  bcftools-${BCFTOOLS_VERSION}  && \
-    ./configure  && \
-    make && \
-    make install
-
 # Install minimac4
 WORKDIR "/opt"
 RUN mkdir minimac4
