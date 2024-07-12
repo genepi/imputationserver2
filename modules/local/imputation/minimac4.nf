@@ -29,7 +29,7 @@ process MINIMAC4 {
         --overlap $minimac_window \
         --output ${chunkfile_name}.dose.vcf.gz \
         --output-format vcf.gz \
-        --format GT,DS,GP \
+        --format GT,DS,GP,HDS \
         --min-ratio $minimac_min_ratio \
         --all-typed-sites \
         --sites ${chunkfile_name}.info.gz \
