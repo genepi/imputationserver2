@@ -12,9 +12,10 @@ class RefPanelUtil {
 
         HashMap<String, String> environment = new HashMap<String, String>();
 		def folder = params_file.getParentFile().getAbsolutePath()
+        environment.put("CLOUDGENE_APP_LOCATION", folder);
+		// Deprecated
 		environment.put("app_hdfs_folder", folder);
 		environment.put("app_local_folder", folder);
-		// Deprecated
 		environment.put("hdfs_app_folder", folder);
 		environment.put("local_app_folder", folder);
 

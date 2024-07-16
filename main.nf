@@ -26,7 +26,8 @@ for (param in requiredParams) {
 def engine = params.phasing.engine
 
 if (engine != 'eagle' && engine != 'beagle' && engine != 'no_phasing' ) {
-    exit 1, "For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
+    println "::error:: For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
+    exit 1
 }
 
 
@@ -43,9 +44,7 @@ Channel
     .set {files}
 
 files.ifEmpty {
-    def report = new CloudgeneReport()
-    error("Error: No vcf.gz input files detected.")
-    report.error("No vcf.gz input files detected.")
+    println "::error:: No vcf.gz input files detected."
     exit 1
 }
 
@@ -135,8 +134,6 @@ workflow.onComplete {
     //TODO: move in EmailHelper class
     //see https://www.nextflow.io/docs/latest/mail.html for configuration etc...
     // Nfcore Template: https://github.com/nf-core/rnaseq/blob/b89fac32650aacc86fcda9ee77e00612a1d77066/lib/NfcoreTemplate.groovy#L155
-
-    def report = new CloudgeneReport()
    
     if (!workflow.success) {
         if (params.send_mail && params.user.email != null){
@@ -146,7 +143,7 @@ workflow.onComplete {
                 body "Dear ${params.user.name}, \n Your job has failed.\n\n More details about the errors can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
-        report.error("Imputation failed.")
+        println "::error:: Imputation failed." 
         return
     }
 
@@ -159,9 +156,9 @@ workflow.onComplete {
                 subject "[${params.service.name}] Job ${params.project} is complete."
                 body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
-            report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
+            println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
         } else {
-            report.ok("Data have been exported successfully. We encrypted the results with the following password <b>${params.encryption_password}</b>")
+            println "::message:: Data have been exported successfully. We encrypted the results with the following password <b>${params.encryption_password}</b>"
         }
         return
     }
@@ -173,9 +170,9 @@ workflow.onComplete {
             subject "[${params.service.name}] Job ${params.project} is complete."
             body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
         }
-        report.ok("Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>")
+        println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
     } else {
-        report.ok("Data have been exported successfully.")
+        println "::message:: Data have been exported successfully."
     }
  
 }
