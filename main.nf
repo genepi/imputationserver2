@@ -73,7 +73,7 @@ include { PGS_CALCULATION } from './workflows/pgs_calculation'
 
 workflow {
 
-    println "Welcome to ${params.service.name}"
+    println "Welcome to ${params.service.name} (${workflow.manifest.version})"
 
     if (params.imputation.enabled){
 
