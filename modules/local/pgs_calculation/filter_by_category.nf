@@ -18,11 +18,10 @@ process FILTER_BY_CATEGORY {
     # Count the number of lines in scores.txt
     line_count=\$(wc -l < scores.txt)
 
-    # Create the JSON content
-    json_content="[{\\"command\\":\\"MESSAGE\\",\\"params\\":[\\"Trait Category: ${category}<br>Number of Scores: \${line_count}\\", 0]}]"
-
-    # Write the JSON content to a file
-    echo \$json_content > cloudgene.report.json
+    echo "::group::"
+    echo "Trait Category: ${category}"
+    echo "Number of Scores: \${line_count}"
+    echo "::endgroup::"
 
     """
 
