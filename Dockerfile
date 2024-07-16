@@ -3,11 +3,11 @@ LABEL Lukas Forer <lukas.forer@i-med.ac.at> / Sebastian Schönherr <sebastian.sc
 
 # Install compilers
 RUN apt-get update && \
-    apt-get install -y wget build-essential zlib1g-dev liblzma-dev libbz2-dev libxau-dev && \
+    apt-get install -y wget build-essential zlib1g-dev liblzma-dev libbz2-dev libxau-dev libgsl-dev && \
     apt-get -y clean
 
 #  Install miniconda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_23.9.0-0-Linux-x86_64.sh -O ~/miniconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_24.5.0-0-Linux-x86_64.sh -O ~/miniconda.sh && \
   /bin/bash ~/miniconda.sh -b -p /opt/conda
 ENV PATH=/opt/conda/bin:${PATH}
 
@@ -30,17 +30,6 @@ ENV BEAGLE_VERSION=18May20.d20
 WORKDIR "/opt"
 RUN wget https://faculty.washington.edu/browning/beagle/beagle.${BEAGLE_VERSION}.jar && \
     mv beagle.${BEAGLE_VERSION}.jar /usr/bin/.
-
-# Install bcftools
-ENV BCFTOOLS_VERSION=1.13
-WORKDIR "/opt"
-RUN wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2  && \
-    tar xvfj bcftools-${BCFTOOLS_VERSION}.tar.bz2 && \
-    rm bcftools-${BCFTOOLS_VERSION}.tar.bz2 && \
-    cd  bcftools-${BCFTOOLS_VERSION}  && \
-    ./configure  && \
-    make && \
-    make install
 
 # Install minimac4
 WORKDIR "/opt"
@@ -82,6 +71,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 # Needed, because imputationserver-utils starts process (e.g. tabix)
 ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
+
+# Needed, because bioconda does not correctly installs dependencies for bcftools
+RUN ln -s /lib/x86_64-linux-gnu/libgsl.so.27 /opt/conda/lib/libgsl.so.25
 
 COPY files/bin/trace /usr/bin/.
 COPY files/bin/vcf2geno /usr/bin/.

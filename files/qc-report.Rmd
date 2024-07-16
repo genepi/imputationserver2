@@ -84,5 +84,5 @@ for (i in 1:length(miss[,11])){
 ---
 
 <small>
-This report has been created with **`r params$service`**.
+This report has been created with **`r params$service` (`r params$version`)**.
 </small>
