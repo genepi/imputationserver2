@@ -31,10 +31,10 @@ process INPUT_VALIDATION_VCF {
         --mode ${params.mode} \
         --minSamples ${params.min_samples} \
         --maxSamples ${params.max_samples} \
-        --report cloudgene.report.json \
+        --report validation_report.txt \
         $vcf_files 
 
-    python -m json.tool cloudgene.report.json    
+    cat validation_report.txt
     """
 
 }

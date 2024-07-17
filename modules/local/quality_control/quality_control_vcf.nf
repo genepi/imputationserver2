@@ -2,7 +2,7 @@ import groovy.json.JsonOutput
 
 process QUALITY_CONTROL_VCF {
 
-    publishDir params.output, mode: 'copy', pattern: "*.json"
+    publishDir params.output, mode: 'copy', pattern: "qc_report.txt"
     publishDir params.output, mode: 'copy', pattern: "${statisticsDir}/*.txt"
 
     input:
@@ -16,7 +16,7 @@ process QUALITY_CONTROL_VCF {
     path("${chunksDir}/*"), emit: chunks_vcf
     path("${statisticsDir}/*"), optional: true
     path("maf.txt", emit: maf_file)
-    path("cloudgene.report.json")
+    path("qc_report.txt")
 
     script:
     chunksDir = 'chunks'
@@ -51,11 +51,11 @@ process QUALITY_CONTROL_VCF {
         --chunks-out ${chunksDir} \
         --statistics-out ${statisticsDir} \
         --metafiles-out ${metaFilesDir} \
-        --report cloudgene.report.json \
+        --report qc_report.txt \
         $chain \
         $vcf_files 
 
-    python -m json.tool cloudgene.report.json       
+    cat  qc_report.txt
     """
 
 }

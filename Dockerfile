@@ -48,9 +48,10 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSIO
 ENV PATH="/opt/pgs-calc:${PATH}"
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=v1.2.1
+ENV IMPUTATIONSERVER_UTILS_VERSION=v1.3.0
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
+#COPY files/imputationserver-utils.tar.gz .
 RUN wget https://github.com/genepi/imputationserver-utils/releases/download/${IMPUTATIONSERVER_UTILS_VERSION}/imputationserver-utils.tar.gz && \
     tar xvfz imputationserver-utils.tar.gz && \
     rm imputationserver-utils.tar.gz && \
@@ -64,10 +65,6 @@ RUN wget https://github.com/jingweno/ccat/releases/download/v${CCAT_VERSION}/lin
     cp linux-amd64-${CCAT_VERSION}/ccat /usr/local/bin/ && \
     chmod +x /usr/local/bin/ccat
 
-# Install awscli
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && \
-    ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
 
 # Needed, because imputationserver-utils starts process (e.g. tabix)
 ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"

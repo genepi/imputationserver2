@@ -78,7 +78,7 @@ nextflow_pipeline {
         then {
             assert workflow.success
 
-            def log = file("${outputDir}/cloudgene.report.json")
+            def log = file("${outputDir}/qc_report.txt")
 
             assert snapshot(
                 log.text
