@@ -491,7 +491,7 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert chromosome == "20"
+                assert chromosome == "chr20"
                 assert sampleCount == 51
                 assert phased
                 assert variantCount == TOTAL_REFPANEL_CHR20_B38 + ONLY_IN_INPUT                
@@ -535,7 +535,7 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert chromosome == "20"
+                assert chromosome == "chr20"
                 assert sampleCount == 51
                 assert phased
                 assert variantCount == TOTAL_REFPANEL_CHR20_B38                
@@ -579,7 +579,7 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chr20.dose.vcf.gz").vcf) {
-                assert chromosome == "20"
+                assert chromosome == "chr20"
                 assert sampleCount == 51
                 assert phased
                 assert TOTAL_REFPANEL_CHR20_B38 == variantCount                
@@ -791,7 +791,7 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chrX.dose.vcf.gz").vcf) {
-                assert chromosome == "X"
+                assert chromosome == "chrX"
                 assert sampleCount == 26;
                 assert phased
                 assert variantCount == TOTAL_REFPANEL_CHRX_B38                
@@ -830,7 +830,7 @@ nextflow_pipeline {
             }
 
             with(zip.extract("chrX.dose.vcf.gz").vcf) {
-                assert chromosome == "X"
+                assert chromosome == "chrX"
                 assert sampleCount == 26
                 assert phased
                 assert variantCount == TOTAL_REFPANEL_CHRX_B38                
