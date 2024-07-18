@@ -26,6 +26,7 @@ workflow:
           name: "${CLOUDGENE_USER_NAME}"
         service:
           name: "${CLOUDGENE_SERVICE_NAME}"
+          contact: "${CLOUDGENE_CONTACT_NAME}"
           email: "${CLOUDGENE_CONTACT_EMAIL}"
           url: "${CLOUDGENE_SERVICE_URL}"
       groups:
@@ -105,6 +106,7 @@ workflow:
       value: eagle
       values:
         eagle: Eagle v2.4 (phased output)
+        beagle: Beagle 5.4 (HRC and 1KG only)
         no_phasing: No phasing
       serialize: false
 
