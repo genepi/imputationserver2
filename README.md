@@ -45,15 +45,29 @@ nextflow run main.nf -c job.config
 | `population`          | `null`                | Population information                             |
 | `refpanel_yaml`       | `null`                | Reference panel YAML file                          |
 | `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
-| `phasing`             | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
-| `minimac_window`      | `500000`              | Minimac window size                                |
-| `minimac_min_ratio`   | `0.00001`             | Minimac minimum ratio                              |
 | `chunksize`           | `20000000`            | Chunk size for processing                          |
-| `phasing_window`      | `5000000`             | Phasing window size                                |
-| `cpus`                | `1`                   | Number of CPUs to use                              |
 | `min_samples`         | `20`                  | Minimum number of samples needed                   |
 | `max_samples`         | `50000`               | Maximum number of samples allowed                  |
+| `merge_samples`       | `true`                | Execute compression and encryption workflow        |
+| `password`            | `null`                | Password for encryption                            |
+| `send_mail`           | `false`               | Enable or disable email notifications              |
+| `service.name`        | `nf-imputationserver` | Service name                                       |
+| `service.email`       | `null`                | Service email                                      |
+| `service.url`         | `null`                | Service URL                                        |
+| `user.name`           | `null`                | User's name                                        |
+| `user.email`          | `null`                | User's email                                       |
+| `phasing.engine`      | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
+| `phasing.window`      | `5000000`             | Phasing window size                                |
 | `imputation.enabled`  | `true`                | Enable or disable imputation                       |
+| `imputation.window`   | `500000`              | Imputation window size                             |
+| `imputation.minimac_min_ratio`   | `0.00001`  | Minimac minimum ratio                              |
+| `imputation.min_r2`   | `0`                   | R2 filter value                                    |
+| `imputation.meta`     | `false`               | Enable or disable empirical output creation        |
+| `imputation.md5`      | `false`               | Enable or disable md5 sum creation for results     |
+| `imputation.create_index`    | `false`        | Enable or disable index creation for imputed files |
+| `imputation.decay`    | `0`                   | Set minimac decay                                  |
+| `encryption.enabled`  | `true`                | Enable or disable encryption                       |
+| `encryption.aes`      | `false`               | Enable or disable AES method for encryption        |
 | `ancestry.enabled`    | `false`               | Enable or disable ancestry analysis                |
 | `ancestry.dim`        | `10`                  | Ancestry analysis dimension                        |
 | `ancestry.dim_high`   | `20`                  | High dimension for ancestry analysis               |
@@ -62,14 +76,9 @@ nextflow run main.nf -c job.config
 | `ancestry.max_pcs`    | `8`                   | Maximum principal components for ancestry          |
 | `ancestry.k`          | `10`                  | K value for ancestry analysis                      |
 | `ancestry.threshold`  | `0.75`                | Ancestry threshold                                 |
-| `r2Filter`            | `0`                   | R2 filter value                                    |
-| `password`            | `null`                | Password for encryption                            |
-| `config.send_mail`    | `false`               | Enable or disable email notifications              |
-| `user.name`           | `null`                | User's name                                        |
-| `user.email`          | `null`                | User's email                                       |
-| `service.name`        | `nf-imputationserver` | Service name                                       |
-| `service.email`       | `null`                | Service email                                      |
-| `service.url`         | `null`                | Service URL                                        |
+
+
+
 
 ## Reference Panel Configuration
 
