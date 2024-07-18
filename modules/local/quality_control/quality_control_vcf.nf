@@ -32,6 +32,7 @@ process QUALITY_CONTROL_VCF {
     }
 
     """
+    set +e
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
     # TODO: create directories in java

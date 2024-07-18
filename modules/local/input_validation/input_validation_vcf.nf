@@ -19,6 +19,7 @@ process INPUT_VALIDATION_VCF {
     }
 
     """
+    set +e
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
     # TODO: add contact, mail, ...
