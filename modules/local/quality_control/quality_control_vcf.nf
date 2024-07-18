@@ -55,8 +55,10 @@ process QUALITY_CONTROL_VCF {
         --report qc_report.txt \
         $chain \
         $vcf_files 
+    exit_code_a=\$?
 
     cat  qc_report.txt
+    exit \$exit_code_a
     """
 
 }
