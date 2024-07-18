@@ -23,9 +23,9 @@ for (param in requiredParams) {
 }
 
 //TODO create json validation file
-def engine = params.phasing.engine
+def phasing_engine = params.phasing.engine
 
-if (engine != 'eagle' && engine != 'beagle' && engine != 'no_phasing' ) {
+if (phasing_engine != 'eagle' && phasing_engine != 'beagle' && phasing_engine != 'no_phasing' ) {
     println "::error:: For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
     exit 1
 }
@@ -88,7 +88,7 @@ workflow {
 
             phased_ch =  QUALITY_CONTROL.out.qc_metafiles
 
-            if (engine != 'no_phasing') { 
+            if (phasing_engine != 'no_phasing') { 
 
                 PHASING(
                     QUALITY_CONTROL.out.qc_metafiles
@@ -147,6 +147,14 @@ workflow.onComplete {
         return
     }
 
+    //submit counters on success
+	println "::submit-counter name=samples::"
+    println "::submit-counter name=genotypes::"
+    println "::submit-counter name=chromosomes::"
+    println "::submit-counter name=runs::"
+    println "::submit-counter name=refpanel_${params.refpanel.id}::"
+    println "::submit-counter name=phasing_${phasing_engine}::"
+
     // imputation job
     if (params.merge_results === true && params.encryption.enabled === true) {
 
@@ -158,7 +166,7 @@ workflow.onComplete {
             }
             println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
         } else {
-            println "::message:: Data have been exported successfully. We encrypted the results with the following password <b>${params.encryption_password}</b>"
+            println "::message:: Data have been exported successfully. We encrypted the results with the following password: <b>${params.encryption_password}</b>"
         }
         return
     }
