@@ -35,7 +35,9 @@ workflow IMPUTATION {
         imputation_mode.window,
         imputation_mode.minimac_min_ratio,
         imputation_mode.min_r2,
-        imputation_mode.decay
+        imputation_mode.decay,
+        imputation_mode.diff_threshold,
+        imputation_mode.prob_threshold
     )
 
     imputed_chunks_modified = MINIMAC4.out.imputed_chunks.
@@ -67,7 +69,7 @@ def getParamsForMode(String mode) {
     def imputation_params = [:]
     
     switch (mode) {
-        case 'imputation':
+        case 'default':
             imputation_params = params.imputation
             break
         case 'hla':
