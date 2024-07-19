@@ -35,6 +35,7 @@ workflow IMPUTATION {
         params.imputation.decay,
         params.imputation.diff_threshold,
         params.imputation.prob_threshold,
+        params.imputation.prob_threshold_s1,
         params.imputation.min_recom
     )
 
