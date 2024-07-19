@@ -25,14 +25,17 @@ workflow IMPUTATION {
 
     phased_m3vcf_ch = phased_ch.combine(minimac_m3vcf_ch, by: 0)
 
+    // load correct minimac params
+    def imputation_mode = getParamsForMode(params.imputation_mode)
+
     MINIMAC4 ( 
         phased_m3vcf_ch, 
         minimac_map,
         params.refpanel.build,        
-        params.imputation.window,
-        params.imputation.minimac_min_ratio,
-        params.imputation.min_r2,
-        params.imputation.decay
+        imputation_mode.window,
+        imputation_mode.minimac_min_ratio,
+        imputation_mode.min_r2,
+        imputation_mode.decay
     )
 
     imputed_chunks_modified = MINIMAC4.out.imputed_chunks.
@@ -57,4 +60,22 @@ public static String updateChrX(Object value) {
     //rename file
     file(value).renameTo(updadedValue) 
     return updadedValue
+}
+
+
+def getParamsForMode(String mode) {
+    def imputation_params = [:]
+    
+    switch (mode) {
+        case 'imputation':
+            imputation_params = params.imputation
+            break
+        case 'hla':
+            imputation_params = params.imputation_hla
+            break
+        default:
+            throw new IllegalArgumentException("Unknown mode: $mode")
+    }
+    
+    return imputation_params
 }
