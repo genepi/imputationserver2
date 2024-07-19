@@ -32,7 +32,11 @@ workflow IMPUTATION {
         params.imputation.window,
         params.imputation.minimac_min_ratio,
         params.imputation.min_r2,
-        params.imputation.decay
+        params.imputation.decay,
+        params.imputation.diff_threshold,
+        params.imputation.prob_threshold,
+        params.imputation.prob_threshold_s1,
+        params.imputation.min_recom
     )
 
     imputed_chunks_modified = MINIMAC4.out.imputed_chunks.
