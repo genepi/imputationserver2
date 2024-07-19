@@ -7,7 +7,7 @@ category: Application
 
 workflow:
   steps:
-    - name: Quality Control and Imputation
+    - name: Imputation
       type: nextflow
       script: main.nf
       # params without UI
@@ -99,6 +99,7 @@ workflow:
         0.2: 0.2
         0.3: 0.3
       serialize: false
+      visible: false
       
     - id: phasing
       description: Phasing Engine
@@ -106,7 +107,6 @@ workflow:
       value: eagle
       values:
         eagle: Eagle v2.4 (phased output)
-        beagle: Beagle 5.4 (HRC and 1KG only)
         no_phasing: No phasing
       serialize: false
 
@@ -117,6 +117,7 @@ workflow:
         bind: refpanel
         property: populations
         category: RefPanel
+      visible: false  
 
     - id: mode
       description: Mode
@@ -125,6 +126,7 @@ workflow:
       values:
         qc_only: Quality Control Only
         imputation: Quality Control & Imputation
+      visible: false
 
     - id: aesEncryption
       description: AES 256 encryption
@@ -144,7 +146,7 @@ workflow:
       values:
         true: true
         false: false
-      visible: true
+      visible: false
       serialize: false
 
     - id: myseparator
