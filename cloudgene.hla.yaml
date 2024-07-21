@@ -34,7 +34,7 @@ workflow:
         - id: qc
           label: "Quality Control"          
         - id: imputation
-          label: "Imputation and Phasing"
+          label: "Phasing and Imputation"
         - id: compression
           label: "Compression and Encryption"
       processes:
