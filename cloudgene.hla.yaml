@@ -16,11 +16,10 @@ workflow:
         files: "${uploaded_files}/*.vcf.gz"
         encryption:
           aes: ${aesEncryption}
+        mode: "imputation"
+        population: "mixed"
         phasing:
-          engine: ${phasing} 
-        imputation:
-          min_r2: ${r2Filter}        
-          meta: ${meta}     
+          engine: "eagle" 
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
@@ -88,46 +87,6 @@ workflow:
         hg38: GRCh38/hg38
       details: Please note that the final SNP coordinates always match the reference build.
 
-    - id: r2Filter
-      description: rsq Filter
-      type: list
-      value: 0
-      values:
-        0: off
-        0.001: 0.001
-        0.1: 0.1
-        0.2: 0.2
-        0.3: 0.3
-      serialize: false
-      visible: false
-      
-    - id: phasing
-      description: Phasing Engine
-      type: list
-      value: eagle
-      values:
-        eagle: Eagle v2.4 (phased output)
-        no_phasing: No phasing
-      serialize: false
-
-    - id: population
-      description: Population
-      type: list
-      values:
-        bind: refpanel
-        property: populations
-        category: RefPanelHLA
-      visible: false  
-
-    - id: mode
-      description: Mode
-      type: list
-      value: imputation
-      values:
-        qc_only: Quality Control Only
-        imputation: Quality Control & Imputation
-      visible: false
-
     - id: aesEncryption
       description: AES 256 encryption
       details: Imputation Server encrypts all zip files by default. Please note that AES encryption does not work with standard unzip programs. Use 7z instead.
@@ -137,16 +96,6 @@ workflow:
         true: true
         false: false
       visible: true
-      serialize: false
-
-    - id: meta
-      description: Generate Meta-imputation file
-      type: checkbox
-      value: false
-      values:
-        true: true
-        false: false
-      visible: false
       serialize: false
 
     - id: myseparator
