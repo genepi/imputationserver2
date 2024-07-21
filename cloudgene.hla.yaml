@@ -72,7 +72,7 @@ workflow:
     - id: refpanel
       description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
       type: app_list
-      category: RefPanel
+      category: RefPanelHLA
 
     - id: uploaded_files
       description: Input Files (<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41" target="_blank">VCF</a>)
@@ -116,7 +116,7 @@ workflow:
       values:
         bind: refpanel
         property: populations
-        category: RefPanel
+        category: RefPanelHLA
       visible: false  
 
     - id: mode
