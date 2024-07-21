@@ -20,6 +20,10 @@ workflow:
         population: "mixed"
         phasing:
           engine: "eagle" 
+        imputation:
+          prob_threshold: 0.00
+          prob_threshold_s1: 0.00
+          diff_threshold: 0.00
         user:
           email: "${CLOUDGENE_USER_EMAIL}"
           name: "${CLOUDGENE_USER_NAME}"
