@@ -8,16 +8,10 @@ class RefPanelUtil {
         def params_file = new File(filename)
         def parameter_yaml = new FileInputStream(params_file)
         def panel = new Yaml().load(parameter_yaml)
-        //todo: replace ${apps_local_folder} and ${apps_hdfs_folder} with parent of params_file
 
         HashMap<String, String> environment = new HashMap<String, String>();
 		def folder = params_file.getParentFile().getAbsolutePath()
         environment.put("CLOUDGENE_APP_LOCATION", folder);
-		// Deprecated
-		environment.put("app_hdfs_folder", folder);
-		environment.put("app_local_folder", folder);
-		environment.put("hdfs_app_folder", folder);
-		environment.put("local_app_folder", folder);
 
         RefPanelUtil.resolveEnv(panel.properties, environment)
         return panel.properties

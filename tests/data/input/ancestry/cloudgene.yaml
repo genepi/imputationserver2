@@ -1,3 +1,4 @@
+id: HGDP_238_chr22
 name: HGDP_238_chr22
 description: HGDP_238_chr22
 version: 2.0.0
@@ -6,4 +7,4 @@ category: AncestryPanel
 
 properties:
   enabled: true
-  references: "${app_local_folder}/HGDP_238_chr22.*"
+  references: "${CLOUDGENE_APP_LOCATION}/HGDP_238_chr22.*"
