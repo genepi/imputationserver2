@@ -21,6 +21,10 @@ nextflow_process {
                 input[4] = params.imputation.minimac_min_ratio
                 input[5] = params.imputation.min_r2
                 input[6] = params.imputation.decay
+                input[7] = params.imputation.prob_threshold
+                input[8] = params.imputation.prob_threshold_s1
+                input[9] = params.imputation.diff_threshold
+                input[10] = params.imputation.min_recom
                 """
             }
         }
@@ -53,6 +57,10 @@ nextflow_process {
                 input[4] = params.imputation.minimac_min_ratio
                 input[5] = params.imputation.min_r2
                 input[6] = params.imputation.decay
+                input[7] = params.imputation.prob_threshold
+                input[8] = params.imputation.prob_threshold_s1
+                input[9] = params.imputation.diff_threshold
+                input[10] = params.imputation.min_recom
                 """
             }
         }
