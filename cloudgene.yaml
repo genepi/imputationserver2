@@ -36,8 +36,8 @@ workflow:
           label: "Quality Control"          
         - id: imputation
           label: "Phasing and Imputation"
-        - id: compression
-          label: "Compression and Encryption"
+        - id: summary
+          label: "Summary"
       processes:
         - process: "INPUT_VALIDATION:INPUT_VALIDATION_VCF"
           view: status
@@ -66,7 +66,7 @@ workflow:
         - process: "ENCRYPTION:COMPRESSION_ENCRYPTION_VCF"
           view: progressbar
           label: "Compression and Encryption"
-          group: "compression"
+          group: "summary"
 
   inputs:
     - id: refpanel
