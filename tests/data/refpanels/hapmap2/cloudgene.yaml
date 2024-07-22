@@ -3,16 +3,17 @@ description: HapMap2 Reference Panel for Michigan Imputation Server
 version: 2.0.0
 website: http://imputationserver.sph.umich.edu
 category: RefPanel
+id: hapmap2-chr20
 
 properties:
   id: hapmap2-chr20
   build: hg19
-  genotypes: ${app_local_folder}/msavs/hapmap_r22.chr$chr.CEU.hg19.msav
-  legend: ${app_local_folder}/legends/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz
-  mapEagle: ${app_local_folder}/map/genetic_map_hg19_withX.txt.gz
-  refEagle: ${app_local_folder}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
-  refBeagle: ${app_local_folder}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bref3
-  mapBeagle: ${app_local_folder}/map/plink.chr$chr.GRCh37.map
+  genotypes: ${CLOUDGENE_APP_LOCATION}/msavs/hapmap_r22.chr$chr.CEU.hg19.msav
+  legend: ${CLOUDGENE_APP_LOCATION}/legends/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz
+  mapEagle: ${CLOUDGENE_APP_LOCATION}/map/genetic_map_hg19_withX.txt.gz
+  refEagle: ${CLOUDGENE_APP_LOCATION}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
+  refBeagle: ${CLOUDGENE_APP_LOCATION}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bref3
+  mapBeagle: ${CLOUDGENE_APP_LOCATION}/map/plink.chr$chr.GRCh37.map
   populations:
     - id: eur
       name: EUR

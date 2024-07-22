@@ -1,9 +1,9 @@
 properties:
   id: phase1
   build: hg19
-  genotypes: ${app_local_folder}/msavs/$chr.1000g.Phase1.v3.With.Parameter.Estimates.msav
-  legend: ${app_local_folder}/legends/1000g_chr$chr_impute.legend.gz
-  mapEagle: ${app_local_folder}/map/genetic_map_hg19_withX.txt.gz
+  genotypes: ${CLOUDGENE_APP_LOCATION}/msavs/$chr.1000g.Phase1.v3.With.Parameter.Estimates.msav
+  legend: ${CLOUDGENE_APP_LOCATION}/legends/1000g_chr$chr_impute.legend.gz
+  mapEagle: ${CLOUDGENE_APP_LOCATION}/map/genetic_map_hg19_withX.txt.gz
   populations:
     - id: eur
       name: EUR
