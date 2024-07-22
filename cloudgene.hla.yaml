@@ -16,6 +16,8 @@ workflow:
       params:
         project: "${CLOUDGENE_JOB_NAME}"
         files: "${uploaded_files}/*.vcf.gz"
+        chunksize: 1000000000
+        minSamples: 0
         encryption:
           aes: ${aesEncryption}
         mode: "imputation"
