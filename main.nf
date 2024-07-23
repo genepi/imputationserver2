@@ -152,8 +152,11 @@ workflow.onComplete {
     println "::submit-counter name=genotypes::"
     println "::submit-counter name=chromosomes::"
     println "::submit-counter name=runs::"
-    println "::submit-counter name=refpanel_${params.refpanel.id}::"
-    println "::submit-counter name=phasing_${phasing_engine}::"
+
+    println "::set-value-and-submit name=reference_panel::${params.refpanel.id}"
+    println "::set-value-and-submit name=phasing_engine::${phasing_engine}"
+    println "::set-value-and-submit name=genome_build::${params.build}"
+
 
     // imputation job
     if (params.merge_results === true && params.encryption.enabled === true) {
