@@ -107,7 +107,11 @@ workflow:
         - process: "ANCESTRY_ESTIMATION:ESTIMATE_ANCESTRY"
           view: label
           label: "Estimate Ancestry"
-          group: "ancestry"            
+          group: "ancestry"
+        - process: "ANCESTRY_ESTIMATION:VISUALIZE_ANCESTRY"
+          view: label
+          label: "Visualize Ancestry"
+          group: "ancestry"                     
   inputs:
     - id: refpanel
       description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
