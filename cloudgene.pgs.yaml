@@ -4,6 +4,7 @@ description: "You can upload genotyped data and the application imputes your gen
 version: 2.0.0-beta7
 website: https://imputationserver.readthedocs.io
 category: Application
+submitButton: Start Calculation
 
 workflow:
   steps:

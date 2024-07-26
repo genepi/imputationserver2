@@ -4,6 +4,7 @@ description: This is the new Michigan Imputation Server Pipeline using <a href="
 version: 2.0.0-beta7
 website: https://imputationserver.readthedocs.io
 category: Application
+submitButton: Start Imputation
 
 workflow:
   steps:
