@@ -2,7 +2,7 @@ properties:
   id: chrMT
   build: hg19
   genotypes: ${CLOUDGENE_APP_LOCATION}/msavs/chr$chr.phylotree17.msav
-  legend: ${CLOUDGENE_APP_LOCATION}/legends/chr$chr.phylotree17.legend.gz
+  sites: ${CLOUDGENE_APP_LOCATION}/sites/chr$chr.phylotree17.sites.gz
   mapEagle: ${CLOUDGENE_APP_LOCATION}/map/genetic_map_hg19_withX.txt.gz
   populations:
     - id: eur

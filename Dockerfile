@@ -48,7 +48,7 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSIO
 ENV PATH="/opt/pgs-calc:${PATH}"
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=v1.3.0
+ENV IMPUTATIONSERVER_UTILS_VERSION=v1.4.0
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
 #COPY files/imputationserver-utils.tar.gz .

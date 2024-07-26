@@ -48,20 +48,26 @@ files.ifEmpty {
     exit 1
 }
 
-// Find legend files from full pattern and make legend file pattern relative
-params.refpanel.legend_pattern = "${params.refpanel.legend}"
-params.refpanel.legend = "./${file(params.refpanel.legend).fileName}"
+// Find site files from full pattern and make site file pattern relative
+params.refpanel.sites_pattern = "${params.refpanel.sites}"
+params.refpanel.sites = "./${file(params.refpanel.sites).fileName}"
 
-legend_files_ch = Channel.of(1..22, 'X', 'MT')
+site_files_ch = Channel.of(1..22, 'X', 'MT')
     .map {
         it -> 
-            def legend_file = file(PatternUtil.parse(params.refpanel.legend_pattern, [chr: it]))
-            if(!legend_file.exists()){
+            def sites_file = file(PatternUtil.parse(params.refpanel.sites_pattern, [chr: it]))
+            def sites_file_index = file(PatternUtil.parse(params.refpanel.sites_pattern+ ".tbi", [chr: it]))
+            
+            if(!sites_file.exists()){
                 return null;
             }  
-            return legend_file; 
-    }
 
+            if(sites_file.exists() && !sites_file_index.exists()){
+                error "Missing tabix index for " + sites_file
+            }  
+        
+            return tuple(sites_file, sites_file_index); 
+    }
 
 include { INPUT_VALIDATION } from './workflows/input_validation'
 include { QUALITY_CONTROL } from './workflows/quality_control'
@@ -78,10 +84,10 @@ workflow {
     if (params.imputation.enabled){
 
         INPUT_VALIDATION()
-        
+
         QUALITY_CONTROL(
             INPUT_VALIDATION.out,
-            legend_files_ch.collect()
+            site_files_ch.collect()
         )
 
         if (params.mode == 'imputation') {

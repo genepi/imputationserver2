@@ -2,7 +2,7 @@ properties:
   id: hapmap2-chr20-hg38
   build: hg38
   genotypes: ${CLOUDGENE_APP_LOCATION}/msavs/hapmap_r22.chr$chr.CEU.hg38.msav
-  legend: ${CLOUDGENE_APP_LOCATION}/legends/hapmap_r22.chr$chr.CEU.hg38_impute.legend.gz
+  sites: ${CLOUDGENE_APP_LOCATION}/sites/hapmap_r22.chr$chr.CEU.hg38_impute.sites.fix.gz
   mapEagle: ${CLOUDGENE_APP_LOCATION}/map/genetic_map_hg38_withX.txt.gz
   refEagle: ${CLOUDGENE_APP_LOCATION}/bcfs/hapmap_r22.chr$chr.CEU.hg38.bcf
   populations:
