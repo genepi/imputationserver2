@@ -16,11 +16,19 @@ params:
   service: ""
 ---
 
+```{r setup, echo=FALSE, include=FALSE}
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(DT)
+})
+```
+
 
 ```{r echo=FALSE}
-data = read.table(params$input, header = FALSE, sep="\t")
-data[, 11] <- as.numeric(as.character( data[, 11] ))
-miss = data[which(data$V11 > 300),];
+data <- read.table(params$input, header = TRUE, sep="\t")
+filtered_data <- data %>%
+  filter(CHISQ > 300)
 ```
 
 ## Parameters
@@ -41,14 +49,17 @@ The plot shows the densities of frequencies falling into each part. The first 50
 
 ```{r echo=FALSE}
 
-lm_eqn = function(df){
-    m = lm(V9 ~ V5, df);
-    eq <- paste('r2 =', format(summary(m)$r.squared, digits = 3))
-    as.character(as.expression(eq)); 
+lm_eqn <- function(df){
+    m <- lm(REFERENCE_AAF ~ AAF, df)
+    eq <- paste('r² =', format(summary(m)$r.squared, digits = 3))
+    as.character(as.expression(eq))
 }
 
-i.s <- smoothScatter(data$V5,data$V9, nrpoints=5000, xlim=c(0,1),xlab="Ref Allele Frequency (Uploaded Samples)", ylab="Ref Allele Frequency (Reference Panel)",useRaster=TRUE)
-legend("topleft",legend=lm_eqn(data), bty ="n", pch=NA)
+smoothScatter(data$AAF, data$REFERENCE_AAF, nrpoints = 5000, xlim = c(0, 1),
+              xlab = "Ref Allele Frequency (Uploaded Samples)", 
+              ylab = "Ref Allele Frequency (Reference Panel)", useRaster = TRUE)
+legend("topleft", legend = lm_eqn(data), bty = "n", pch = NA)
+
 
 ```
 
@@ -57,28 +68,22 @@ legend("topleft",legend=lm_eqn(data), bty ="n", pch=NA)
 Markers where chisq is greater than 300. 
 
 ```{r echo=FALSE}
+chisq_length <- nrow(filtered_data)
+cat("Total mismatches:", chisq_length, "\n")
 
- cat("Total mismatches:", length(miss[,11]))
-
-
-  count = as.integer(0); 
-  
-if (length(miss[,11]) > 0) {
-
-for (i in 1:length(miss[,11])){
-
-    if(count < 5000){
-     count =  count + 1; 
- cat("Mismatched frequencies for '", as.character(miss[i,2]),"' f[", as.character(miss[i,3]) ,",", as.character(miss[i,4]),"] = [",miss[i,5],",",miss[i,6],"] vs [", miss[i,9], ",", miss[i,10], "], chisq ",miss[i,11], "\n",sep=""); 
-	} else{
-	 cat("Report outputs first 5000 mismatches.");
-	 break;
-	}
-	
+if (chisq_length > 0) {
+    # Print the first 5000 mismatches
+    for (i in 1:min(5000, chisq_length)) {
+        cat("Mismatched frequencies for '", filtered_data$ID[i], 
+            "' f[", filtered_data$REF[i], ",", filtered_data$ALT[i],"] =
+            [", filtered_data$AAF[i], ",", 1 - filtered_data$AAF[i],"] vs
+            [", filtered_data$REFERENCE_AAF[i], ",", 1 - filtered_data$REFERENCE_AAF[i],"],
+            chisq ", filtered_data$CHISQ[i], "\n", sep = "")
+    }
+    if (chisq_length > 5000) {
+        cat("Report outputs first 5000 mismatches.")
+    }
 }
-
-}
-
 ```
 
 ---
