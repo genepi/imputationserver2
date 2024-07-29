@@ -51,7 +51,7 @@ The plot shows the densities of frequencies falling into each part. The first 50
 
 lm_eqn <- function(df){
     m <- lm(REFERENCE_AAF ~ AAF, df)
-    eq <- paste('r² =', format(summary(m)$r.squared, digits = 3))
+    eq <- paste('r2 =', format(summary(m)$r.squared, digits = 3))
     as.character(as.expression(eq))
 }
 
@@ -76,8 +76,8 @@ if (chisq_length > 0) {
     for (i in 1:min(5000, chisq_length)) {
         cat("Mismatched frequencies for '", filtered_data$ID[i], 
             "' f[", filtered_data$REF[i], ",", filtered_data$ALT[i],"] =
-            [", filtered_data$AAF[i], ",", 1 - filtered_data$AAF[i],"] vs
-            [", filtered_data$REFERENCE_AAF[i], ",", 1 - filtered_data$REFERENCE_AAF[i],"],
+            [", (1-filtered_data$AAF[i]), ",", filtered_data$AAF[i],"] vs
+            [", (1-filtered_data$REFERENCE_AAF[i]), ",", filtered_data$REFERENCE_AAF[i],"],
             chisq ", filtered_data$CHISQ[i], "\n", sep = "")
     }
     if (chisq_length > 5000) {
