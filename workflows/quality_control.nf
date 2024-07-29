@@ -46,6 +46,7 @@ workflow QUALITY_CONTROL {
     if (params.population != "mixed") {
         QUALITY_CONTROL_REPORT(
             QUALITY_CONTROL_VCF.out.maf_file,
+            QUALITY_CONTROL_VCF.out.qc_report,
             file("$baseDir/files/qc-report.Rmd", checkIfExists: true)
         )
     }

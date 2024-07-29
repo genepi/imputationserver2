@@ -8,7 +8,8 @@ output:
     gallery: false
     highlight: tango
 params:
-  input: ""
+  maf_file: ""
+  qc_result: ""
   name: ""
   population: ""
   version: ""
@@ -20,13 +21,15 @@ params:
 suppressPackageStartupMessages({
   library(ggplot2)
   library(dplyr)
-  library(DT)
+  library(tidyr)
+  library(knitr) 
+  library(stringr)  
 })
 ```
 
 
 ```{r echo=FALSE}
-data <- read.table(params$input, header = TRUE, sep="\t")
+data <- read.table(params$maf_file, header = TRUE, sep="\t")
 filtered_data <- data %>%
   filter(CHISQ > 300)
 ```
@@ -40,8 +43,35 @@ filtered_data <- data %>%
 | Date             | `r params$date`             |
 | Population       | `r params$population    `   |
 
-## Allele-Frequency Correlation
 
+## Statistics
+
+```{r echo=FALSE, warning=FALSE}
+# Define the path to the log file
+qc_result <- params$qc_result
+
+# Read the entire file content
+content <- readLines(qc_result)
+
+# Create a tibble from the log content, filtering out lines starting with ::
+result_df <- tibble(line = content) %>%
+  # Filter out lines starting with ::
+  filter(!str_starts(line, "::") & !str_starts(line, "See")) %>%
+  # Separate lines into Key and Value based on ':'
+  separate(col = line, into = c("Parameter", "Value"), sep = ":", extra = "merge") %>%
+  # Trim whitespace from Key and Value
+  mutate(across(everything(), ~trimws(.))) %>%
+  # Ensure there are no empty Key values and fill missing Values
+  filter(!is.na(Parameter) & Parameter != "") %>%
+  # Convert the tibble to a data frame
+  as.data.frame()
+
+# Print the resulting data frame
+kable(result_df)
+
+```
+
+## Allele-Frequency Correlation
 
 ### Uploaded Samples vs. Reference Panel
 
