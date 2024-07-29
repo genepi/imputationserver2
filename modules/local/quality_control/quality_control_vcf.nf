@@ -7,7 +7,7 @@ process QUALITY_CONTROL_VCF {
 
     input:
     path(vcf_files)
-    path(legend_files)
+    path(site_files)
     path(chain_file)
     val(panel_version)
 

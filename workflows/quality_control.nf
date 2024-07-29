@@ -5,7 +5,7 @@ workflow QUALITY_CONTROL {
 
     take:
     validated_files
-    legend_files_ch
+    site_files_ch
     
     main:
 
@@ -18,7 +18,7 @@ workflow QUALITY_CONTROL {
 
     QUALITY_CONTROL_VCF(
         validated_files,
-        legend_files_ch,
+        site_files_ch,
         chain_file,
         panel_version
     )

@@ -103,7 +103,7 @@ The `properties` section contains the following key-value pairs:
 | ------------- | --------------------------------------------------------------------------- | -------- |
 | `id`          | An identifier for the reference panel. **TODO: needed??**                   | yes      |
 | `genotypes`   | The location of the genotype files for the reference panel data.            | yes      |
-| `legend`      | The location of the legend files for the reference panel data.              | yes      |
+| `sites`      | The location of the site files for the reference panel data.              | yes      |
 | `mapEagle`    | The location of the genetic map file used for phasing with eagle.           | yes      |
 | `refEagle`    | The location of the BCF file for the reference panel data for eagle.        | yes      |
 | `mapBeagle`   | The location of the genetic map file used for phasing with Beagle.          | no       |
