@@ -24,7 +24,7 @@ workflow:
         mode: "imputation"
         population: "mixed"
         phasing:
-          engine: "eagle" 
+          engine: ${phasing}
         imputation:
           prob_threshold: 0.00
           prob_threshold_s1: 0.00
@@ -95,6 +95,15 @@ workflow:
         hg19: GRCh37/hg19
         hg38: GRCh38/hg38
       details: Please note that the final SNP coordinates always match the reference build.
+
+    - id: phasing
+      description: Phasing Engine
+      type: list
+      value: eagle
+      values:
+        eagle: Eagle v2.4
+        no_phasing: No phasing
+      serialize: false
 
     - id: aesEncryption
       description: AES 256 encryption
