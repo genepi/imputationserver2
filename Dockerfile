@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-LABEL Lukas Forer <lukas.forer@i-med.ac.at> / Sebastian Schönherr <sebastian.schoenherr@i-med.ac.at>
+LABEL creator="Lukas Forer <lukas.forer@i-med.ac.at> / Sebastian Schönherr <sebastian.schoenherr@i-med.ac.at>"
 
 # Install compilers
 RUN apt-get update && \
@@ -48,14 +48,13 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSIO
 ENV PATH="/opt/pgs-calc:${PATH}"
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=v1.4.1
+ENV IMPUTATIONSERVER_UTILS_VERSION=v1.4.2
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
 #COPY files/imputationserver-utils.tar.gz .
 RUN wget https://github.com/genepi/imputationserver-utils/releases/download/${IMPUTATIONSERVER_UTILS_VERSION}/imputationserver-utils.tar.gz && \
     tar xvfz imputationserver-utils.tar.gz && \
-    rm imputationserver-utils.tar.gz && \
-    chmod +x /opt/imputationserver-utils/bin/tabix
+    rm imputationserver-utils.tar.gz
 
 # Install ccat
 ENV CCAT_VERSION=1.1.0
