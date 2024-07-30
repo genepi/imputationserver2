@@ -1,6 +1,6 @@
-site_name: Michigan Imputation Server
-repo_name: genepi/imputationserver
-repo_url: https://github.com/genepi/imputationserver
+site_name: Imputation Server 2
+repo_name: genepi/imputationserver2
+repo_url: https://github.com/genepi/imputationserver2
 edit_uri: edit/master/docs
 
 theme:
