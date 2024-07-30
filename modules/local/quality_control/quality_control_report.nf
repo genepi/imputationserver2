@@ -4,18 +4,20 @@ process QUALITY_CONTROL_REPORT {
 
     input:
     path(maf_file)
-    path(qc_result)
+    path(validation_report)
     path(qc_report)
+    path(qc_report_file)
 
     output:
     path("*.html")
 
     script:
     """
-    Rscript -e "require( 'rmarkdown' ); render('${qc_report}',
+    Rscript -e "require( 'rmarkdown' ); render('${qc_report_file}',
         params = list(
             maf_file = '${maf_file}',
-            qc_result = '${qc_result}',
+            validation_report = '${validation_report}',
+            qc_report = '${qc_report}',
             name = '${params.project}',
             population = '${params.population}',
             version = '${workflow.manifest.version}',

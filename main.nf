@@ -86,7 +86,8 @@ workflow {
         INPUT_VALIDATION()
 
         QUALITY_CONTROL(
-            INPUT_VALIDATION.out,
+            INPUT_VALIDATION.out.validated_files,
+            INPUT_VALIDATION.out.validation_report,
             site_files_ch.collect()
         )
 

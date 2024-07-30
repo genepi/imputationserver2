@@ -11,7 +11,7 @@ workflow INPUT_VALIDATION {
 
     emit:
     validated_files = INPUT_VALIDATION_VCF.out.validated_files.collect()
-
+    validation_report = INPUT_VALIDATION_VCF.out.validation_report
 }
 
 

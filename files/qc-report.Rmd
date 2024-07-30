@@ -9,7 +9,8 @@ output:
     highlight: tango
 params:
   maf_file: ""
-  qc_result: ""
+  validation_report: ""
+  qc_report: ""
   name: ""
   population: ""
   version: ""
@@ -27,47 +28,47 @@ suppressPackageStartupMessages({
 })
 ```
 
-
 ```{r echo=FALSE}
 data <- read.table(params$maf_file, header = TRUE, sep="\t")
 filtered_data <- data %>%
   filter(CHISQ > 300)
-```
 
-## Parameters
+# Define the function
+parse_report <- function(file_path) {
+  # Read the entire file content
+  content <- readLines(file_path)
+
+  # Create a tibble from the log content, filtering out lines starting with :: and those without ':'
+  result_df <- tibble(line = content) %>%
+    # Filter out lines starting with :: or without a colon (:)
+    filter(!str_starts(line, "::") & str_detect(line, ":")) %>%
+    # Separate lines into Key and Value based on ':'
+    separate(col = line, into = c("Parameter", "Value"), sep = ":", extra = "merge") %>%
+    # Trim whitespace from Key and Value
+    mutate(across(everything(), ~trimws(.))) %>%
+    # Ensure there are no empty Key values and fill missing Values
+    filter(!is.na(Parameter) & Parameter != "") %>%
+    # Convert the tibble to a data frame
+    as.data.frame()
+  
+   # Return the result as a data frame
+  return(result_df)
+}
+```
+This report has been created with **`r params$service`**:
 
 | Parameter        | Value                       |
 |------------------|-----------------------------|
 | Job              | `r params$name`            |
 | Pipeline Version | `r params$version`          |
 | Date             | `r params$date`             |
-| Population       | `r params$population    `   |
-
 
 ## Statistics
-
 ```{r echo=FALSE, warning=FALSE}
 # Define the path to the log file
-qc_result <- params$qc_result
-
-# Read the entire file content
-content <- readLines(qc_result)
-
-# Create a tibble from the log content, filtering out lines starting with ::
-result_df <- tibble(line = content) %>%
-  # Filter out lines starting with ::
-  filter(!str_starts(line, "::") & !str_starts(line, "See")) %>%
-  # Separate lines into Key and Value based on ':'
-  separate(col = line, into = c("Parameter", "Value"), sep = ":", extra = "merge") %>%
-  # Trim whitespace from Key and Value
-  mutate(across(everything(), ~trimws(.))) %>%
-  # Ensure there are no empty Key values and fill missing Values
-  filter(!is.na(Parameter) & Parameter != "") %>%
-  # Convert the tibble to a data frame
-  as.data.frame()
-
-# Print the resulting data frame
-kable(result_df)
+validation <- parse_report(params$validation_report)
+qc <- parse_report(params$qc_report)
+kable(rbind(validation,qc))
 
 ```
 

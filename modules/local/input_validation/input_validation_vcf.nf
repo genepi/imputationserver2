@@ -9,7 +9,8 @@ process INPUT_VALIDATION_VCF {
 
     output:
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
-    
+    path("validation_report.txt"), emit: validation_report
+
     script:
     def avail_mem = 1024
     if (!task.memory) {
@@ -22,7 +23,6 @@ process INPUT_VALIDATION_VCF {
     set +e
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
-    # TODO: add contact, mail, ...
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         validate \
         --population ${params.population} \
