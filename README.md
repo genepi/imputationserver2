@@ -300,5 +300,5 @@ imputationserver2 is MIT Licensed and was developed at the [Institute of Genetic
 
 ## Contact
 
-- [Sebastian Schönherr](mailto:sebastian.schoenherr@i-med.ac.at)
-- [Lukas Forer](mailto:lukas.forer@i-med.ac.at)
+- [Sebastian Schönherr](https://genepi.i-med.ac.at/team/schoenherr-sebastian/)
+- [Lukas Forer](https://genepi.i-med.ac.at/team/forer-lukas/)
