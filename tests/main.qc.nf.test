@@ -69,7 +69,7 @@ nextflow_pipeline {
             ).match()
             
             // file starts with #, which is ignored by Tablesaw (also not used as header)
-            with(path("${outputDir}/statistics/typed-only.txt").csv(header: false)) {
+            with(path("${outputDir}/statistics/snps-typed-only.txt").csv(header: true)) {
                 assert rowCount == ONLY_IN_INPUT
             }
   
