@@ -28,7 +28,7 @@ jobs:
 
       - name: Install nf-test
         run: |
-          wget -qO- get.nf-test.com
+          wget -qO- get.nf-test.com | bash
           sudo mv nf-test /usr/local/bin/
           
       - name: Build Docker 
