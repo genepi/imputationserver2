@@ -1,9 +1,9 @@
-# Imputationserver 2
+# Imputation Server 2
 
-[![nf-gwas](https://github.com/genepi/nf-imputationserver/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/genepi/nf-imputationserver/actions/workflows/ci-tests.yml)
+[![imputationserver2](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml)
 [![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
 
-This repository includes the Michigan Imputation Server 2 workflow ported to Nextflow.
+This repository includes the Imputation Server 2 Nextflow workflow.
 
 ## Run with test data
 
@@ -51,7 +51,7 @@ nextflow run main.nf -c job.config
 | `merge_samples`       | `true`                | Execute compression and encryption workflow        |
 | `password`            | `null`                | Password for encryption                            |
 | `send_mail`           | `false`               | Enable or disable email notifications              |
-| `service.name`        | `nf-imputationserver` | Service name                                       |
+| `service.name`        | `Imputation Server 2` | Service name                                       |
 | `service.email`       | `null`                | Service email                                      |
 | `service.url`         | `null`                | Service URL                                        |
 | `user.name`           | `null`                | User's name                                        |
@@ -82,7 +82,7 @@ nextflow run main.nf -c job.config
 
 ## Reference Panel Configuration
 
-This document describes the structure of a YAML file used to configure a reference panel for the Michigan Imputation Server. Reference panels are essential for genotype imputation, allowing the server to infer missing genotype data accurately.
+This document describes the structure of a YAML file used to configure a reference panel for Imputation Servers. Reference panels are essential for genotype imputation, allowing the server to infer missing genotype data accurately.
 
 ### YAML Structure
 
@@ -138,11 +138,11 @@ Note: the population id has to be the same as in the legend files.
 
 ### Example YAML
 
-Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for the Michigan Imputation Server, including details about its version, data sources, and populations represented. The files are stored on AWS S3 and are directly consumed by the pipeline from there.
+Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for an Imputation Server, including details about its version, data sources, and populations represented. The files are stored on AWS S3 and are directly consumed by the pipeline from there.
 
 ```yaml
 name: HapMap 2
-description: HapMap2 Reference Panel for Michigan Imputation Server
+description: HapMap2 Reference Panel for Imputation Server
 version: 2.0.0
 website: http://imputationserver.sph.umich.edu
 category: RefPanel
@@ -183,14 +183,14 @@ A legend file is a tab-delimited file consisting of 5 columns (`id`, `position`,
 
 ### Installation
 
-- Install cloudgene3: `curl -s install.cloudgene.io | bash -s 3.0.0-beta4`
+- Install cloudgene3: `curl -s install.cloudgene.io | bash -s 3.0.0-rc2`
 - Download latest source code zip file from releases
-- Install nf-impuationserver app: `./cloudgene install nf-imputationserver-2.0.0-beta1.zip`
+- Install impuationserver2 app: `./cloudgene install imputationserver2-2.0.0-beta9.zip`
 - Install hapmap2 referenece panel: `./cloudgene install https://genepi.i-med.ac.at/downloads/imputation/imputation-hapmap2.zip`
 - Start cloudgene server: `./cloudgene server`
 - Open [http://localhost:8082](http://localhost:8082)
 - Login with default admin account: username `admin` and password `admin1978`
-- Imputation can be tested with the following [test file](https://github.com/genepi/nf-imputationserver/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
+- Imputation can be tested with the following [test file](https://github.com/genepi/imputationserver2/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
 
 ### Default Configuration
 
@@ -269,7 +269,7 @@ mail {
 }
 ```
 
-- Add `params.config.send_mail = true` to the application specific configuration to activate mail notifications in the nf-imputationserver pipeline
+- Add `params.config.send_mail = true` to the application specific configuration to activate mail notifications in the imputationserver2 pipeline
 
 ### Adapt default parameters
 
@@ -296,7 +296,7 @@ nf-test test
 
 ## License
 
-nf-imputationserver is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
+imputationserver2 is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
 
 ## Contact
 
