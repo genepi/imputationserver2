@@ -1,9 +1,9 @@
-# nf-imputationserver
+# Imputationserver 2
 
 [![nf-gwas](https://github.com/genepi/nf-imputationserver/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/genepi/nf-imputationserver/actions/workflows/ci-tests.yml)
 [![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
 
-This repository includes the Michigan Imputation Server Workflow ported to Nextflow.
+This repository includes the Michigan Imputation Server 2 workflow ported to Nextflow.
 
 ## Run with test data
 
@@ -101,9 +101,9 @@ The `properties` section contains the following key-value pairs:
 
 | Property      | Description                                                                 | Required |
 | ------------- | --------------------------------------------------------------------------- | -------- |
-| `id`          | An identifier for the reference panel. **TODO: needed??**                   | yes      |
+| `id`          | An identifier for the reference panel.                                      | yes      |
 | `genotypes`   | The location of the genotype files for the reference panel data.            | yes      |
-| `sites`      | The location of the site files for the reference panel data.              | yes      |
+| `sites`      | The location of the site files for the reference panel data.                 | yes      |
 | `mapEagle`    | The location of the genetic map file used for phasing with eagle.           | yes      |
 | `refEagle`    | The location of the BCF file for the reference panel data for eagle.        | yes      |
 | `mapBeagle`   | The location of the genetic map file used for phasing with Beagle.          | no       |
