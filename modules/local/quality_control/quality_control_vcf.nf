@@ -15,8 +15,8 @@ process QUALITY_CONTROL_VCF {
     path("${metaFilesDir}/*"), emit: chunks_csv
     path("${chunksDir}/*"), emit: chunks_vcf
     path("${statisticsDir}/*"), optional: true
-    path("maf.txt", emit: maf_file)
-    path("qc_report.txt")
+    path("maf.txt"), emit: maf_file
+    path("qc_report.txt"), emit: qc_report
 
     script:
     chunksDir = 'chunks'

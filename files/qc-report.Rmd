@@ -8,7 +8,9 @@ output:
     gallery: false
     highlight: tango
 params:
-  input: ""
+  maf_file: ""
+  validation_report: ""
+  qc_report: ""
   name: ""
   population: ""
   version: ""
@@ -16,24 +18,61 @@ params:
   service: ""
 ---
 
-
-```{r echo=FALSE}
-data = read.table(params$input, header = FALSE, sep="\t")
-data[, 11] <- as.numeric(as.character( data[, 11] ))
-miss = data[which(data$V11 > 300),];
+```{r setup, echo=FALSE, include=FALSE}
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(tidyr)
+  library(knitr) 
+  library(stringr)  
+})
 ```
 
-## Parameters
+```{r echo=FALSE}
+data <- read.table(params$maf_file, header = TRUE, sep="\t")
+filtered_data <- data %>%
+  filter(CHISQ > 300)
+
+# Define the function
+parse_report <- function(file_path) {
+  # Read the entire file content
+  content <- readLines(file_path)
+
+  # Create a tibble from the log content, filtering out lines starting with :: and those without ':'
+  result_df <- tibble(line = content) %>%
+    # Filter out lines starting with :: or without a colon (:)
+    filter(!str_starts(line, "::") & str_detect(line, ":")) %>%
+    # Separate lines into Key and Value based on ':'
+    separate(col = line, into = c("Parameter", "Value"), sep = ":", extra = "merge") %>%
+    # Trim whitespace from Key and Value
+    mutate(across(everything(), ~trimws(.))) %>%
+    # Ensure there are no empty Key values and fill missing Values
+    filter(!is.na(Parameter) & Parameter != "") %>%
+    # Convert the tibble to a data frame
+    as.data.frame()
+  
+   # Return the result as a data frame
+  return(result_df)
+}
+```
+This report has been created with **`r params$service`**:
 
 | Parameter        | Value                       |
 |------------------|-----------------------------|
 | Job              | `r params$name`            |
 | Pipeline Version | `r params$version`          |
 | Date             | `r params$date`             |
-| Population       | `r params$population    `   |
+
+## Statistics
+```{r echo=FALSE, warning=FALSE}
+# Define the path to the log file
+validation <- parse_report(params$validation_report)
+qc <- parse_report(params$qc_report)
+kable(rbind(validation,qc))
+
+```
 
 ## Allele-Frequency Correlation
-
 
 ### Uploaded Samples vs. Reference Panel
 
@@ -41,14 +80,17 @@ The plot shows the densities of frequencies falling into each part. The first 50
 
 ```{r echo=FALSE}
 
-lm_eqn = function(df){
-    m = lm(V9 ~ V5, df);
+lm_eqn <- function(df){
+    m <- lm(REFERENCE_AAF ~ AAF, df)
     eq <- paste('r2 =', format(summary(m)$r.squared, digits = 3))
-    as.character(as.expression(eq)); 
+    as.character(as.expression(eq))
 }
 
-i.s <- smoothScatter(data$V5,data$V9, nrpoints=5000, xlim=c(0,1),xlab="Ref Allele Frequency (Uploaded Samples)", ylab="Ref Allele Frequency (Reference Panel)",useRaster=TRUE)
-legend("topleft",legend=lm_eqn(data), bty ="n", pch=NA)
+smoothScatter(data$AAF, data$REFERENCE_AAF, nrpoints = 5000, xlim = c(0, 1),
+              xlab = "Ref Allele Frequency (Uploaded Samples)", 
+              ylab = "Ref Allele Frequency (Reference Panel)", useRaster = TRUE)
+legend("topleft", legend = lm_eqn(data), bty = "n", pch = NA)
+
 
 ```
 
@@ -57,28 +99,22 @@ legend("topleft",legend=lm_eqn(data), bty ="n", pch=NA)
 Markers where chisq is greater than 300. 
 
 ```{r echo=FALSE}
+chisq_length <- nrow(filtered_data)
+cat("Total mismatches:", chisq_length, "\n")
 
- cat("Total mismatches:", length(miss[,11]))
-
-
-  count = as.integer(0); 
-  
-if (length(miss[,11]) > 0) {
-
-for (i in 1:length(miss[,11])){
-
-    if(count < 5000){
-     count =  count + 1; 
- cat("Mismatched frequencies for '", as.character(miss[i,2]),"' f[", as.character(miss[i,3]) ,",", as.character(miss[i,4]),"] = [",miss[i,5],",",miss[i,6],"] vs [", miss[i,9], ",", miss[i,10], "], chisq ",miss[i,11], "\n",sep=""); 
-	} else{
-	 cat("Report outputs first 5000 mismatches.");
-	 break;
-	}
-	
+if (chisq_length > 0) {
+    # Print the first 5000 mismatches
+    for (i in 1:min(5000, chisq_length)) {
+        cat("Mismatched frequencies for '", filtered_data$ID[i], 
+            "' f[", filtered_data$REF[i], ",", filtered_data$ALT[i],"] =
+            [", (1-filtered_data$AAF[i]), ",", filtered_data$AAF[i],"] vs
+            [", (1-filtered_data$REFERENCE_AAF[i]), ",", filtered_data$REFERENCE_AAF[i],"],
+            chisq ", filtered_data$CHISQ[i], "\n", sep = "")
+    }
+    if (chisq_length > 5000) {
+        cat("Report outputs first 5000 mismatches.")
+    }
 }
-
-}
-
 ```
 
 ---

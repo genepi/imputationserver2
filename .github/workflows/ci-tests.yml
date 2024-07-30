@@ -28,11 +28,11 @@ jobs:
 
       - name: Install nf-test
         run: |
-          wget -qO- get.nf-test.com | bash  -s 0.9.0-rc2
+          wget -qO- get.nf-test.com | bash
           sudo mv nf-test /usr/local/bin/
           
       - name: Build Docker 
-        run:  docker build -t genepi/imputation-docker .
+        run:  docker build -t genepi/imputationserver2 .
         
       - name: Run Tests (Shard ${{ matrix.shard }}/${{ strategy.job-total }})
         run: nf-test test --ci --shard ${{ matrix.shard }}/${{ strategy.job-total }}

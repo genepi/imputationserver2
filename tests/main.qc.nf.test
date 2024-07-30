@@ -29,7 +29,7 @@ nextflow_pipeline {
             
             assert snapshot(
                 log.text,
-                file("${outputDir}/statistics/typed-only.txt").text,
+                file("${outputDir}/statistics/snps-typed-only.txt").text,
                 file("${outputDir}/statistics/snps-excluded.txt").text
             ).match()
        
@@ -65,11 +65,11 @@ nextflow_pipeline {
 
             assert snapshot(
                 log.text,
-                file("${outputDir}/statistics/typed-only.txt").text,
+                file("${outputDir}/statistics/snps-typed-only.txt").text,
             ).match()
             
             // file starts with #, which is ignored by Tablesaw (also not used as header)
-            with(path("${outputDir}/statistics/typed-only.txt").csv(header: false)) {
+            with(path("${outputDir}/statistics/snps-typed-only.txt").csv(header: true)) {
                 assert rowCount == ONLY_IN_INPUT
             }
   

@@ -12,6 +12,7 @@ dependencies:
   - r-htmltools=0.5.3
   - r-dplyr=1.1.0
   - r-dt=0.24
+  - r-tidyr=1.2.1  
   - r-rmdformats=1.0.4
   - pandoc=2.19.2
   - cairo=1.16.0
