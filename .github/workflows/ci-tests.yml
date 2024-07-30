@@ -32,7 +32,7 @@ jobs:
           sudo mv nf-test /usr/local/bin/
           
       - name: Build Docker 
-        run:  docker build -t genepi/imputation-docker .
+        run:  docker build -t genepi/imputationserver2 .
         
       - name: Run Tests (Shard ${{ matrix.shard }}/${{ strategy.job-total }})
         run: nf-test test --ci --shard ${{ matrix.shard }}/${{ strategy.job-total }}
