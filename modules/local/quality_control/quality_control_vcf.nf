@@ -43,7 +43,7 @@ process QUALITY_CONTROL_VCF {
 
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         run-qc \
-        --population ${params.population} \
+        --population ${params.allele_frequency_population} \
         --reference reference-panel.json \
         --build ${params.build} \
         --maf-output ${mafFile} \

@@ -11,7 +11,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndMetaOption"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = [
@@ -45,7 +45,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndMetaOption"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 imputation = [
@@ -78,7 +78,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndMetaOption"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 imputation = [
@@ -110,7 +110,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndMetaOption"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = [
@@ -139,7 +139,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndMetaOption"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = [

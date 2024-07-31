@@ -19,7 +19,7 @@ process QUALITY_CONTROL_REPORT {
             validation_report = '${validation_report}',
             qc_report = '${qc_report}',
             name = '${params.project}',
-            population = '${params.population}',
+            allele_frequency_population = '${params.allele_frequency_population}',
             version = '${workflow.manifest.version}',
             date = '${params.project_date}',
             service = '${params.service.name}'

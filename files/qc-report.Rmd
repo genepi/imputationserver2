@@ -12,7 +12,7 @@ params:
   validation_report: ""
   qc_report: ""
   name: ""
-  population: ""
+  allele_frequency_population: ""
   version: ""
   date: ""
   service: ""
@@ -23,8 +23,9 @@ suppressPackageStartupMessages({
   library(ggplot2)
   library(dplyr)
   library(tidyr)
-  library(knitr) 
-  library(stringr)  
+  library(knitr)
+  library(stringr)
+  library(glue)
 })
 ```
 
@@ -55,10 +56,10 @@ parse_report <- function(file_path) {
   return(result_df)
 }
 ```
-This report has been created with **`r params$service`**:
 
 | Parameter        | Value                       |
 |------------------|-----------------------------|
+| Service             | `r params$service`             |
 | Job              | `r params$name`            |
 | Pipeline Version | `r params$version`          |
 | Date             | `r params$date`             |
@@ -100,20 +101,24 @@ Markers where chisq is greater than 300.
 
 ```{r echo=FALSE}
 chisq_length <- nrow(filtered_data)
-cat("Total mismatches:", chisq_length, "\n")
+if(chisq_length > 0) {
+  cat("Total mismatches:", chisq_length, "\n")
+} else {
+    cat("No mismatches detected.")
+}
 
-if (chisq_length > 0) {
-    # Print the first 5000 mismatches
-    for (i in 1:min(5000, chisq_length)) {
-        cat("Mismatched frequencies for '", filtered_data$ID[i], 
-            "' f[", filtered_data$REF[i], ",", filtered_data$ALT[i],"] =
-            [", (1-filtered_data$AAF[i]), ",", filtered_data$AAF[i],"] vs
-            [", (1-filtered_data$REFERENCE_AAF[i]), ",", filtered_data$REFERENCE_AAF[i],"],
-            chisq ", filtered_data$CHISQ[i], "\n", sep = "")
+if (params$allele_frequency_population != "off") {
+    if (chisq_length > 0) {
+        # Print the first 5000 mismatches
+        for (i in 1:min(5000, chisq_length)) {
+            cat("Mismatched frequencies for '", filtered_data$ID[i], "' f[", filtered_data$REF[i], ",", filtered_data$ALT[i],"] = [", (1-filtered_data$AAF[i]), ",", filtered_data$AAF[i],"] vs [", (1-filtered_data$REFERENCE_AAF[i]), ",", filtered_data$REFERENCE_AAF[i],"], chisq ", filtered_data$CHISQ[i], "\n", sep = "")
+        }
+        if (chisq_length > 5000) {
+            cat("Report outputs only first 5000 mismatches.")
+        }
     }
-    if (chisq_length > 5000) {
-        cat("Report outputs first 5000 mismatches.")
-    }
+} else {
+    cat("Allele Frequency Check is off.")
 }
 ```
 

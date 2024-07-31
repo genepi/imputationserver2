@@ -22,7 +22,7 @@ params {
     project                 = "my-test-project"
     build                   = "hg19"
     files                   = "tests/input/three/*.vcf.gz"
-    population              = "eur"
+    allele_frequency_population              = "eur"
     mode                    = "imputation"
     refpanel_yaml           = "tests/hapmap-2/2.0.0/imputation-hapmap2.yaml"
     output                  = "output"
@@ -42,7 +42,7 @@ nextflow run main.nf -c job.config
 | `project`             | `null`                | Project name                                       |
 | `project_date`        | `date`                | Project date                                       |
 | `files`               | `null`                | List of input files                                |
-| `population`          | `null`                | Population information                             |
+| `allele_frequency_population`          | `null`                | Allele Frequency Population information                             |
 | `refpanel_yaml`       | `null`                | Reference panel YAML file                          |
 | `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
 | `chunksize`           | `20000000`            | Chunk size for processing                          |
@@ -158,8 +158,8 @@ properties:
     - id: eur
       name: EUR
       samples: 60
-    - id: mixed
-      name: Mixed
+    - id: off
+      name: Off
       samples: -1
 ```
 
