@@ -44,14 +44,13 @@ workflow QUALITY_CONTROL {
         }
         .set { metafiles_ch }
 
-    if (params.population != "mixed") {
-        QUALITY_CONTROL_REPORT(
-            QUALITY_CONTROL_VCF.out.maf_file,
-            validation_report,
-            QUALITY_CONTROL_VCF.out.qc_report,
-            file("$baseDir/files/qc-report.Rmd", checkIfExists: true)
-        )
-    }
+
+    QUALITY_CONTROL_REPORT(
+        QUALITY_CONTROL_VCF.out.maf_file,
+        validation_report,
+        QUALITY_CONTROL_VCF.out.qc_report,
+        file("$baseDir/files/qc-report.Rmd", checkIfExists: true)
+    )
 
     emit:
     qc_metafiles = metafiles_ch

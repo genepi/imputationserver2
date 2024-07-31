@@ -16,7 +16,7 @@ workflow:
         project: "${CLOUDGENE_JOB_NAME}"
         files: "${uploaded_files}/*.vcf.gz"
         mode: "imputation"
-        population: "mixed"
+        allele_frequency_population: "off"
         phasing:
           engine: "eagle"
         encryption:

@@ -111,8 +111,8 @@ workflow:
         no_phasing: No phasing
       serialize: false
 
-    - id: population
-      description: Population
+    - id: allele_frequency_population
+      description: Allele Frequency Check
       type: list
       values:
         bind: refpanel

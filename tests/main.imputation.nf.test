@@ -19,7 +19,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhased"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -69,7 +69,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndMetaOption"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -127,7 +127,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndEmptyPhasing"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -151,7 +151,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedAndNoPhasingSelected"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -199,7 +199,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithEagle"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -247,7 +247,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithEagle"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -294,7 +294,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithBeagle"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -343,7 +343,7 @@ nextflow_pipeline {
                 project  = "testValidatePanelWithEagle"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -386,7 +386,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithEagleAndR2Filter"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -438,7 +438,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithEmptyPhasing"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-unphased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -465,7 +465,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedHg19ToHg38"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr20-phased/*vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
                 output = "${outputDir}"
@@ -508,7 +508,7 @@ nextflow_pipeline {
             params {
                 project  = "testPipelineWithEagleHg19ToHg38"
                 files = "$projectDir/tests/data/input/chr20-unphased/*vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 build = "hg19"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
@@ -553,7 +553,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithEagleHg38ToHg38"
                 build = "hg38"
                 files = "$projectDir/tests/data/input/chr20-unphased-hg38/*vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
                 output = "${outputDir}"
@@ -597,7 +597,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithPhasedHg38ToHg19"
                 build = "hg38"
                 files = "$projectDir/tests/data/input/chr20-phased-hg38/*vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -641,7 +641,7 @@ nextflow_pipeline {
                 project  = "testPipelineWithEagleHg38ToHg19"
                 build = "hg38"
                 files = "$projectDir/tests/data/input/chr20-unphased-hg38/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
@@ -685,7 +685,7 @@ nextflow_pipeline {
                 project  = "testChrXPipelinePhased"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chrX-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX/cloudgene.yaml"
                 output = "${outputDir}"
@@ -723,7 +723,7 @@ nextflow_pipeline {
                 project  = "testChrXLeaveOneOutPipelinePhased"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chrX-phased-loo/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX/cloudgene.yaml"
                 output = "${outputDir}"
@@ -771,7 +771,7 @@ nextflow_pipeline {
                 project  = "testChrXPipelineWithPhasedHg38"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chrX-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX-hg38/cloudgene.yaml"
                 output = "${outputDir}"
@@ -809,7 +809,7 @@ nextflow_pipeline {
                 project  = "testChr23PipelinePhased"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chr23-phased/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX-hg38/cloudgene.yaml"
                 output = "${outputDir}"
@@ -848,7 +848,7 @@ nextflow_pipeline {
                 project  = "testChrMTPipeline"
                 build = "hg19"
                 files = "$projectDir/tests/data/input/chrMT/*.vcf.gz"
-                population = "eur"
+                allele_frequency_population = "eur"
                 password = PASSWORD
                 refpanel_yaml = "$projectDir/tests/data/refpanels/phylotree-chrMT/cloudgene.yaml"
                 output = "${outputDir}"

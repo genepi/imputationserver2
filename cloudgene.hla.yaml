@@ -22,7 +22,7 @@ workflow:
         encryption:
           aes: ${aesEncryption}
         mode: "imputation"
-        population: "mixed"
+        allele_frequency_population: "off"
         phasing:
           engine: ${phasing}
         imputation:
