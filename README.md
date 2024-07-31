@@ -158,8 +158,8 @@ properties:
     - id: eur
       name: EUR
       samples: 60
-    - id: mixed
-      name: Mixed
+    - id: off
+      name: Off
       samples: -1
 ```
 
