@@ -14,6 +14,7 @@ workflow:
       # params without UI
       params:
         project: "${CLOUDGENE_JOB_NAME}"
+        allele_frequency_population: "${population}"
         files: "${files}/*.vcf.gz"
         encryption:
           aes: ${aesEncryption}
@@ -111,7 +112,7 @@ workflow:
         no_phasing: No phasing
       serialize: false
 
-    - id: allele_frequency_population
+    - id: population
       description: Allele Frequency Check
       type: list
       values:
