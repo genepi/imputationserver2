@@ -29,10 +29,15 @@ suppressPackageStartupMessages({
 })
 ```
 
-```{r echo=FALSE}
-data <- read.table(params$maf_file, header = TRUE, sep="\t")
-filtered_data <- data %>%
-  filter(CHISQ > 300)
+| Parameter        | Value                       |
+|------------------|-----------------------------|
+| Service          | `r params$service`          |
+| Job              | `r params$name`             |
+| Pipeline Version | `r params$version`          |
+| Date             | `r params$date`             |
+
+## Statistics
+```{r echo=FALSE, warning=FALSE}
 
 # Define the function
 parse_report <- function(file_path) {
@@ -55,17 +60,7 @@ parse_report <- function(file_path) {
    # Return the result as a data frame
   return(result_df)
 }
-```
 
-| Parameter        | Value                       |
-|------------------|-----------------------------|
-| Service             | `r params$service`             |
-| Job              | `r params$name`            |
-| Pipeline Version | `r params$version`          |
-| Date             | `r params$date`             |
-
-## Statistics
-```{r echo=FALSE, warning=FALSE}
 # Define the path to the log file
 validation <- parse_report(params$validation_report)
 qc <- parse_report(params$qc_report)
@@ -80,18 +75,23 @@ kable(rbind(validation,qc))
 The plot shows the densities of frequencies falling into each part. The first 5000 points from areas of lowest regional densities will be plotted.
 
 ```{r echo=FALSE}
+if (params$allele_frequency_population != "off") {
 
-lm_eqn <- function(df){
-    m <- lm(REFERENCE_AAF ~ AAF, df)
-    eq <- paste('r2 =', format(summary(m)$r.squared, digits = 3))
-    as.character(as.expression(eq))
+    data <- read.table(params$maf_file, header = TRUE, sep="\t")
+    
+    lm_eqn <- function(df){
+        m <- lm(REFERENCE_AAF ~ AAF, df)
+        eq <- paste('r2 =', format(summary(m)$r.squared, digits = 3))
+        as.character(as.expression(eq))
+    }
+
+    smoothScatter(data$AAF, data$REFERENCE_AAF, nrpoints = 5000, xlim = c(0, 1),
+                  xlab = "Ref Allele Frequency (Uploaded Samples)", 
+                  ylab = "Ref Allele Frequency (Reference Panel)", useRaster = TRUE)
+    legend("topleft", legend = lm_eqn(data), bty = "n", pch = NA)
+} else {
+    cat("Allele Frequency Check is disabled.")
 }
-
-smoothScatter(data$AAF, data$REFERENCE_AAF, nrpoints = 5000, xlim = c(0, 1),
-              xlab = "Ref Allele Frequency (Uploaded Samples)", 
-              ylab = "Ref Allele Frequency (Reference Panel)", useRaster = TRUE)
-legend("topleft", legend = lm_eqn(data), bty = "n", pch = NA)
-
 
 ```
 
@@ -100,14 +100,19 @@ legend("topleft", legend = lm_eqn(data), bty = "n", pch = NA)
 Markers where chisq is greater than 300. 
 
 ```{r echo=FALSE}
-chisq_length <- nrow(filtered_data)
-if(chisq_length > 0) {
-  cat("Total mismatches:", chisq_length, "\n")
-} else {
-    cat("No mismatches detected.")
-}
 
 if (params$allele_frequency_population != "off") {
+    
+    filtered_data <- data %>%
+      filter(CHISQ > 300)
+
+    chisq_length <- nrow(filtered_data)
+    if(chisq_length > 0) {
+      cat("Total mismatches:", chisq_length, "\n")
+    } else {
+        cat("No mismatches detected.")
+    }
+
     if (chisq_length > 0) {
         # Print the first 5000 mismatches
         for (i in 1:min(5000, chisq_length)) {
@@ -118,7 +123,7 @@ if (params$allele_frequency_population != "off") {
         }
     }
 } else {
-    cat("Allele Frequency Check is off.")
+    cat("Allele Frequency Check is disabled.")
 }
 ```
 

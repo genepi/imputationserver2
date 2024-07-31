@@ -15,7 +15,7 @@ process QUALITY_CONTROL_VCF {
     path("${metaFilesDir}/*"), emit: chunks_csv
     path("${chunksDir}/*"), emit: chunks_vcf
     path("${statisticsDir}/*"), optional: true
-    path("maf.txt"), emit: maf_file
+    path("maf.txt"), emit: maf_file, optional: true
     path("qc_report.txt"), emit: qc_report
 
     script:
@@ -43,7 +43,7 @@ process QUALITY_CONTROL_VCF {
 
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         run-qc \
-        --population ${params.allele_frequency_population} \
+        --population ${params.population} \
         --reference reference-panel.json \
         --build ${params.build} \
         --maf-output ${mafFile} \

@@ -7,6 +7,6 @@ properties:
     - id: eur
       name: EUR
       samples: 60
-    - id: off
+    - id: "off"
       name: Off
       samples: -1

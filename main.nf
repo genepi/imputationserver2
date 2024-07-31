@@ -38,6 +38,8 @@ if (params.password == null) {
     params.encryption_password = params.password
 }
 
+//set default population to "off" when allele_frequency_population is null
+params.population = params.allele_frequency_population ?: "off"
 
 Channel
     .fromPath(params.files)

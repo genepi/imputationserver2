@@ -25,7 +25,7 @@ process INPUT_VALIDATION_VCF {
 
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         validate \
-        --population ${params.allele_frequency_population} \
+        --population ${params.population} \
         --phasing ${params.phasing.engine} \
         --reference reference-panel.json \
         --build ${params.build} \
