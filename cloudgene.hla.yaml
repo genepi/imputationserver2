@@ -16,7 +16,7 @@ workflow:
       # params without UI
       params:
         project: "${CLOUDGENE_JOB_NAME}"
-        files: "${uploaded_files}/*.vcf.gz"
+        files: "${files}/*.vcf.gz"
         chunksize: 1000000000
         minSamples: 0
         encryption:
@@ -82,7 +82,7 @@ workflow:
       type: app_list
       category: RefPanelHLA
 
-    - id: uploaded_files
+    - id: files
       description: Input Files (<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-41" target="_blank">VCF</a>)
       type: local_folder
       serialize: false
