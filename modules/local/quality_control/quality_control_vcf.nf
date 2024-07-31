@@ -1,7 +1,7 @@
 import groovy.json.JsonOutput
 
 process QUALITY_CONTROL_VCF {
-    tag 'preprocess'
+    label 'preprocess'
     publishDir params.output, mode: 'copy', pattern: "qc_report.txt"
     publishDir params.output, mode: 'copy', pattern: "${statisticsDir}/*.txt"
 

@@ -1,5 +1,5 @@
 process QUALITY_CONTROL_REPORT {
-    tag 'preprocess'
+    label 'preprocess'
     publishDir params.output, mode: 'copy'
 
     input:
