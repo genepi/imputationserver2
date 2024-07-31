@@ -1,12 +1,12 @@
 import groovy.json.JsonOutput
 
 process INPUT_VALIDATION_VCF {
-
+    tag 'preprocess'
     publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
 
     input:
     path(vcf_files)
-
+  
     output:
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
     path("validation_report.txt"), emit: validation_report
