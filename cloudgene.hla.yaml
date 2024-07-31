@@ -3,7 +3,7 @@ name: HLA Imputation
 description: "<p> Thank you for using our multi-ethnic HLA imputation panel, built from ~20,000 whole genome sequencing samples from five global populations.  </p> <p>
 Please cite this manuscript if you would like to include imputed results from the panel in your work: </p> <p>
 Luo, Y., Kanai, M., Choi, W., Li, X., Yamamoto, K., Ogawa, K., Gutierrez-Arcelus, M., Gregersen, P. K., Stuart, P. E., Elder, J. T., Fellay, J., Carrington, M., Haas, D. W., Guo, X., Palmer, N. D., Chen, Y.-D. I., Rotter, J. I., Taylor, K. D., Rich, S., … Raychaudhuri, S. (2020). <b> A high-resolution HLA reference panel capturing global population diversity enables multi-ethnic fine-mapping in HIV host response</b>. https://doi.org/10.1101/2020.07.16.20155606 <br><br>If your input data is <b>GRCh37/hg19</b> please ensure chromosomes are encoded without prefix  (e.g. <b>20</b>).<br>If your input data is <b>GRCh38hg38</b> please ensure chromosomes are encoded with prefix 'chr' (e.g. <b>chr20</b>). </p>"
-version: 2.0.0-beta9
+version: 2.0.0-rc1
 website: https://imputationserver.readthedocs.io
 category: Application
 submitButton: Start Imputation
