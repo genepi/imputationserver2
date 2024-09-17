@@ -145,11 +145,12 @@ workflow.onComplete {
     // Nfcore Template: https://github.com/nf-core/rnaseq/blob/b89fac32650aacc86fcda9ee77e00612a1d77066/lib/NfcoreTemplate.groovy#L155
    
     if (!workflow.success) {
+        def statusMessage = workflow.exitStatus != null ? "failed" : "canceled"
         if (params.send_mail && params.user.email != null){
             sendMail{
                 to "${params.user.email}"
-                subject "[${params.service.name}] Job ${params.project} failed."
-                body "Dear ${params.user.name}, \n Your job has failed.\n\n More details about the errors can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+                subject "[${params.service.name}] Job ${params.project} ${statusMessage}." 
+                body "Dear ${params.user.name}, \n Your job has been ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
         println "::error:: Imputation failed." 
