@@ -1,5 +1,7 @@
 process FILTER_BY_CATEGORY {
 
+    label 'pgs'
+    
     input:
     path(meta)
     val(category)

@@ -1,7 +1,8 @@
 process MINIMAC4 {
 
-  tag "${chunkfile}"
-
+    label 'imputation'
+    tag "${chunkfile}"
+    
     input:
     tuple val(chr), val(start), val(end), val(phasing_status), path(chunkfile), path(m3vcf)
     path minimac_map

@@ -1,7 +1,8 @@
 import groovy.json.JsonOutput
 
 process ESTIMATE_ANCESTRY {
-
+    
+    label 'ancestry'
     publishDir params.output, mode: 'copy'
 
     input:

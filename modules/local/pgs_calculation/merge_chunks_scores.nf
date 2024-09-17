@@ -1,5 +1,6 @@
 process MERGE_CHUNKS_SCORES {
-
+    
+  label 'pgs'
   publishDir params.output, mode: 'copy'
 
   input:

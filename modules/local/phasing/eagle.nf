@@ -1,7 +1,8 @@
 process EAGLE {
-
+    
+    label 'phasing'
     tag "${chunkfile}"
-
+    
     input:
     tuple val(chr), path(bcf), path(bcf_csi), val(start), val(end), val(phasing_status), path(chunkfile)
     path map_eagle

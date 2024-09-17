@@ -2,6 +2,8 @@ import groovy.json.JsonOutput
 
 process EXECUTE_TRACE {
 
+    label 'ancestry'
+    
     input:
     path(samples)
     path(vcf_file)

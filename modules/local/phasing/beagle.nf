@@ -1,7 +1,8 @@
 process BEAGLE {
 
+    label 'phasing'
     tag "${chunkfile}"
-
+    
     input:
     tuple val(chr), path(bcf), val(start), val(end), val(phasing_status), path(chunkfile), path(map_beagle)
 
