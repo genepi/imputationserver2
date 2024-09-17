@@ -183,7 +183,7 @@ A legend file is a tab-delimited file consisting of 5 columns (`id`, `position`,
 
 ### Installation
 
-- Install cloudgene3: `curl -s install.cloudgene.io | bash -s 3.0.0-rc2`
+- Install cloudgene3: `curl -s install.cloudgene.io | bash -s 3.0.0-rc3`
 - Download latest source code zip file from releases
 - Install impuationserver2 app: `./cloudgene install imputationserver2@latest`
 - Install hapmap2 referenece panel: `./cloudgene install https://genepi.i-med.ac.at/downloads/imputation/imputation-hapmap2.zip`
