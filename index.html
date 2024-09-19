@@ -10,11 +10,11 @@
       
       
       
-        <link rel="next" href="getting-started/">
+        <link rel="next" href="contact/">
       
       
       <link rel="icon" href="images/favicon.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.35">
     
     
       
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#michigan-imputation-server" class="md-skip">
+        <a href="#imputation-server-2" class="md-skip">
           Skip to content
         </a>
       
@@ -210,87 +210,6 @@
   
   
   
-    
-    
-      <li class="md-tabs__item">
-        <a href="getting-started/" class="md-tabs__link">
-          
-  
-  Genotype Imputation
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="pgs/getting-started/" class="md-tabs__link">
-          
-  
-  Polygenic Score Calculation
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="api/" class="md-tabs__link">
-          
-  
-  Developer Documentation
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="workshops/ASHG2023/" class="md-tabs__link">
-          
-  
-  Workshops
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-  
     <li class="md-tabs__item">
       <a href="contact/" class="md-tabs__link">
         
@@ -367,6 +286,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -377,735 +307,272 @@
 
       </a>
       
-    </li>
+        
+
   
 
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
     
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
+        <li class="md-nav__item">
+  <a href="#run-with-test-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run with test data
+    </span>
+  </a>
+  
+</li>
       
+        <li class="md-nav__item">
+  <a href="#run-with-custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run with custom configuration
+    </span>
+  </a>
   
-  
-  
-  
-    
-    
-    
+</li>
       
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
       
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
+        <li class="md-nav__item">
+  <a href="#reference-panel-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reference Panel Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reference Panel Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yaml-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      YAML Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YAML Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Properties
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#populations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Populations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality Filters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example YAML
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#note-on-chr-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Note on $chr Variable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legend-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Legend Files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
+        <li class="md-nav__item">
+  <a href="#run-with-cloudgene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run with Cloudgene
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Run with Cloudgene">
+      <ul class="md-nav__list">
         
+          <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements:
+    </span>
+  </a>
+  
+</li>
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
         
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
+          <li class="md-nav__item">
+  <a href="#default-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Configuration
+    </span>
+  </a>
   
-  <span class="md-ellipsis">
-    Genotype Imputation
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+</li>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            Genotype Imputation
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
+          <li class="md-nav__item">
+  <a href="#running-on-slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running on SLURM
+    </span>
+  </a>
   
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="getting-started/" class="md-nav__link">
+</li>
         
+          <li class="md-nav__item">
+  <a href="#running-on-aws-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running on AWS Batch
+    </span>
+  </a>
   
-  <span class="md-ellipsis">
-    Getting Started
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="prepare-your-data/" class="md-nav__link">
+</li>
         
+          <li class="md-nav__item">
+  <a href="#activate-mail-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activate mail support
+    </span>
+  </a>
   
-  <span class="md-ellipsis">
-    Data Preparation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="reference-panels/" class="md-nav__link">
+</li>
         
+          <li class="md-nav__item">
+  <a href="#adapt-default-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adapt default parameters
+    </span>
+  </a>
   
-  <span class="md-ellipsis">
-    Reference Panels
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pipeline/" class="md-nav__link">
+</li>
         
+      </ul>
+    </nav>
   
-  <span class="md-ellipsis">
-    Pipeline Overview
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="data-sensitivity/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Security
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="faq/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    FAQ
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
+</li>
       
-    </li>
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development
+    </span>
+  </a>
   
-
-    
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-docker-image-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build docker image locally
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-testcases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run testcases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      License
+    </span>
+  </a>
+  
+</li>
       
+        <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact
+    </span>
+  </a>
   
-  
-  
-  
-    
-    
-    
+</li>
       
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+    </ul>
   
-  <span class="md-ellipsis">
-    Polygenic Score Calculation
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Polygenic Score Calculation
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/getting-started/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/tutorial/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Step-by-Step Tutorial
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/report/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Interactive Report
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/output-files/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Output Files
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/reference-panels/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reference Panels
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/scores/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Available Scores
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/pipeline/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Pipeline Overview
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="pgs/faq/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    FAQ
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Developer Documentation
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            Developer Documentation
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    API
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="docker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Docker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="create-reference-panels/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Creating Reference Panels
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Workshops
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            Workshops
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    ASHG2023
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_1">
-            <span class="md-nav__icon md-icon"></span>
-            ASHG2023
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="workshops/ASHG2023/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Overview
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="workshops/ASHG2023/Session1/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Session 1: Imputation and the Server
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="workshops/ASHG2023/Session2/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Session 2: Run a job, Data Preparation and Data Download
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="workshops/ASHG2023/Session3/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Session 3: Performing GWAS using imputed data
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="workshops/ASHG2023/Session4/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Session 4: nf-gwas, Imputation Bot and PGS Server
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="workshops/ASHG2023/Session5/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Session 5: HLA Imputation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="workshops/ASHG2023/Session6/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Session 6: TOPMed Imputation Server
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
+</nav>
       
     </li>
   
@@ -1155,6 +622,260 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#run-with-test-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run with test data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-with-custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run with custom configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-panel-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reference Panel Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reference Panel Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yaml-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      YAML Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YAML Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Properties
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#populations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Populations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality Filters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example YAML
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#note-on-chr-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Note on $chr Variable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legend-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Legend Files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-with-cloudgene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run with Cloudgene
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Run with Cloudgene">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-on-slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running on SLURM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-on-aws-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running on AWS Batch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activate-mail-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activate mail support
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapt-default-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adapt default parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-docker-image-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build docker image locally
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-testcases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run testcases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1171,14 +892,530 @@
   
 
 
-<h1 id="michigan-imputation-server">Michigan Imputation Server<a class="headerlink" href="#michigan-imputation-server" title="Permanent link">&para;</a></h1>
-<p><a href="https://imputationserver.sph.umich.edu">Michigan Imputation Server</a> provides a free genotype imputation service using <a href="http://genome.sph.umich.edu/wiki/Minimac4">Minimac4</a>. You can upload phased or unphased GWAS genotypes and receive phased and imputed genomes in return. Our server offers imputation from 1000 Genomes (Phase 1 and 3), CAAPA, <a href="http://www.haplotype-reference-consortium.org/">HRC</a> and the <a href="http://nhlbiwgs.org/">TOPMed</a> reference panel. For all uploaded datasets an extensive QC is performed.</p>
-<p><img alt="" src="images/index.png" /></p>
-<p>Please cite this paper if you use Michigan Imputation Server in your publication:</p>
-<blockquote>
-<p>Das S, Forer L, Schönherr S, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D, Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. <a href="https://www.ncbi.nlm.nih.gov/pubmed/27571263">Next-generation genotype imputation service and methods</a>. Nature Genetics 48, 1284–1287 (2016).</p>
-</blockquote>
-<p>The complete source code is hosted on <a href="https://github.com/genepi/imputationserver/">GitHub</a> using Travis CI for continuous integration.</p>
+<h1 id="imputation-server-2">Imputation Server 2<a class="headerlink" href="#imputation-server-2" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml"><img alt="imputationserver2" src="https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml/badge.svg" /></a>
+<a href="https://github.com/askimed/nf-test"><img alt="nf-test" src="https://img.shields.io/badge/tested_with-nf--test-337ab7.svg" /></a></p>
+<p>This repository includes the Imputation Server 2 Nextflow workflow.</p>
+<h2 id="run-with-test-data">Run with test data<a class="headerlink" href="#run-with-test-data" title="Permanent link">&para;</a></h2>
+<p>The pipeline provides small test data to verify installation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow run main.nf -c conf/test_single_vcf.config
+</code></pre></div>
+<h2 id="run-with-custom-configuration">Run with custom configuration<a class="headerlink" href="#run-with-custom-configuration" title="Permanent link">&para;</a></h2>
+<p><code>job.config</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>params {
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    project                 = &quot;my-test-project&quot;
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    build                   = &quot;hg19&quot;
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    files                   = &quot;tests/input/three/*.vcf.gz&quot;
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    allele_frequency_population              = &quot;eur&quot;
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    mode                    = &quot;imputation&quot;
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    refpanel_yaml           = &quot;tests/hapmap-2/2.0.0/imputation-hapmap2.yaml&quot;
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    output                  = &quot;output&quot;
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>}
+</code></pre></div>
+<p>Run pipeline with <code>job.config</code> configuration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nextflow run main.nf -c job.config
+</code></pre></div>
+<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project</code></td>
+<td><code>null</code></td>
+<td>Project name</td>
+</tr>
+<tr>
+<td><code>project_date</code></td>
+<td><code>date</code></td>
+<td>Project date</td>
+</tr>
+<tr>
+<td><code>files</code></td>
+<td><code>null</code></td>
+<td>List of input files</td>
+</tr>
+<tr>
+<td><code>allele_frequency_population</code></td>
+<td><code>null</code></td>
+<td>Allele Frequency Population information</td>
+</tr>
+<tr>
+<td><code>refpanel_yaml</code></td>
+<td><code>null</code></td>
+<td>Reference panel YAML file</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td><code>imputation</code></td>
+<td>Processing mode (e.g., 'imputation' or `qc-only``)</td>
+</tr>
+<tr>
+<td><code>chunksize</code></td>
+<td><code>20000000</code></td>
+<td>Chunk size for processing</td>
+</tr>
+<tr>
+<td><code>min_samples</code></td>
+<td><code>20</code></td>
+<td>Minimum number of samples needed</td>
+</tr>
+<tr>
+<td><code>max_samples</code></td>
+<td><code>50000</code></td>
+<td>Maximum number of samples allowed</td>
+</tr>
+<tr>
+<td><code>merge_samples</code></td>
+<td><code>true</code></td>
+<td>Execute compression and encryption workflow</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code>null</code></td>
+<td>Password for encryption</td>
+</tr>
+<tr>
+<td><code>send_mail</code></td>
+<td><code>false</code></td>
+<td>Enable or disable email notifications</td>
+</tr>
+<tr>
+<td><code>service.name</code></td>
+<td><code>Imputation Server 2</code></td>
+<td>Service name</td>
+</tr>
+<tr>
+<td><code>service.email</code></td>
+<td><code>null</code></td>
+<td>Service email</td>
+</tr>
+<tr>
+<td><code>service.url</code></td>
+<td><code>null</code></td>
+<td>Service URL</td>
+</tr>
+<tr>
+<td><code>user.name</code></td>
+<td><code>null</code></td>
+<td>User's name</td>
+</tr>
+<tr>
+<td><code>user.email</code></td>
+<td><code>null</code></td>
+<td>User's email</td>
+</tr>
+<tr>
+<td><code>phasing.engine</code></td>
+<td><code>eagle</code></td>
+<td>Phasing method (e.g., 'eagle' or <code>beagle</code>)</td>
+</tr>
+<tr>
+<td><code>phasing.window</code></td>
+<td><code>5000000</code></td>
+<td>Phasing window size</td>
+</tr>
+<tr>
+<td><code>imputation.enabled</code></td>
+<td><code>true</code></td>
+<td>Enable or disable imputation</td>
+</tr>
+<tr>
+<td><code>imputation.window</code></td>
+<td><code>500000</code></td>
+<td>Imputation window size</td>
+</tr>
+<tr>
+<td><code>imputation.minimac_min_ratio</code></td>
+<td><code>0.00001</code></td>
+<td>Minimac minimum ratio</td>
+</tr>
+<tr>
+<td><code>imputation.min_r2</code></td>
+<td><code>0</code></td>
+<td>R2 filter value</td>
+</tr>
+<tr>
+<td><code>imputation.meta</code></td>
+<td><code>false</code></td>
+<td>Enable or disable empirical output creation</td>
+</tr>
+<tr>
+<td><code>imputation.md5</code></td>
+<td><code>false</code></td>
+<td>Enable or disable md5 sum creation for results</td>
+</tr>
+<tr>
+<td><code>imputation.create_index</code></td>
+<td><code>false</code></td>
+<td>Enable or disable index creation for imputed files</td>
+</tr>
+<tr>
+<td><code>imputation.decay</code></td>
+<td><code>0</code></td>
+<td>Set minimac decay</td>
+</tr>
+<tr>
+<td><code>encryption.enabled</code></td>
+<td><code>true</code></td>
+<td>Enable or disable encryption</td>
+</tr>
+<tr>
+<td><code>encryption.aes</code></td>
+<td><code>false</code></td>
+<td>Enable or disable AES method for encryption</td>
+</tr>
+<tr>
+<td><code>ancestry.enabled</code></td>
+<td><code>false</code></td>
+<td>Enable or disable ancestry analysis</td>
+</tr>
+<tr>
+<td><code>ancestry.dim</code></td>
+<td><code>10</code></td>
+<td>Ancestry analysis dimension</td>
+</tr>
+<tr>
+<td><code>ancestry.dim_high</code></td>
+<td><code>20</code></td>
+<td>High dimension for ancestry analysis</td>
+</tr>
+<tr>
+<td><code>ancestry.batch_size</code></td>
+<td><code>50</code></td>
+<td>Batch size for ancestry analysis</td>
+</tr>
+<tr>
+<td><code>ancestry.reference</code></td>
+<td><code>null</code></td>
+<td>Ancestry reference data</td>
+</tr>
+<tr>
+<td><code>ancestry.max_pcs</code></td>
+<td><code>8</code></td>
+<td>Maximum principal components for ancestry</td>
+</tr>
+<tr>
+<td><code>ancestry.k</code></td>
+<td><code>10</code></td>
+<td>K value for ancestry analysis</td>
+</tr>
+<tr>
+<td><code>ancestry.threshold</code></td>
+<td><code>0.75</code></td>
+<td>Ancestry threshold</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reference-panel-configuration">Reference Panel Configuration<a class="headerlink" href="#reference-panel-configuration" title="Permanent link">&para;</a></h2>
+<p>This document describes the structure of a YAML file used to configure a reference panel for Imputation Servers. Reference panels are essential for genotype imputation, allowing the server to infer missing genotype data accurately.</p>
+<h3 id="yaml-structure">YAML Structure<a class="headerlink" href="#yaml-structure" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>The name of the reference panel.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>A brief description of the reference panel.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>The version of the reference panel.</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td>The website where more information about the panel can be found.</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>The category to which the reference panel belongs. <strong>TODO: has to be RefPanel</strong></td>
+</tr>
+<tr>
+<td><code>properties</code></td>
+<td>A section containing specific properties of the reference panel.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h4>
+<p>The <code>properties</code> section contains the following key-value pairs:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>An identifier for the reference panel.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>genotypes</code></td>
+<td>The location of the genotype files for the reference panel data.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>sites</code></td>
+<td>The location of the site files for the reference panel data.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>mapEagle</code></td>
+<td>The location of the genetic map file used for phasing with eagle.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>refEagle</code></td>
+<td>The location of the BCF file for the reference panel data for eagle.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>mapBeagle</code></td>
+<td>The location of the genetic map file used for phasing with Beagle.</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>refBeagle</code></td>
+<td>The location of the BCF file for the reference panel data for Beagle.</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>build</code></td>
+<td>The genome build version used for the reference panel (e.g., hg19 or hg38).</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>range</code></td>
+<td>Specify a range that is used for imputation (e.g. HLA)</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>mapMinimac</code></td>
+<td>The location of the map file for Minimac</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>populations</code></td>
+<td>A dictionary mapping population identifiers to their names.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>qcFilter</code></td>
+<td>A dictionary mapping quality filters to their values.</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<h5 id="populations">Populations<a class="headerlink" href="#populations" title="Permanent link">&para;</a></h5>
+<p>The <code>populations</code> section contains a dictionary mapping population identifiers to their names and sample size. This mapping helps categorize and label the populations represented in the reference panel.</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>The id of the popualtion (e.g. eur)</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>The label of the population. (e.g. EUR)</td>
+</tr>
+<tr>
+<td><code>samples</code></td>
+<td>Number of samples in the reference panel</td>
+</tr>
+</tbody>
+</table>
+<p>Note: the population id has to be the same as in the legend files.</p>
+<h4 id="quality-filters">Quality Filters<a class="headerlink" href="#quality-filters" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Name</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>overlap</code></td>
+<td>Minimal overlap between gwas data and reference panel</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>minSnps</code></td>
+<td>Minimal #SNPs per chunk</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>sampleCallrate</code></td>
+<td>Minimal sample call rate</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>mixedGenotypeschrX</code></td>
+<td>-</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td><code>strandFlips</code></td>
+<td>Maximal allowed strand flips</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-yaml">Example YAML<a class="headerlink" href="#example-yaml" title="Permanent link">&para;</a></h3>
+<p>Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for an Imputation Server, including details about its version, data sources, and populations represented. The files are stored on AWS S3 and are directly consumed by the pipeline from there.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HapMap 2</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HapMap2 Reference Panel for Imputation Server</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0.0</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">website</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://imputationserver.sph.umich.edu</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RefPanel</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nt">properties</span><span class="p">:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hapmap2</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">genotypes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3://cloudgene/refpanels/hapmap/m3vcfs/hapmap_r22.chr$chr.CEU.hg19.recode.m3vcf.gz</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">legend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3://cloudgene/refpanels/hapmap/legends/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nt">mapEagle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3://cloudgene/refpanels/hapmap/map/genetic_map_hg19_withX.txt.gz</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="nt">refEagle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3://cloudgene/refpanels/hapmap/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hg19</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="nt">populations</span><span class="p">:</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eur</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EUR</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">      </span><span class="nt">samples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">off</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Off</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">      </span><span class="nt">samples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1</span>
+</code></pre></div>
+<h3 id="note-on-chr-variable">Note on <code>$chr</code> Variable<a class="headerlink" href="#note-on-chr-variable" title="Permanent link">&para;</a></h3>
+<p>In the example YAML configuration provided, you may have noticed the presence of the <code>$chr</code> variable in some URLs. This variable is a placeholder for the chromosome number and will be replaced by the Nextflow pipeline.</p>
+<h3 id="legend-files">Legend Files<a class="headerlink" href="#legend-files" title="Permanent link">&para;</a></h3>
+<p>A legend file is a tab-delimited file consisting of 5 columns (<code>id</code>, <code>position</code>, <code>a0</code>, <code>a1</code>, <code>all.aaf</code>).</p>
+<hr />
+<h2 id="run-with-cloudgene">Run with Cloudgene<a class="headerlink" href="#run-with-cloudgene" title="Permanent link">&para;</a></h2>
+<h3 id="requirements">Requirements:<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Install Nextflow</li>
+<li>Docker or Singularity</li>
+<li>Java 14</li>
+</ul>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Install cloudgene3: <code>curl -s install.cloudgene.io | bash -s 3.0.0-rc3</code></li>
+<li>Download latest source code zip file from releases</li>
+<li>Install impuationserver2 app: <code>./cloudgene install imputationserver2@latest</code></li>
+<li>Install hapmap2 referenece panel: <code>./cloudgene install https://genepi.i-med.ac.at/downloads/imputation/imputation-hapmap2.zip</code></li>
+<li>Start cloudgene server: <code>./cloudgene server</code></li>
+<li>Open <a href="http://localhost:8082">http://localhost:8082</a></li>
+<li>Login with default admin account: username <code>admin</code> and password <code>admin1978</code></li>
+<li>Imputation can be tested with the following <a href="https://github.com/genepi/imputationserver2/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz">test file</a></li>
+</ul>
+<h3 id="default-configuration">Default Configuration<a class="headerlink" href="#default-configuration" title="Permanent link">&para;</a></h3>
+<p>The default configuration runs with Docker and uses Nextflow's <a href="https://www.nextflow.io/docs/latest/executor.html#local">local executor</a>.</p>
+<h3 id="running-on-slurm">Running on SLURM<a class="headerlink" href="#running-on-slurm" title="Permanent link">&para;</a></h3>
+<p>Configure via web interface (Applications -&gt; imputationserver -&gt; Settings) or adapt/create file <code>apps/imputationserver/nextflow.config</code> and add the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>process {
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  executor = &#39;slurm&#39;
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  queue = &#39;QueueName&#39;  // replace with your Queue name
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>}
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>errorStrategy = {task.exitStatus == 143 ? &#39;retry&#39; : &#39;terminate&#39;}
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>maxErrors = &#39;-1&#39;
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>maxRetries = 3
+</code></pre></div>
+<p>See more about SLURM <a href="https://www.nextflow.io/docs/latest/executor.html#slurm">Nextflow Documentation</a>.</p>
+<h3 id="running-on-aws-batch">Running on AWS Batch<a class="headerlink" href="#running-on-aws-batch" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Create AWS Batch queue and AMI role (see <a href="https://www.nextflow.io/docs/latest/aws.html#aws-batch">Nextflow Documentation</a>)</li>
+<li>Configure via web interface (Applications -&gt; imputationserver -&gt; Settings) or adapt/create file <code>apps/imputationserver/nextflow.config</code> and add the following:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>aws {
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  region = &#39;eu-central-1&#39;
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  client {
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    uploadChunkSize = 10485760
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  }
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  batch {
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    cliPath = &#39;/home/ec2-user/miniconda/bin/aws&#39;
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    executionRole = &#39;arn:aws:iam::***&#39; // replace with your AMI role
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  }
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>}
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>process {
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>  executor = &#39;awsbatch&#39;
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>  queue = &#39;QueueName&#39;  // replace with your Queue name
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>  scratch = false
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>}
+</code></pre></div>
+<ol>
+<li>Got to Settings -&gt; General and set Workspace to "S3" and enter the location of a subfolder in an S3 bucket. Enter the location of a subfolder in an S3 bucket. Currently, it must be a subfolder; a bucket won't work (Example: <code>s3://cloudgene/workspace</code>).</li>
+</ol>
+<p>Optional add <a href="https://www.nextflow.io/docs/latest/wave.html">Wave</a> and <a href="https://www.nextflow.io/docs/latest/fusion.html">Fusion</a> support to improve performance:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>wave {
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  enabled = true
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  endpoint = &#39;https://wave.seqera.io&#39;
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>}
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>fusion {
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  enabled = true
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>}
+</code></pre></div>
+<h3 id="activate-mail-support">Activate mail support<a class="headerlink" href="#activate-mail-support" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Configure mail server in Settings -&gt; General -&gt; Mail</li>
+<li>Configure Nextflow to use Cloudgenes mail settings by add the following to the global configuration (Settings -&gt; General -&gt; Nextflow) or adapt/create files <code>config/nextflow.confing</code> (see <a href="https://www.nextflow.io/docs/latest/config.html#config-mail">Nextflow Documention</a> for all available mail settings)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mail {
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    smtp.host = &quot;${CLOUDGENE_SMTP_HOST}&quot;
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    smtp.port = &quot;${CLOUDGENE_SMTP_PORT}&quot;
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    smtp.user = &quot;${CLOUDGENE_SMTP_USER}&quot;
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    smtp.password = &quot;${CLOUDGENE_SMTP_PASSWORD}&quot;
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    smtp.auth = true
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    smtp.starttls.enable = true
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    smtp.ssl.protocols = &#39;TLSv1.2&#39;
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>}
+</code></pre></div>
+<ul>
+<li>Add <code>params.config.send_mail = true</code> to the application specific configuration to activate mail notifications in the imputationserver2 pipeline</li>
+</ul>
+<h3 id="adapt-default-parameters">Adapt default parameters<a class="headerlink" href="#adapt-default-parameters" title="Permanent link">&para;</a></h3>
+<p>Parameters can be changed in the `nextflow.config`` file of the application. Example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>params.chunk_size = 500000
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>params.imputation.window = 100000
+</code></pre></div>
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
+<h3 id="build-docker-image-locally">Build docker image locally<a class="headerlink" href="#build-docker-image-locally" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker build -t genepi/imputation-docker:latest .
+</code></pre></div>
+<h3 id="run-testcases">Run testcases<a class="headerlink" href="#run-testcases" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>nf-test test
+</code></pre></div>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>imputationserver2 is MIT Licensed and was developed at the <a href="https://genepi.i-med.ac.at/">Institute of Genetic Epidemiology</a>, Medical University of Innsbruck, Austria.</p>
+<h2 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://genepi.i-med.ac.at/team/schoenherr-sebastian/">Sebastian Schönherr</a></li>
+<li><a href="https://genepi.i-med.ac.at/team/forer-lukas/">Lukas Forer</a></li>
+</ul>
 
 
 
@@ -1232,7 +1469,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["content.tooltips", "navigation.tabs", "search.highlight", "search.share", "search.suggest", "toc.follow", "content.tabs.link", "content.code.annotate", "content.code.copy"], "search": "assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.tooltips", "navigation.tabs", "search.highlight", "search.share", "search.suggest", "toc.follow", "content.tabs.link", "content.code.annotate", "content.code.copy"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="assets/javascripts/bundle.56dfad97.min.js"></script>
