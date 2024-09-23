@@ -34,8 +34,8 @@ process INPUT_VALIDATION_VCF {
         --minSamples ${params.min_samples} \
         --maxSamples ${params.max_samples} \
         --report validation_report.txt \
-        --contactName ${params.service.contact == "" ? "Admin" : params.service.contact} \
-        --contactEmail ${params.service.email== "" ? "admin@localhost" : params.service.email} \
+        --contactName "${(params.service.contact == "" || params.service.contact == null) ? "Admin" : params.service.contact}" \
+        --contactEmail "${(params.service.email == "" || params.service.email == null) ? "admin@localhost" : params.service.email}" \
         $vcf_files 
     exit_code_a=\$?
 
