@@ -149,7 +149,7 @@ workflow.onComplete {
         if (params.send_mail && params.user.email != null){
             sendMail{
                 to "${params.user.email}"
-                subject "[${params.service.name}] Job ${params.project} ${statusMessage}." 
+                subject "[${params.service.name}] Job ${params.project} ${statusMessage}" 
                 body "Dear ${params.user.name}, \n Your job has been ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
@@ -174,7 +174,7 @@ workflow.onComplete {
         if (params.send_mail && params.user.email != null) {
             sendMail{
                 to "${params.user.email}"
-                subject "[${params.service.name}] Job ${params.project} is complete."
+                subject "[${params.service.name}] Job ${params.project} is complete"
                 body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
             println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
@@ -188,7 +188,7 @@ workflow.onComplete {
     if (params.send_mail && params.user.email != null) {
         sendMail{
             to "${params.user.email}"
-            subject "[${params.service.name}] Job ${params.project} is complete."
+            subject "[${params.service.name}] Job ${params.project} is complete"
             body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
         }
         println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
