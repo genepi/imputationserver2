@@ -19,7 +19,7 @@ process EAGLE {
     def phasing_start = start.toLong() - params.phasing.window
     phasing_start = phasing_start < 0 ? 1 : phasing_start
     def phasing_end = end.toLong() + params.phasing.window
-    def used_threads = params.service.resource_optimization ? (task.cpus - params.service.resource_optimization_value) : task.cpus
+    def used_threads = params.service.threads != -1 ? params.service.threads : task.cpus
 
     """
     tabix $chunkfile

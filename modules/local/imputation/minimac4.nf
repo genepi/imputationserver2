@@ -28,7 +28,7 @@ process MINIMAC4 {
     def chunkfile_name = chunkfile.toString().replaceAll('.vcf.gz', '')
     def chr_cleaned = chr.startsWith('X.') ? 'X' : chr
     def chr_mapped = (refpanel_build == 'hg38') ? 'chr' + chr_cleaned : chr_cleaned
-    def used_threads = params.service.resource_optimization ? (task.cpus - params.service.resource_optimization_value) : task.cpus
+    def used_threads = params.service.threads != -1 ? params.service.threads : task.cpus
 
     """
     tabix ${chunkfile}
