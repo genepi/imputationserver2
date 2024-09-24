@@ -168,6 +168,6 @@ workflow:
 
   outputs:
     - id: output
-      description: Output
+      description: Downloads
       type: local_folder
       download: true
