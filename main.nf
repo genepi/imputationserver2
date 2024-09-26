@@ -93,6 +93,11 @@ workflow {
             site_files_ch.collect()
         )
 
+        // check if QC chunks exist in case QC failed
+        QUALITY_CONTROL.out.qc_metafiles.ifEmpty{
+            error ""
+        }
+        
         if (params.mode == 'imputation') {
 
             phased_ch =  QUALITY_CONTROL.out.qc_metafiles
@@ -153,7 +158,7 @@ workflow.onComplete {
                 body "Dear ${params.user.name}, \n Your job has been ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
-        println "::error:: Imputation failed." 
+        println "::error:: Imputation Server 2 workflow failed." 
         return
     }
 
