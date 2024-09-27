@@ -93,7 +93,7 @@ workflow {
             site_files_ch.collect()
         )
        
-        // check if QC chunks exist in case QC failed
+       // check if QC chunks exist in case QC failed
        QUALITY_CONTROL.out.qc_metafiles.ifEmpty {
        error "QC step failed"
        } 
@@ -146,10 +146,8 @@ workflow {
 workflow.onComplete {
     //TODO: use templates
     //TODO: move in EmailHelper class
-    //see https://www.nextflow.io/docs/latest/mail.html for configuration etc...
-    // Nfcore Template: https://github.com/nf-core/rnaseq/blob/b89fac32650aacc86fcda9ee77e00612a1d77066/lib/NfcoreTemplate.groovy#L155
-    if (!workflow.success) {
-        def statusMessage = workflow.exitStatus != null  || workflow.errorReport == ""QC step failed" ? "failed" : "canceled"
+        if (!workflow.success) {
+        def statusMessage = workflow.exitStatus != null  || workflow.errorReport == "QC step failed" ? "failed" : "canceled"
         if (params.send_mail && params.user.email != null){
             sendMail{
                 to "${params.user.email}"
@@ -161,16 +159,17 @@ workflow.onComplete {
         return
     }
 
-    //submit counters on success
-	println "::submit-counter name=samples::"
-    println "::submit-counter name=genotypes::"
-    println "::submit-counter name=chromosomes::"
-    println "::submit-counter name=runs::"
+    //submit counters for successful imputation jobs  
+    if (params.mode == 'imputation') {
+        println "::submit-counter name=samples::"
+        println "::submit-counter name=genotypes::"
+        println "::submit-counter name=chromosomes::"
+        println "::submit-counter name=runs::"
 
-    println "::set-value-and-submit name=reference_panel::${params.refpanel.id}"
-    println "::set-value-and-submit name=phasing_engine::${phasing_engine}"
-    println "::set-value-and-submit name=genome_build::${params.build}"
-
+        println "::set-value-and-submit name=reference_panel::${params.refpanel.id}"
+        println "::set-value-and-submit name=phasing_engine::${phasing_engine}"
+        println "::set-value-and-submit name=genome_build::${params.build}"
+    }
 
     // imputation job
     if (params.merge_results === true && params.encryption.enabled === true) {
