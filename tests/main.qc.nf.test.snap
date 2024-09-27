@@ -1,4 +1,14 @@
 {
+    "Should fail QC-only but publish files": {
+        "content": [
+            "::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=error::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n<b>Warning:</b> 4 Chunk(s) excluded: < 10000 SNPs (see chunks-excluded.txt for details).\n\nRemaining chunk(s): 0\n\n<b>Error:</b> No chunks passed the QC step. Imputation cannot be started!\n::endgroup::\n"
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-09-26T16:41:25.904156"
+    },
     "Should write typed only sites": {
         "content": [
             "::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n",

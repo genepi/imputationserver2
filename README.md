@@ -285,7 +285,7 @@ params.imputation.window = 100000
 ### Build docker image locally
 
 ```
-docker build -t genepi/imputation-docker:latest .
+docker build -t genepi/imputationserver2:latest .
 ```
 
 ### Run testcases

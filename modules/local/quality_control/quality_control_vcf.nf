@@ -13,7 +13,7 @@ process QUALITY_CONTROL_VCF {
     val(panel_version)
 
     output:
-    path("${metaFilesDir}/*"), emit: chunks_csv
+    path("${metaFilesDir}/*"), emit: chunks_csv, optional: true
     path("${chunksDir}/*"), emit: chunks_vcf
     path("${statisticsDir}/*"), optional: true
     path("maf.txt"), emit: maf_file, optional: true
@@ -56,10 +56,18 @@ process QUALITY_CONTROL_VCF {
         --report qc_report.txt \
         $chain \
         $vcf_files 
+
     exit_code_a=\$?
 
-    cat  qc_report.txt
-    exit \$exit_code_a
+    # Check if QC step failed
+    if [[ \$exit_code_a -ne 0 ]]; then
+        rm -rf ${metaFilesDir}
+    fi
+
+    cat qc_report.txt
+    
+    # Always exit 0 that QC files get published
+    exit 0
     """
 
 }

@@ -37,6 +37,35 @@ nextflow_pipeline {
 
     }
 
+    test("Should fail QC-only but publish files") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
+                allele_frequency_population = "eur"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene_with_qcfilters.yaml"
+                output = "${outputDir}"
+            }   
+        }
+
+        then {
+            assert workflow.failed
+
+            assert file("${outputDir}/statistics/snps-typed-only.txt").exists()
+            
+            def log = file("${outputDir}/qc_report.txt")
+
+            assert snapshot(
+                log.text
+            ).match()
+       
+        }
+
+    }
+
     test("Should run QC-only without population") {
 
         when {
