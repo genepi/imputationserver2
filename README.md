@@ -4,7 +4,30 @@
 [![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
  <a href="https://twitter.com/intent/follow?screen_name=umimpute"> <img src="https://img.shields.io/twitter/follow/umimpute.svg?style=social" alt="follow on Twitter"></a>
 
-This repository includes the Imputation Server 2 Nextflow workflow.
+This repository contains the Imputation Server 2 workflow to facilitate genotype imputation at scale. It serves as the underlying workflow of the [Michigan Imputation Server](https://imputationserver.sph.umich.edu).
+
+## Citation
+Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D, Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
+
+<sub>*Shared first authors</sub>
+ 
+## License
+
+imputationserver2 is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
+
+## Contact
+If you have any questions about imputationserver2 please contact
+- [Sebastian Schönherr](https://genepi.i-med.ac.at/team/schoenherr-sebastian/)
+- [Lukas Forer](https://genepi.i-med.ac.at/team/forer-lukas/)
+
+If you encounter any problems, feel free to open an issue [here](https://github.com/genepi/imputationserver2/issues).
+
+## Version History
+[Version 2.0.2](https://github.com/genepi/imputationserver2/releases/tag/v2.0.2) - Set minimac4 tmp directory (required for larger sample sizes).
+
+[Version 2.0.1](https://github.com/genepi/imputationserver2/releases/tag/v2.0.1) - Provide statistics to users in case QC failed; check normalized multiallelic variants in reference panel. 
+
+[Version 2.0.0](https://github.com/genepi/imputationserver2/releases/tag/v2.0.0) - First stable release; migration of the imputation workflow to Nextflow.
 
 ## Run with test data
 
@@ -294,12 +317,3 @@ docker build -t genepi/imputationserver2:latest .
 ```
 nf-test test
 ```
-
-## License
-
-imputationserver2 is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
-
-## Contact
-
-- [Sebastian Schönherr](https://genepi.i-med.ac.at/team/schoenherr-sebastian/)
-- [Lukas Forer](https://genepi.i-med.ac.at/team/forer-lukas/)
