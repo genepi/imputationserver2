@@ -45,6 +45,7 @@ process MINIMAC4 {
         --empirical-output ${chunkfile_name}.empiricalDose.vcf.gz \
         --threads $used_threads \
         --decay $decay \
+        --temp-prefix ./ \
         $diff_threshold \
         $prob_threshold \
         $prob_threshold_s1 \
