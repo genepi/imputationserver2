@@ -7,8 +7,7 @@
 This repository contains the Imputation Server 2 workflow to facilitate genotype imputation at scale. It serves as the underlying workflow of the [Michigan Imputation Server](https://imputationserver.sph.umich.edu).
 
 ## Citation
-Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D, Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
-
+> Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D,       Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
 <sub>*Shared first authors</sub>
  
 ## License
@@ -23,6 +22,9 @@ If you have any questions about imputationserver2 please contact
 If you encounter any problems, feel free to open an issue [here](https://github.com/genepi/imputationserver2/issues).
 
 ## Version History
+
+[Version 2.0.3](https://github.com/genepi/imputationserver2/releases/tag/v2.0.3) - Fix QC issues and remove HTSJDK index creation for a smoother input validation.
+
 [Version 2.0.2](https://github.com/genepi/imputationserver2/releases/tag/v2.0.2) - Set minimac4 tmp directory (required for larger sample sizes).
 
 [Version 2.0.1](https://github.com/genepi/imputationserver2/releases/tag/v2.0.1) - Provide statistics to users in case QC failed; check normalized multiallelic variants in reference panel. 
