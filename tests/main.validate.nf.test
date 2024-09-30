@@ -23,4 +23,26 @@ nextflow_pipeline {
 
     }
 
+ 
+    test("Should fail due to unsorted file") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/invalid-vcfs/unsorted.vcf.gz"
+                allele_frequency_population = "eur"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+            }   
+        }
+
+        then {
+            assert workflow.failed
+       
+        }
+
+    }   
+
 }
