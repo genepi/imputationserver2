@@ -23,7 +23,7 @@ If you encounter any problems, feel free to open an issue [here](https://github.
 
 ## Version History
 
-[Version 2.0.3](https://github.com/genepi/imputationserver2/releases/tag/v2.0.3) - Fix QC issues and remove HTSJDK index creation for a smoother input validation.
+[Version 2.0.4](https://github.com/genepi/imputationserver2/releases/tag/v2.0.4) - Fix QC issues and remove HTSJDK index creation for a smoother input validation.
 
 [Version 2.0.2](https://github.com/genepi/imputationserver2/releases/tag/v2.0.2) - Set minimac4 tmp directory (required for larger sample sizes).
 
