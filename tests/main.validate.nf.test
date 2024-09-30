@@ -3,13 +3,33 @@ nextflow_pipeline {
     name "Pipeline Tests for Input Validation"
     script "main.nf"
 
+    test("Should pass with several files") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/three/*.vcf.gz"
+                allele_frequency_population = "eur"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
+                output = "${outputDir}"
+            }   
+        }
+
+        then {
+            assert workflow.success
+        }
+
+    }
+
     test("Should fail due to wrong path") {
 
         when {
             params {
                 project  = "test-job"
                 build = "hg19"
-                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gzz"
+                files = "$projectDir/tests/data/input/chr20-phased/*.vcf.gz"
                 allele_frequency_population = "eur"
                 mode = "qc-only"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
@@ -23,14 +43,13 @@ nextflow_pipeline {
 
     }
 
- 
     test("Should fail due to unsorted file") {
 
         when {
             params {
                 project  = "test-job"
                 build = "hg19"
-                files = "$projectDir/tests/data/input/invalid-vcfs/unsorted.vcf.gz"
+                files = "$projectDir/tests/data/input/invalid-vcfs/*.vcf.gz"
                 allele_frequency_population = "eur"
                 mode = "qc-only"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"

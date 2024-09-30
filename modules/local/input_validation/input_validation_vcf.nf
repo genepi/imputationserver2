@@ -25,7 +25,7 @@ process INPUT_VALIDATION_VCF {
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
     # Verify if VCF files are valid
-    for vcf in "$vcf_files"; do
+    for vcf in $vcf_files; do
         # Attempt to create the index using tabix
         if ! output=\$(tabix -p vcf "\$vcf" 2>&1); then
             echo ::group type=error
