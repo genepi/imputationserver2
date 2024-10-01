@@ -16,7 +16,7 @@ process MINIMAC4 {
     val probThresholdS1
     val minRecombination
     output:
-    tuple val(chr), val(start), val(end), file("*.dose.vcf.gz"), file("*.info.gz"), file("*.empiricalDose.vcf.gz"), emit: imputed_chunks
+    tuple val(chr), val(start), val(end), file("*.dose.*"), file("*.info.*"), file("*.empiricalDose.*"), emit: imputed_chunks
 
     script:
     def map = minimac_map ? '--map ' + minimac_map : ''
@@ -29,20 +29,20 @@ process MINIMAC4 {
     def chr_cleaned = chr.startsWith('X.') ? 'X' : chr
     def chr_mapped = (refpanel_build == 'hg38') ? 'chr' + chr_cleaned : chr_cleaned
     def used_threads = params.service.threads != -1 ? params.service.threads : task.cpus
-
+    def minimac4_format = params.imputation.format
     """
     tabix ${chunkfile}
 
     minimac4 \
         --region $chr_mapped:$start-$end \
         --overlap $minimac_window \
-        --output ${chunkfile_name}.dose.vcf.gz \
-        --output-format vcf.gz \
+        --output ${chunkfile_name}.dose.$minimac4_format \
+        --output-format $minimac4_format \
         --format GT,DS,GP,HDS \
         --min-ratio $minimac_min_ratio \
         --all-typed-sites \
-        --sites ${chunkfile_name}.info.gz \
-        --empirical-output ${chunkfile_name}.empiricalDose.vcf.gz \
+        --sites ${chunkfile_name}.info.$minimac4_format \
+        --empirical-output ${chunkfile_name}.empiricalDose.$minimac4_format \
         --threads $used_threads \
         --decay $decay \
         --temp-prefix ./ \

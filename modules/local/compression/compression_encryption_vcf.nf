@@ -19,29 +19,31 @@ process COMPRESSION_ENCRYPTION_VCF {
     def meta_joined = ArrayUtil.sort(imputed_meta_vcf_data)
     def info_joined = ArrayUtil.sort(imputed_info)
     def prefix = "chr${chr}"
-    def imputed_name = "${prefix}.dose.vcf.gz"
-    def meta_name = "${prefix}.empiricalDose.vcf.gz"
+    def minimac4_format = params.imputation.format
+    def bcftools_output = minimac4_format == 'bcf' ? "b" : "z"
+    def imputed_name = "${prefix}.dose.$minimac4_format"
+    def meta_name = "${prefix}.empiricalDose.$minimac4_format"
     def zip_name = "chr_${chr}.zip"
-    def info_name = "${prefix}.info.gz"
+    def info_name = "${prefix}.info.$minimac4_format"
     def aes = params.encryption.aes ? "-mem=AES256" : ""
     def panel_version = params.refpanel.id
-    
+        
     """  
     # concat info files 
-    bcftools concat --threads ${task.cpus} -n ${info_joined} -o ${info_name} -Oz
+    bcftools concat --threads ${task.cpus} -n ${info_joined} -o ${info_name} -O$bcftools_output
     
     # concat dosage files and update header 
-    bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
+    bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -O$bcftools_output
     echo "##mis_pipeline=${workflow.manifest.version}" > add_header.txt
     echo "##mis_phasing=${params.phasing.engine}" >> add_header.txt
     echo "##mis_panel=${panel_version}" >> add_header.txt
-    bcftools annotate --threads ${task.cpus} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
+    bcftools annotate --threads ${task.cpus} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -O$bcftools_output
     rm intermediate_${imputed_name}
 
     # write meta files
     if [[ "${params.imputation.meta}" = true ]]
     then
-        bcftools concat --threads ${task.cpus} -n ${meta_joined} -o ${meta_name} -Oz
+        bcftools concat --threads ${task.cpus} -n ${meta_joined} -o ${meta_name} -O$bcftools_output
         tabix ${meta_name}
     fi
 
@@ -55,7 +57,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     if [[ "${params.encryption.enabled}" = true ]]
     then    
         7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
-        rm *vcf.gz* *info.gz add_header.txt
+        rm *$minimac4_format add_header.txt
     fi
     
     # create md5 of zip file
