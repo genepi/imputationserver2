@@ -36,6 +36,18 @@ process QUALITY_CONTROL_VCF {
     set +e
     echo '${JsonOutput.toJson(params.refpanel)}' > reference-panel.json
 
+    # Verify if VCF files are valid
+    for vcf in $vcf_files; do
+        # Attempt to create the index using tabix
+        if ! output=\$(tabix -p vcf "\$vcf" 2>&1); then
+            echo ::group type=error
+            echo "The provided VCF file is malformed."
+            echo "Error: \$output"
+            echo ::endgroup::
+            exit 1
+        fi
+    done
+    
     # TODO: create directories in java
     mkdir ${chunksDir}
     mkdir ${metaFilesDir}
