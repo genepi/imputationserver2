@@ -66,6 +66,7 @@ process QUALITY_CONTROL_VCF {
         --statistics-out ${statisticsDir} \
         --metafiles-out ${metaFilesDir} \
         --report qc_report.txt \
+        --no-index \
         $chain \
         $vcf_files 
 
