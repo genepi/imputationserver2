@@ -37,6 +37,26 @@ nextflow_pipeline {
 
     }
 
+    test("Should run QC-only including VCF 4.3 and indels") {
+
+        when {
+            params {
+                project  = "test-job"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chr20-phased/with_indels/*.vcf.gz"
+                allele_frequency_population = "eur"
+                mode = "qc-only"
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2-hg38/cloudgene.yaml"
+                output = "${outputDir}"
+            }   
+        }
+
+        then {
+            assert workflow.success
+        }
+
+    }
+
     test("Should fail QC-only but publish files") {
 
         when {
