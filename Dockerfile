@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get -y clean
 
 #  Install miniconda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_24.5.0-0-Linux-x86_64.sh -O ~/miniconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_24.7.1-0-Linux-x86_64.sh -O ~/miniconda.sh && \
   /bin/bash ~/miniconda.sh -b -p /opt/conda
 ENV PATH=/opt/conda/bin:${PATH}
 
