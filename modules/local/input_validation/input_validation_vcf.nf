@@ -4,7 +4,7 @@ process INPUT_VALIDATION_VCF {
     label 'preprocessing'
 
     // Use publishDir to copy outputs to params.output with flatten: true
-    publishDir "${params.output}/split_vcfs", mode: 'copy', pattern: 'split_vcfs/*.vcf.gz', flatten: true
+    publishDir "${params.output}", mode: 'copy', pattern: 'split_vcfs/*.vcf.gz'
     publishDir "${params.output}", mode: 'copy', pattern: 'validation_report.txt'
 
     input:
