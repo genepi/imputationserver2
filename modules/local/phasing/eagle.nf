@@ -19,8 +19,7 @@ process EAGLE {
     def phasing_start = start.toLong() - params.phasing.window
     phasing_start = phasing_start < 0 ? 1 : phasing_start
     def phasing_end = end.toLong() + params.phasing.window
-    def used_threads = params.service.threads != -1 ? params.service.threads : task.cpus
-
+    def num_threads = "nproc".execute().text.trim()
     """
     tabix $chunkfile
     eagle \
@@ -34,6 +33,6 @@ process EAGLE {
         --allowRefAltSwap \
         --vcfOutFormat z \
         --keepMissingPloidyX \
-        --numThreads $used_threads
+        --numThreads $num_threads
     """
 }

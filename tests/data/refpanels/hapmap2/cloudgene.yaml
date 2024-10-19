@@ -8,12 +8,10 @@ id: hapmap2-chr20
 properties:
   id: hapmap2-chr20
   build: hg19
-  genotypes: ${CLOUDGENE_APP_LOCATION}/msavs/hapmap_r22.chr$chr.CEU.hg19.msav
-  sites: ${CLOUDGENE_APP_LOCATION}/sites/hapmap_r22.chr$chr.CEU.hg19_impute.sites.gz
-  mapEagle: ${CLOUDGENE_APP_LOCATION}/map/genetic_map_hg19_withX.txt.gz
-  refEagle: ${CLOUDGENE_APP_LOCATION}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
-  refBeagle: ${CLOUDGENE_APP_LOCATION}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bref3
-  mapBeagle: ${CLOUDGENE_APP_LOCATION}/map/plink.chr$chr.GRCh37.map
+  genotypes: /home/alexkotlar/imputationserver2/1000g_phase3_msav/g1k_p3_msav_files_with_estimates/1000g_phase3_v5.chr$chr.with_parameter_estimates.msav
+  sites: /home/alexkotlar/imputationserver2/1000g_phase3_5a_sites/ALL.chr$chr.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.sites.bgz
+  mapEagle: /home/alexkotlar/imputationserver2/1000g_phase3_msav/genetic_map/genetic_map_hg19_withX.txt.gz
+  refEagle: /home/alexkotlar/imputationserver2/1000gphase3_vcf/hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ALL.chr$chr.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.bcf
   populations:
     - id: eur
       name: EUR
