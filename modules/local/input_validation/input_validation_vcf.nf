@@ -3,7 +3,6 @@ import groovy.json.JsonOutput
 process INPUT_VALIDATION_VCF {
     label 'preprocessing'
 
-    // Use publishDir to copy outputs to params.output with flatten: true
     publishDir "${params.output}", mode: 'copy', pattern: 'split_vcfs/*.vcf.gz'
     publishDir "${params.output}", mode: 'copy', pattern: 'validation_report.txt'
 
@@ -104,16 +103,32 @@ EOF
             fi
         fi
 
-        # For each chromosome
-        for chr in \$chromosomes; do
-            # Extract, sort, compress, and index
-            output_vcf="split_vcfs/\${base_name}_\${chr}.vcf.gz"
-            bcftools view -r "\$chr" "\$vcf" | bcftools sort -Oz -o "\$output_vcf"
-            tabix -p vcf "\$output_vcf"
+        # Count the number of chromosomes
+        num_chromosomes=\$(echo "\$chromosomes" | wc -l)
 
-            # Add the split VCF file to the array
+        if [ "\$num_chromosomes" -eq 1 ]; then
+            # Only one chromosome, skip splitting and sorting
+            echo "Only one chromosome detected (\$chromosomes). Skipping split and sort."
+            output_vcf="split_vcfs/\${base_name}.vcf.gz"
+            cp "\$vcf" "\$output_vcf"
+            # Index the output VCF if necessary
+            if [ ! -f "\$output_vcf.csi" ] && [ ! -f "\$output_vcf.tbi" ]; then
+                tabix -p vcf "\$output_vcf"
+            fi
+            # Add the VCF file to the array
             split_vcfs+=("\$output_vcf")
-        done
+        else
+            # For each chromosome
+            for chr in \$chromosomes; do
+                # Extract, sort, compress, and index
+                output_vcf="split_vcfs/\${base_name}_\${chr}.vcf.gz"
+                bcftools view -r "\$chr" "\$vcf" | bcftools sort -Oz -o "\$output_vcf"
+                tabix -p vcf "\$output_vcf"
+
+                # Add the split VCF file to the array
+                split_vcfs+=("\$output_vcf")
+            done
+        fi
     done
 
     # Now we can use the split_vcfs array
