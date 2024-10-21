@@ -18,13 +18,14 @@ process BEAGLE {
     def phasing_start = start.toLong() - params.phasing.window
     phasing_start = phasing_start < 0 ? 1 : phasing_start
     def phasing_end = end.toLong() + params.phasing.window
-    def num_threads = "nproc".execute().text.trim()
+    def num_threads = 2
 
     // Set impute parameter based on params.phasing.impute
     def impute_param = params.phasing.impute ? 'true' : 'false'
+    def avail_mem = 1024 * 6
 
     """
-    java -jar /usr/bin/beagle.27May24.118.jar \\
+    java -Xmx${avail_mem}M  -jar /usr/bin/beagle.27May24.118.jar \\
         ref=${bcf}  \\
         gt=${chunkfile} \\
         out=${chunkfile_name}.phased \\
