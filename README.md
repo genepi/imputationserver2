@@ -164,30 +164,35 @@ Note: the population id has to be the same as in the legend files.
 
 ### Example YAML
 
-Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for an Imputation Server, including details about its version, data sources, and populations represented. The files are stored on AWS S3 and are directly consumed by the pipeline from there.
+Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for an Imputation Server, including details about its version, data sources, and represented populations. The files are stored in subdirectories of the application and can be consumed by the pipeline from there.
 
 ```yaml
-name: HapMap 2
-description: HapMap2 Reference Panel for Imputation Server
+name:  HapMap 2 (GRCh37/hg19)
+description: HapMap2 Reference Panel for Michigan Imputation Server
 version: 2.0.0
 website: http://imputationserver.sph.umich.edu
 category: RefPanel
+id: hapmap-2
 
 properties:
-  id: hapmap2
-  genotypes: s3://cloudgene/refpanels/hapmap/m3vcfs/hapmap_r22.chr$chr.CEU.hg19.recode.m3vcf.gz
-  legend: s3://cloudgene/refpanels/hapmap/legends/hapmap_r22.chr$chr.CEU.hg19_impute.legend.gz
-  mapEagle: s3://cloudgene/refpanels/hapmap/map/genetic_map_hg19_withX.txt.gz
-  refEagle: s3://cloudgene/refpanels/hapmap/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
+  id: hapmap-2
+  genotypes: ${CLOUDGENE_APP_LOCATION}/msavs/hapmap_r22.chr$chr.CEU.hg19.recode.msav
+  sites: ${CLOUDGENE_APP_LOCATION}/sites/hapmap_r22.chr$chr.CEU.hg19_impute.sites.gz
+  mapEagle: ${CLOUDGENE_APP_LOCATION}/map/genetic_map_hg19_withX.txt.gz
+  refEagle: ${CLOUDGENE_APP_LOCATION}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
   build: hg19
+  qcFilter:
+    alleleSwitches: 100  
   populations:
     - id: eur
       name: EUR
       samples: 60
-    - id: off
+    - id: "off"
       name: Off
-      samples: -1
+      samples: -1  
 ```
+
+A full example of a reference panel, including all data and the cloudgene.yaml, can be downloaded [here](https://imputationserver.sph.umich.edu/resources/ref-panels/imputationserver2-hapmap2.zip).
 
 ### Note on `$chr` Variable
 
