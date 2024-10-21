@@ -44,17 +44,33 @@ EOF
 
     # Process each VCF file
     for vcf in ${vcf_files}; do
+        echo "Processing VCF file: \$vcf"
+
+        # Determine if the VCF file is compressed
+        if [[ "\$vcf" == *.gz ]]; then
+            compressed_vcf="\$vcf"
+            echo "File is compressed: \$compressed_vcf"
+        else
+            # Compress the VCF file using bgzip
+            compressed_vcf="\$vcf.gz"
+            echo "File is uncompressed. Compressing to: \$compressed_vcf"
+            bgzip -c "\$vcf" > "\$compressed_vcf"
+            # Replace the original VCF with the compressed one for further processing
+            vcf="\$compressed_vcf"
+        fi
+
         # Verify if VCF file is valid by attempting to index
-        if ! output=\$(tabix -p vcf "\$vcf" 2>&1); then
+        if ! tabix_output=\$(tabix -p vcf "\$vcf" 2>&1); then
             echo "::group type=error"
             echo "The provided VCF file is malformed."
-            echo "Error: \$output"
+            echo "Error: \$tabix_output"
             echo "::endgroup::"
             exit 1
         fi
 
         # Index the VCF file if not already indexed
         if [ ! -f "\$vcf.csi" ] && [ ! -f "\$vcf.tbi" ]; then
+            echo "Indexing VCF file: \$vcf"
             bcftools index -f "\$vcf"
         fi
 
@@ -105,6 +121,7 @@ EOF
 
         # Count the number of chromosomes
         num_chromosomes=\$(echo "\$chromosomes" | wc -l)
+        echo "Number of chromosomes in \$vcf: \$num_chromosomes"
 
         if [ "\$num_chromosomes" -eq 1 ]; then
             # Only one chromosome, skip splitting and sorting
@@ -113,14 +130,15 @@ EOF
             cp "\$vcf" "\$output_vcf"
             # Index the output VCF if necessary
             if [ ! -f "\$output_vcf.csi" ] && [ ! -f "\$output_vcf.tbi" ]; then
+                echo "Indexing output VCF: \$output_vcf"
                 tabix -p vcf "\$output_vcf"
             fi
             # Add the VCF file to the array
             split_vcfs+=("\$output_vcf")
         else
-            # For each chromosome
+            # For each chromosome, extract, sort, compress, and index
             for chr in \$chromosomes; do
-                # Extract, sort, compress, and index
+                echo "Splitting chromosome: \$chr from \$vcf"
                 output_vcf="split_vcfs/\${base_name}_\${chr}.vcf.gz"
                 bcftools view -r "\$chr" "\$vcf" | bcftools sort -Oz -o "\$output_vcf"
                 tabix -p vcf "\$output_vcf"
@@ -133,7 +151,7 @@ EOF
 
     # Now we can use the split_vcfs array
     echo "Validated VCF files:"
-    printf '%s\n' "\${split_vcfs[@]}"
+    printf '%s\\n' "\${split_vcfs[@]}"
 
     # Run the validation program
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \\
