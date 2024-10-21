@@ -150,7 +150,7 @@ The `populations` section contains a dictionary mapping population identifiers t
 | `name`     | The label of the population. (e.g. EUR)  |
 | `samples`  | Number of samples in the reference panel |
 
-Note: the population id has to be the same as in the legend files.
+Note: the population id has to be the same as in the sites files.
 
 #### Quality Filters
 
@@ -198,9 +198,11 @@ A full example of a reference panel, including all data and the cloudgene.yaml, 
 
 In the example YAML configuration provided, you may have noticed the presence of the `$chr` variable in some URLs. This variable is a placeholder for the chromosome number and will be replaced by the Nextflow pipeline.
 
-### Legend Files
+### Sites Files
 
-A legend file is a tab-delimited file consisting of 5 columns (`id`, `position`, `a0`, `a1`, `all.aaf`).
+A site file is a tab-delimited file consisting of 8 columns: **ID**, **CHROM**, **POS**, **REF**, **ALT**, **AAF_EUR**, **AAF_ALL**, **MAF_EUR**, and **MAF_ALL**. The first five columns (**ID**, **CHROM**, **POS**, **REF**, and **ALT**) are required, while the **Allele Frequency (AAF)** and **Minor Allele Frequency (MAF)** columns are optional. 
+
+The optional **AAF** and **MAF** columns provide allele frequency information for different populations supported by the reference panel. Specifically, **AAF_EUR** and **MAF_EUR** represent allele frequencies for the European population, while **AAF_ALL** and **MAF_ALL** represent allele frequencies for all populations combined. 
 
 ---
 
