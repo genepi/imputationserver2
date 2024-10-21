@@ -11,7 +11,9 @@ properties:
   genotypes: /home/alexkotlar/imputationserver2/1000g_phase3_msav/g1k_p3_msav_files_with_estimates/1000g_phase3_v5.chr$chr.with_parameter_estimates.msav
   sites: /home/alexkotlar/imputationserver2/1000g_phase3_5a_sites/ALL.chr$chr.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.sites.bgz
   mapEagle: /home/alexkotlar/imputationserver2/1000g_phase3_msav/genetic_map/genetic_map_hg19_withX.txt.gz
+  mapBeagle: /home/alexkotlar/imputationserver2/refpanels/1000G/map/beagle/plink.chr$chr.GRCh37.map
   refEagle: /home/alexkotlar/imputationserver2/1000gphase3_vcf/hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ALL.chr$chr.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.bcf
+  refBeagle: /home/alexkotlar/imputationserver2/1000gphas3_vcf_raw/vcfs/ALL.chr$chr.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz.bref3
   populations:
     - id: eur
       name: EUR

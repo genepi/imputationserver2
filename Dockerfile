@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 #  Install miniconda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_24.5.0-0-Linux-x86_64.sh -O ~/miniconda.sh && \
-  /bin/bash ~/miniconda.sh -b -p /opt/conda
+    /bin/bash ~/miniconda.sh -b -p /opt/conda
 ENV PATH=/opt/conda/bin:${PATH}
 
 COPY environment.yml .
@@ -26,7 +26,7 @@ RUN wget https://storage.googleapis.com/broad-alkesgroup-public/Eagle/downloads/
     mv Eagle_v${EAGLE_VERSION}/eagle /usr/bin/.
 
 # Install beagle
-ENV BEAGLE_VERSION=18May20.d20
+ENV BEAGLE_VERSION=27May24.118
 WORKDIR "/opt"
 RUN wget https://faculty.washington.edu/browning/beagle/beagle.${BEAGLE_VERSION}.jar && \
     mv beagle.${BEAGLE_VERSION}.jar /usr/bin/.
@@ -68,7 +68,7 @@ RUN wget https://github.com/jingweno/ccat/releases/download/v${CCAT_VERSION}/lin
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
-    
+
 # Needed, because imputationserver-utils starts process (e.g. tabix)
 ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
 
