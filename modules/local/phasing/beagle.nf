@@ -25,7 +25,7 @@ process BEAGLE {
     def avail_mem = 1024 * 6
 
     """
-    java -Xmx${avail_mem}M  -jar /usr/bin/beagle.27May24.118.jar \\
+    java -jar /usr/bin/beagle.27May24.118.jar \\
         ref=${bcf}  \\
         gt=${chunkfile} \\
         out=${chunkfile_name}.phased \\

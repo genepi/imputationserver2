@@ -183,8 +183,6 @@ workflow {
                 phased_ch = PHASING.out.phased_ch
             }
 
-            println phased_ch.groupTuple().view()
-
             if (run_imputation) {
                 IMPUTATION(
                     phased_ch
