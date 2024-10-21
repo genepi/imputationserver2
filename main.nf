@@ -137,21 +137,6 @@ process MERGE_ALL_PHASED_VCF {
     """
 }
 
-def chromosomeSortKey(chr) {
-    if (chr.isInteger()) {
-        return [0, chr.toInteger()] // Numeric chromosomes have higher priority
-    } else {
-        // Define a custom order for non-numeric chromosomes if desired
-        // For example, X < Y < MT < others
-        switch(chr.toUpperCase()) {
-            case 'X': return [1, 1]
-            case 'Y': return [1, 2]
-            case 'MT': return [1, 3]
-            default: return [1, 4, chr] // Others sorted lexicographically
-        }
-    }
-}
-
 workflow {
 
     println "Welcome to ${params.service.name} (${workflow.manifest.version})"
