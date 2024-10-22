@@ -7,7 +7,7 @@ process EAGLE {
     path map_eagle
 
     output:
-    tuple val(chr), val(start), val(end), val(phasing_status), file('*.phased.vcf.gz'), file('*.phased.vcf.tbi'), emit: eagle_phased_ch
+    tuple val(chr), val(start), val(end), val(phasing_status), file('*.phased.vcf.gz'), emit: eagle_phased_ch
 
     script:
     //define basename without ending (do not use simpleName due to X.*)
@@ -20,6 +20,7 @@ process EAGLE {
     def phasing_end = end.toLong() + params.phasing.window
     def num_threads = 'nproc'.execute().text.trim()
     """
+    tabix $chunkfile
     eagle \
         --vcfRef ${bcf}  \
         --vcfTarget ${chunkfile} \

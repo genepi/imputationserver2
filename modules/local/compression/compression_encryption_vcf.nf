@@ -1,21 +1,20 @@
 import groovy.json.JsonOutput
 
 process COMPRESSION_ENCRYPTION_VCF {
-    
     label 'postprocessing'
     publishDir params.output, mode: 'copy'
     tag "Merge Chromosome ${chr}"
 
     input:
     tuple val(chr), val(start), val(end), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
-    
+
     output:
     path("final_vcf/*.dose.vcf.gz"), emit: dosage_vcf
     path("final_vcf/*.empiricalDose.vcf.gz"), emit: meta_vcf, optional: true
     path("*.zip"), emit: encrypted_file, optional: true
     path("*.md5"), emit: md5_file, optional: true
     path("chr${chr}*"), emit: raw_files, optional: true
-    
+
     script:
     def imputed_joined = ArrayUtil.sort(imputed_vcf_data)
     def meta_joined = ArrayUtil.sort(imputed_meta_vcf_data)
@@ -23,9 +22,9 @@ process COMPRESSION_ENCRYPTION_VCF {
     def imputed_name = "${prefix}.dose.vcf.gz"
     def meta_name = "${prefix}.empiricalDose.vcf.gz"
     def zip_name = "chr_${chr}.zip"
-    def aes = params.encryption.aes ? "-mem=AES256" : ""
+    def aes = params.encryption.aes ? '-mem=AES256' : ''
     def panel_version = params.refpanel.id
-    
+
     """
     # Create final_vcf directory
     mkdir -p final_vcf
@@ -51,5 +50,5 @@ process COMPRESSION_ENCRYPTION_VCF {
     then
         md5sum final_vcf/${imputed_name} > final_vcf/${imputed_name}.md5
     fi
-    """ 
+    """
 }
