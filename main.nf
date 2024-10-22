@@ -133,6 +133,9 @@ process MERGE_ALL_PHASED_VCF {
         if [ -f \${vcf}.tbi ]; then
             cp \${vcf}.tbi ${params.output}/final_vcf/
         fi
+        if [ -f \${vcf}.csi ]; then
+            cp \${vcf}.csi ${params.output}/final_vcf/
+        fi
     done
     """
 }

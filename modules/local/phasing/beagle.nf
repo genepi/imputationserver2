@@ -41,6 +41,7 @@ process BEAGLE {
         bcftools view -i 'INFO/DR2>=0.8' \$file -o \${file}.dr2_gte_0p8.vcf.gz -Oz
         rm \$file
         mv \${file}.dr2_gte_0p8.vcf.gz \$file
+        bcftools index -f -t \$file
     done
     """
 }
