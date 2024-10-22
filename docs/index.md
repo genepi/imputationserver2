@@ -1,12 +1,12 @@
 ---
 hide:
   - navigation
-  - toc 
+  - toc
 ---
 
 # Imputation Server 2
 
-[![imputationserver2](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml)
+[![imputationserver2](https://github.com/bystrogenomics/imputationserver2/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/bystrogenomics/imputationserver2/actions/workflows/ci-tests.yml)
 [![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
 
 This repository includes the Imputation Server 2 Nextflow workflow.
@@ -43,48 +43,45 @@ nextflow run main.nf -c job.config
 
 ## Parameters
 
-| Parameter             | Default Value         | Description                                        |
-| --------------------- | --------------------- | -------------------------------------------------- |
-| `project`             | `null`                | Project name                                       |
-| `project_date`        | `date`                | Project date                                       |
-| `files`               | `null`                | List of input files                                |
-| `allele_frequency_population`          | `null`                | Allele Frequency Population information                             |
-| `refpanel_yaml`       | `null`                | Reference panel YAML file                          |
-| `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
-| `chunksize`           | `20000000`            | Chunk size for processing                          |
-| `min_samples`         | `20`                  | Minimum number of samples needed                   |
-| `max_samples`         | `50000`               | Maximum number of samples allowed                  |
-| `merge_samples`       | `true`                | Execute compression and encryption workflow        |
-| `password`            | `null`                | Password for encryption                            |
-| `send_mail`           | `false`               | Enable or disable email notifications              |
-| `service.name`        | `Imputation Server 2` | Service name                                       |
-| `service.email`       | `null`                | Service email                                      |
-| `service.url`         | `null`                | Service URL                                        |
-| `user.name`           | `null`                | User's name                                        |
-| `user.email`          | `null`                | User's email                                       |
-| `phasing.engine`      | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
-| `phasing.window`      | `5000000`             | Phasing window size                                |
-| `imputation.enabled`  | `true`                | Enable or disable imputation                       |
-| `imputation.window`   | `500000`              | Imputation window size                             |
-| `imputation.minimac_min_ratio`   | `0.00001`  | Minimac minimum ratio                              |
-| `imputation.min_r2`   | `0`                   | R2 filter value                                    |
-| `imputation.meta`     | `false`               | Enable or disable empirical output creation        |
-| `imputation.md5`      | `false`               | Enable or disable md5 sum creation for results     |
-| `imputation.create_index`    | `false`        | Enable or disable index creation for imputed files |
-| `imputation.decay`    | `0`                   | Set minimac decay                                  |
-| `encryption.enabled`  | `true`                | Enable or disable encryption                       |
-| `encryption.aes`      | `false`               | Enable or disable AES method for encryption        |
-| `ancestry.enabled`    | `false`               | Enable or disable ancestry analysis                |
-| `ancestry.dim`        | `10`                  | Ancestry analysis dimension                        |
-| `ancestry.dim_high`   | `20`                  | High dimension for ancestry analysis               |
-| `ancestry.batch_size` | `50`                  | Batch size for ancestry analysis                   |
-| `ancestry.reference`  | `null`                | Ancestry reference data                            |
-| `ancestry.max_pcs`    | `8`                   | Maximum principal components for ancestry          |
-| `ancestry.k`          | `10`                  | K value for ancestry analysis                      |
-| `ancestry.threshold`  | `0.75`                | Ancestry threshold                                 |
-
-
-
+| Parameter                      | Default Value         | Description                                        |
+| ------------------------------ | --------------------- | -------------------------------------------------- |
+| `project`                      | `null`                | Project name                                       |
+| `project_date`                 | `date`                | Project date                                       |
+| `files`                        | `null`                | List of input files                                |
+| `allele_frequency_population`  | `null`                | Allele Frequency Population information            |
+| `refpanel_yaml`                | `null`                | Reference panel YAML file                          |
+| `mode`                         | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
+| `chunksize`                    | `20000000`            | Chunk size for processing                          |
+| `min_samples`                  | `20`                  | Minimum number of samples needed                   |
+| `max_samples`                  | `50000`               | Maximum number of samples allowed                  |
+| `merge_samples`                | `true`                | Execute compression and encryption workflow        |
+| `password`                     | `null`                | Password for encryption                            |
+| `send_mail`                    | `false`               | Enable or disable email notifications              |
+| `service.name`                 | `Imputation Server 2` | Service name                                       |
+| `service.email`                | `null`                | Service email                                      |
+| `service.url`                  | `null`                | Service URL                                        |
+| `user.name`                    | `null`                | User's name                                        |
+| `user.email`                   | `null`                | User's email                                       |
+| `phasing.engine`               | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
+| `phasing.window`               | `5000000`             | Phasing window size                                |
+| `imputation.enabled`           | `true`                | Enable or disable imputation                       |
+| `imputation.window`            | `500000`              | Imputation window size                             |
+| `imputation.minimac_min_ratio` | `0.00001`             | Minimac minimum ratio                              |
+| `imputation.min_r2`            | `0`                   | R2 filter value                                    |
+| `imputation.meta`              | `false`               | Enable or disable empirical output creation        |
+| `imputation.md5`               | `false`               | Enable or disable md5 sum creation for results     |
+| `imputation.create_index`      | `false`               | Enable or disable index creation for imputed files |
+| `imputation.decay`             | `0`                   | Set minimac decay                                  |
+| `encryption.enabled`           | `true`                | Enable or disable encryption                       |
+| `encryption.aes`               | `false`               | Enable or disable AES method for encryption        |
+| `ancestry.enabled`             | `false`               | Enable or disable ancestry analysis                |
+| `ancestry.dim`                 | `10`                  | Ancestry analysis dimension                        |
+| `ancestry.dim_high`            | `20`                  | High dimension for ancestry analysis               |
+| `ancestry.batch_size`          | `50`                  | Batch size for ancestry analysis                   |
+| `ancestry.reference`           | `null`                | Ancestry reference data                            |
+| `ancestry.max_pcs`             | `8`                   | Maximum principal components for ancestry          |
+| `ancestry.k`                   | `10`                  | K value for ancestry analysis                      |
+| `ancestry.threshold`           | `0.75`                | Ancestry threshold                                 |
 
 ## Reference Panel Configuration
 
@@ -109,7 +106,7 @@ The `properties` section contains the following key-value pairs:
 | ------------- | --------------------------------------------------------------------------- | -------- |
 | `id`          | An identifier for the reference panel.                                      | yes      |
 | `genotypes`   | The location of the genotype files for the reference panel data.            | yes      |
-| `sites`      | The location of the site files for the reference panel data.                 | yes      |
+| `sites`       | The location of the site files for the reference panel data.                | yes      |
 | `mapEagle`    | The location of the genetic map file used for phasing with eagle.           | yes      |
 | `refEagle`    | The location of the BCF file for the reference panel data for eagle.        | yes      |
 | `mapBeagle`   | The location of the genetic map file used for phasing with Beagle.          | no       |
@@ -196,7 +193,7 @@ A legend file is a tab-delimited file consisting of 5 columns (`id`, `position`,
 - Start cloudgene server: `./cloudgene server`
 - Open [http://localhost:8082](http://localhost:8082)
 - Login with default admin account: username `admin` and password `admin1978`
-- Imputation can be tested with the following [test file](https://github.com/genepi/imputationserver2/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
+- Imputation can be tested with the following [test file](https://github.com/bystrogenomics/imputationserver2/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
 
 ### Default Configuration
 

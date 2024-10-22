@@ -1,35 +1,39 @@
 # Imputation Server 2
+
 [![Publication](https://img.shields.io/badge/Published-Nature%20Genetics-26af64.svg?colorB=26af64&style=popout)](https://www.nature.com/articles/ng.3656)
-[![imputationserver2](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml)
+[![imputationserver2](https://github.com/bystrogenomics/imputationserver2/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/bystrogenomics/imputationserver2/actions/workflows/ci-tests.yml)
 [![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
- <a href="https://twitter.com/intent/follow?screen_name=umimpute"> <img src="https://img.shields.io/twitter/follow/umimpute.svg?style=social" alt="follow on Twitter"></a>
+<a href="https://twitter.com/intent/follow?screen_name=umimpute"> <img src="https://img.shields.io/twitter/follow/umimpute.svg?style=social" alt="follow on Twitter"></a>
 
 This repository contains the Imputation Server 2 workflow to facilitate genotype imputation at scale. It serves as the underlying workflow of the [Michigan Imputation Server](https://imputationserver.sph.umich.edu).
 
 ## Citation
-> Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D,       Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
-<sub>*Shared first authors</sub>
- 
+
+> Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D, Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
+> <sub>*Shared first authors</sub>
+
 ## License
 
 imputationserver2 is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
 
 ## Contact
+
 If you have any questions about imputationserver2 please contact
+
 - [Sebastian Schönherr](https://genepi.i-med.ac.at/team/schoenherr-sebastian/)
 - [Lukas Forer](https://genepi.i-med.ac.at/team/forer-lukas/)
 
-If you encounter any problems, feel free to open an issue [here](https://github.com/genepi/imputationserver2/issues).
+If you encounter any problems, feel free to open an issue [here](https://github.com/bystrogenomics/imputationserver2/issues).
 
 ## Version History
 
-[Version 2.0.3 - Version 2.0.6](https://github.com/genepi/imputationserver2/releases/tag/v2.0.6)  - Fix QC issues and remove HTSJDK index creation for input validation and QC.
+[Version 2.0.3 - Version 2.0.6](https://github.com/bystrogenomics/imputationserver2/releases/tag/v2.0.7) - Fix QC issues and remove HTSJDK index creation for input validation and QC.
 
-[Version 2.0.2](https://github.com/genepi/imputationserver2/releases/tag/v2.0.2) - Set minimac4 tmp directory (required for larger sample sizes).
+[Version 2.0.2](https://github.com/bystrogenomics/imputationserver2/releases/tag/v2.0.2) - Set minimac4 tmp directory (required for larger sample sizes).
 
-[Version 2.0.1](https://github.com/genepi/imputationserver2/releases/tag/v2.0.1) - Provide statistics to users in case QC failed; check normalized multiallelic variants in reference panel. 
+[Version 2.0.1](https://github.com/bystrogenomics/imputationserver2/releases/tag/v2.0.1) - Provide statistics to users in case QC failed; check normalized multiallelic variants in reference panel.
 
-[Version 2.0.0](https://github.com/genepi/imputationserver2/releases/tag/v2.0.0) - First stable release; migration of the imputation workflow to Nextflow.
+[Version 2.0.0](https://github.com/bystrogenomics/imputationserver2/releases/tag/v2.0.0) - First stable release; migration of the imputation workflow to Nextflow.
 
 ## Run with test data
 
@@ -63,48 +67,45 @@ nextflow run main.nf -c job.config
 
 ## Parameters
 
-| Parameter             | Default Value         | Description                                        |
-| --------------------- | --------------------- | -------------------------------------------------- |
-| `project`             | `null`                | Project name                                       |
-| `project_date`        | `date`                | Project date                                       |
-| `files`               | `null`                | List of input files                                |
-| `allele_frequency_population`          | `null`                | Allele Frequency Population information                             |
-| `refpanel_yaml`       | `null`                | Reference panel YAML file                          |
-| `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
-| `chunksize`           | `20000000`            | Chunk size for processing                          |
-| `min_samples`         | `20`                  | Minimum number of samples needed                   |
-| `max_samples`         | `50000`               | Maximum number of samples allowed                  |
-| `merge_samples`       | `true`                | Execute compression and encryption workflow        |
-| `password`            | `null`                | Password for encryption                            |
-| `send_mail`           | `false`               | Enable or disable email notifications              |
-| `service.name`        | `Imputation Server 2` | Service name                                       |
-| `service.email`       | `null`                | Service email                                      |
-| `service.url`         | `null`                | Service URL                                        |
-| `user.name`           | `null`                | User's name                                        |
-| `user.email`          | `null`                | User's email                                       |
-| `phasing.engine`      | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
-| `phasing.window`      | `5000000`             | Phasing window size                                |
-| `imputation.enabled`  | `true`                | Enable or disable imputation                       |
-| `imputation.window`   | `500000`              | Imputation window size                             |
-| `imputation.minimac_min_ratio`   | `0.00001`  | Minimac minimum ratio                              |
-| `imputation.min_r2`   | `0`                   | R2 filter value                                    |
-| `imputation.meta`     | `false`               | Enable or disable empirical output creation        |
-| `imputation.md5`      | `false`               | Enable or disable md5 sum creation for results     |
-| `imputation.create_index`    | `false`        | Enable or disable index creation for imputed files |
-| `imputation.decay`    | `0`                   | Set minimac decay                                  |
-| `encryption.enabled`  | `true`                | Enable or disable encryption                       |
-| `encryption.aes`      | `false`               | Enable or disable AES method for encryption        |
-| `ancestry.enabled`    | `false`               | Enable or disable ancestry analysis                |
-| `ancestry.dim`        | `10`                  | Ancestry analysis dimension                        |
-| `ancestry.dim_high`   | `20`                  | High dimension for ancestry analysis               |
-| `ancestry.batch_size` | `50`                  | Batch size for ancestry analysis                   |
-| `ancestry.reference`  | `null`                | Ancestry reference data                            |
-| `ancestry.max_pcs`    | `8`                   | Maximum principal components for ancestry          |
-| `ancestry.k`          | `10`                  | K value for ancestry analysis                      |
-| `ancestry.threshold`  | `0.75`                | Ancestry threshold                                 |
-
-
-
+| Parameter                      | Default Value         | Description                                        |
+| ------------------------------ | --------------------- | -------------------------------------------------- |
+| `project`                      | `null`                | Project name                                       |
+| `project_date`                 | `date`                | Project date                                       |
+| `files`                        | `null`                | List of input files                                |
+| `allele_frequency_population`  | `null`                | Allele Frequency Population information            |
+| `refpanel_yaml`                | `null`                | Reference panel YAML file                          |
+| `mode`                         | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
+| `chunksize`                    | `20000000`            | Chunk size for processing                          |
+| `min_samples`                  | `20`                  | Minimum number of samples needed                   |
+| `max_samples`                  | `50000`               | Maximum number of samples allowed                  |
+| `merge_samples`                | `true`                | Execute compression and encryption workflow        |
+| `password`                     | `null`                | Password for encryption                            |
+| `send_mail`                    | `false`               | Enable or disable email notifications              |
+| `service.name`                 | `Imputation Server 2` | Service name                                       |
+| `service.email`                | `null`                | Service email                                      |
+| `service.url`                  | `null`                | Service URL                                        |
+| `user.name`                    | `null`                | User's name                                        |
+| `user.email`                   | `null`                | User's email                                       |
+| `phasing.engine`               | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
+| `phasing.window`               | `5000000`             | Phasing window size                                |
+| `imputation.enabled`           | `true`                | Enable or disable imputation                       |
+| `imputation.window`            | `500000`              | Imputation window size                             |
+| `imputation.minimac_min_ratio` | `0.00001`             | Minimac minimum ratio                              |
+| `imputation.min_r2`            | `0`                   | R2 filter value                                    |
+| `imputation.meta`              | `false`               | Enable or disable empirical output creation        |
+| `imputation.md5`               | `false`               | Enable or disable md5 sum creation for results     |
+| `imputation.create_index`      | `false`               | Enable or disable index creation for imputed files |
+| `imputation.decay`             | `0`                   | Set minimac decay                                  |
+| `encryption.enabled`           | `true`                | Enable or disable encryption                       |
+| `encryption.aes`               | `false`               | Enable or disable AES method for encryption        |
+| `ancestry.enabled`             | `false`               | Enable or disable ancestry analysis                |
+| `ancestry.dim`                 | `10`                  | Ancestry analysis dimension                        |
+| `ancestry.dim_high`            | `20`                  | High dimension for ancestry analysis               |
+| `ancestry.batch_size`          | `50`                  | Batch size for ancestry analysis                   |
+| `ancestry.reference`           | `null`                | Ancestry reference data                            |
+| `ancestry.max_pcs`             | `8`                   | Maximum principal components for ancestry          |
+| `ancestry.k`                   | `10`                  | K value for ancestry analysis                      |
+| `ancestry.threshold`           | `0.75`                | Ancestry threshold                                 |
 
 ## Reference Panel Configuration
 
@@ -129,7 +130,7 @@ The `properties` section contains the following key-value pairs:
 | ------------- | --------------------------------------------------------------------------- | -------- |
 | `id`          | An identifier for the reference panel.                                      | yes      |
 | `genotypes`   | The location of the genotype files for the reference panel data.            | yes      |
-| `sites`      | The location of the site files for the reference panel data.                 | yes      |
+| `sites`       | The location of the site files for the reference panel data.                | yes      |
 | `mapEagle`    | The location of the genetic map file used for phasing with eagle.           | yes      |
 | `refEagle`    | The location of the BCF file for the reference panel data for eagle.        | yes      |
 | `mapBeagle`   | The location of the genetic map file used for phasing with Beagle.          | no       |
@@ -216,7 +217,7 @@ A legend file is a tab-delimited file consisting of 5 columns (`id`, `position`,
 - Start cloudgene server: `./cloudgene server`
 - Open [http://localhost:8082](http://localhost:8082)
 - Login with default admin account: username `admin` and password `admin1978`
-- Imputation can be tested with the following [test file](https://github.com/genepi/imputationserver2/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
+- Imputation can be tested with the following [test file](https://github.com/bystrogenomics/imputationserver2/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
 
 ### Default Configuration
 
@@ -311,7 +312,7 @@ params.imputation.window = 100000
 ### Build docker image locally
 
 ```
-docker build -t genepi/imputationserver2:latest .
+docker build -t bystrogenomics/imputationserver2:latest .
 ```
 
 ### Run testcases

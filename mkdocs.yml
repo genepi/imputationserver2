@@ -1,6 +1,6 @@
 site_name: Imputation Server 2
-repo_name: genepi/imputationserver2
-repo_url: https://github.com/genepi/imputationserver2
+repo_name: bystrogenomics/imputationserver2
+repo_url: https://github.com/bystrogenomics/imputationserver2
 edit_uri: edit/master/docs
 
 theme:
@@ -31,9 +31,8 @@ extra_css:
   - stylesheets/extra.css
 
 nav:
-- Home: index.md
-- Contact: contact.md
-
+  - Home: index.md
+  - Contact: contact.md
 
 markdown_extensions:
   - admonition
