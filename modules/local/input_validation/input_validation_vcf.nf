@@ -65,7 +65,7 @@ EOF
         # Index the VCF file if not already indexed
         if [ ! -f "\$vcf.csi" ] && [ ! -f "\$vcf.tbi" ]; then
             echo "Indexing VCF file: \$vcf"
-            bcftools index -f "\$vcf"
+            bcftools index -f -t "\$vcf"
         fi
 
         # Get the list of chromosomes using tabix
@@ -89,7 +89,7 @@ EOF
                 # Remove 'chr' prefix using bcftools annotate
                 bcftools annotate --rename-chrs chr_map.txt "\$vcf" -Oz -o "\$vcf.tmp.gz"
                 mv "\$vcf.tmp.gz" "\$vcf"
-                tabix -f -p vcf "\$vcf"
+                bcftools index -f -t "\$vcf"
                 rm chr_map.txt
                 # Update chromosomes variable
                 chromosomes=\$(tabix -l "\$vcf")
@@ -106,7 +106,7 @@ EOF
                 # Add 'chr' prefix using bcftools annotate
                 bcftools annotate --rename-chrs chr_map.txt "\$vcf" -Oz -o "\$vcf.tmp.gz"
                 mv "\$vcf.tmp.gz" "\$vcf"
-                tabix -f -p vcf "\$vcf"
+                bcftools index -f -t "\$vcf"
                 rm chr_map.txt
                 # Update chromosomes variable
                 chromosomes=\$(tabix -l "\$vcf")
@@ -125,7 +125,7 @@ EOF
             # Index the output VCF if necessary
             if [ ! -f "\$output_vcf.csi" ] && [ ! -f "\$output_vcf.tbi" ]; then
                 echo "Indexing output VCF: \$output_vcf"
-                tabix -p vcf "\$output_vcf"
+                bcftools index -f -t "\$output_vcf"
             fi
             # Add the VCF file to the array
             split_vcfs+=("\$output_vcf")
@@ -135,7 +135,7 @@ EOF
                 echo "Splitting chromosome: \$chr from \$vcf"
                 output_vcf="split_vcfs/\${base_name}_\${chr}.vcf.gz"
                 bcftools view -r "\$chr" "\$vcf" | bcftools sort -Oz -o "\$output_vcf"
-                tabix -p vcf "\$output_vcf"
+                bcftools index -f -t "\$output_vcf"
 
                 # Add the split VCF file to the array
                 split_vcfs+=("\$output_vcf")

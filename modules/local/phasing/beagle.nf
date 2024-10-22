@@ -37,7 +37,7 @@ process BEAGLE {
     # for every phased.vcf.gz file, remove sites with DR2 < 0.8
     for file in *.phased.vcf.gz; do
         # manually add the chromosome to the header
-        bcftools index -f \$file
+        bcftools index -f -t \$file
         bcftools view -i 'INFO/DR2>=0.8' \$file -o \${file}.dr2_gte_0p8.vcf.gz -Oz
         rm \$file
         mv \${file}.dr2_gte_0p8.vcf.gz \$file
