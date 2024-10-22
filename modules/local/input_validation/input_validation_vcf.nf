@@ -3,7 +3,6 @@ import groovy.json.JsonOutput
 process INPUT_VALIDATION_VCF {
     label 'preprocessing'
 
-    publishDir "${params.output}", mode: 'copy', pattern: 'split_vcfs/*.vcf.gz'
     publishDir "${params.output}", mode: 'copy', pattern: 'validation_report.txt'
 
     input:
