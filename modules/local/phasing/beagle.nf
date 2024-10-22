@@ -17,11 +17,10 @@ process BEAGLE {
     def phasing_start = start.toLong() - params.phasing.window
     phasing_start = phasing_start < 0 ? 1 : phasing_start
     def phasing_end = end.toLong() + params.phasing.window
-    def num_threads = 2
+    def num_threads = 4
 
     // Set impute parameter based on params.phasing.impute
     def impute_param = params.phasing.impute ? 'true' : 'false'
-    def avail_mem = 1024 * 6
 
     """
     java -jar /usr/bin/beagle.27May24.118.jar \\
@@ -37,7 +36,7 @@ process BEAGLE {
     for file in *.phased.vcf.gz; do
         # manually add the chromosome to the header
         bcftools index -f -t \$file
-        bcftools view -i 'INFO/DR2>=0.8' \$file -o \${file}.dr2_gte_0p8.vcf.gz -Oz
+        bcftools view --threads $num_threads -i 'INFO/DR2>=0.8' \$file -o \${file}.dr2_gte_0p8.vcf.gz -Oz
         rm \$file
         mv \${file}.dr2_gte_0p8.vcf.gz \$file
         bcftools index -f -t \$file
