@@ -176,11 +176,11 @@ process MERGE_ALL_PHASED_VCF {
 
     # Merge VCF files using bcftools concat with sorted VCF files
     echo "Merging sorted VCF files for chromosome ${chr}"
-    bcftools concat --threads \$(nproc) --rm-dup all -a -Oz -o ${chr}.phased.merged.vcf.gz "\${sorted_vcfs[@]}"
+    bcftools concat --threads \$(nproc) --rm-dup exact -a -Oz -o ${chr}.phased.merged.vcf.gz "\${sorted_vcfs[@]}"
 
     # Normalize the merged VCF and remove duplicate sites
     echo "Normalizing merged VCF for chromosome ${chr}"
-    bcftools norm --threads \$(nproc) --rm-dup all -Oz -o ${chr}.phased.merged.norm.vcf.gz ${chr}.phased.merged.vcf.gz
+    bcftools norm --threads \$(nproc) --rm-dup exact -Oz -o ${chr}.phased.merged.norm.vcf.gz ${chr}.phased.merged.vcf.gz
 
     # Index the normalized merged VCF
     echo "Indexing normalized merged VCF for chromosome ${chr}"
