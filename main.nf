@@ -8,7 +8,7 @@
     ---------------------------
 */
 
-if (params.refpanel_yaml){
+if (params.refpanel_yaml) {
     params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
 }
 
@@ -18,7 +18,7 @@ requiredParams = [
 
 for (param in requiredParams) {
     if (params[param] == null) {
-      exit 1, "Parameter ${param} is required."
+        exit 1, "Parameter ${param} is required."
     }
 }
 
@@ -27,28 +27,27 @@ def phasing_engine = params.phasing.engine
 
 def run_imputation = !(params.phasing.engine == 'beagle' && params.phasing.impute)
 
-if (phasing_engine != 'eagle' && phasing_engine != 'beagle' && phasing_engine != 'no_phasing' ) {
+if (phasing_engine != 'eagle' && phasing_engine != 'beagle' && phasing_engine != 'no_phasing') {
     println "::error:: For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
     exit 1
 }
 
-
 // create random password when not set by user
 if (params.password == null) {
-    params.encryption_password = PasswordCreator.createPassword()   
+    params.encryption_password = PasswordCreator.createPassword()
 } else {
     params.encryption_password = params.password
 }
 
 //set default population to "off" when allele_frequency_population is null
-params.population = params.allele_frequency_population ?: "off"
+params.population = params.allele_frequency_population ?: 'off'
 
 Channel
     .fromPath(params.files)
-    .set {files}
+    .set { files }
 
 files.ifEmpty {
-    println "::error:: No vcf.gz input files detected."
+    println '::error:: No vcf.gz input files detected.'
     exit 1
 }
 
@@ -58,19 +57,19 @@ params.refpanel.sites = "./${file(params.refpanel.sites).fileName}"
 
 site_files_ch = Channel.of(1..22, 'X', 'MT')
     .map {
-        it -> 
+        it ->
             def sites_file = file(PatternUtil.parse(params.refpanel.sites_pattern, [chr: it]))
-            def sites_file_index = file(PatternUtil.parse(params.refpanel.sites_pattern+ ".tbi", [chr: it]))
-            
-            if(!sites_file.exists()){
-                return null;
-            }  
+            def sites_file_index = file(PatternUtil.parse(params.refpanel.sites_pattern + '.tbi', [chr: it]))
 
-            if(sites_file.exists() && !sites_file_index.exists()){
-                error "Missing tabix index for " + sites_file
-            }  
-        
-            return tuple(sites_file, sites_file_index); 
+            if (!sites_file.exists()) {
+                return null
+            }
+
+            if (sites_file.exists() && !sites_file_index.exists()) {
+                error 'Missing tabix index for ' + sites_file
+            }
+
+            return tuple(sites_file, sites_file_index)
     }
 
 include { INPUT_VALIDATION } from './workflows/input_validation'
@@ -110,42 +109,70 @@ include { PGS_CALCULATION } from './workflows/pgs_calculation'
 //     """
 // }
 process MERGE_ALL_PHASED_VCF {
-
     label 'merge_all_phased_vcf'
 
     publishDir "${params.output}/final_vcf", mode: 'copy'
-    tag "Move all phased VCF chunks"
+    tag 'Merge and move all phased VCF chunks by chromosome'
 
     input:
-    path chunk_vcf_list
+    tuple val(chr), val(start), val(end), val(phasing_status), file(vcf_files), file(tbi_files)
 
     output:
-    path chunk_vcf_list, emit: moved_vcf_files
+    path "${chr}.phased.merged.vcf.gz", emit: merged_vcf_files
+    path "${chr}.phased.merged.vcf.gz.tbi", emit: merged_vcf_tbi_files
 
     script:
     """
-    # Create the final_vcf folder if it does not exist
-    mkdir -p ${params.output}/final_vcf
+    set -euo pipefail
 
-    # Move all the VCF chunks to the final_vcf folder
-    for vcf in ${chunk_vcf_list.join(' ')}; do
-        cp \${vcf} ${params.output}/final_vcf/
-        if [ -f \${vcf}.tbi ]; then
-            cp \${vcf}.tbi ${params.output}/final_vcf/
-        fi
-        if [ -f \${vcf}.csi ]; then
-            cp \${vcf}.csi ${params.output}/final_vcf/
+    echo "Starting merge for chromosome ${chr}"
+    echo "VCF files: ${vcf_files}"
+    echo "TBI files: ${tbi_files}"
+
+    # Validate VCF files
+    for vcf in ${vcf_files}; do
+        if [ ! -f "\${vcf}" ]; then
+            echo "Error: VCF file \${vcf} not found."
+            exit 1
         fi
     done
+
+    # Validate TBI files
+    for tbi in ${tbi_files}; do
+        if [ ! -f "\${tbi}" ]; then
+            echo "Error: Index file \${tbi} not found."
+            exit 1
+        fi
+    done
+
+    # Merge VCF files using bcftools concat
+    echo "Merging VCF files for chromosome ${chr}"
+    bcftools concat --threads \$(nproc) -Oz -o ${chr}.phased.merged.vcf.gz ${vcf_files}
+
+    # Sort the merged VCF
+    echo "Sorting merged VCF for chromosome ${chr}"
+    bcftools sort -Oz -o ${chr}.phased.merged.sorted.vcf.gz ${chr}.phased.merged.vcf.gz
+
+    # Normalize the sorted VCF and remove duplicate sites
+    echo "Normalizing merged VCF for chromosome ${chr}"
+    bcftools norm -m -any -Oz -o ${chr}.phased.merged.sorted.norm.vcf.gz ${chr}.phased.merged.sorted.vcf.gz
+
+    # Index the normalized merged VCF
+    echo "Indexing merged VCF for chromosome ${chr}"
+    bcftools index -t ${chr}.phased.merged.sorted.norm.vcf.gz
+
+    # Move the final merged VCF and its index to the process's working directory
+    mv ${chr}.phased.merged.sorted.norm.vcf.gz ${chr}.phased.merged.vcf.gz
+    mv ${chr}.phased.merged.sorted.norm.vcf.gz.tbi ${chr}.phased.merged.vcf.gz.tbi
+
+    echo "Merge completed for chromosome ${chr}"
     """
 }
 
 workflow {
-
     println "Welcome to ${params.service.name} (${workflow.manifest.version})"
 
-    if (params.imputation.enabled){
-
+    if (params.imputation.enabled) {
         INPUT_VALIDATION()
 
         QUALITY_CONTROL(
@@ -153,17 +180,15 @@ workflow {
             INPUT_VALIDATION.out.validation_report,
             site_files_ch.collect()
         )
-       
+
         // check if QC chunks exist in case QC failed
         QUALITY_CONTROL.out.qc_metafiles.ifEmpty {
-                error "QC step failed"
+                error 'QC step failed'
         }
 
         if (params.mode == 'imputation') {
-
             phased_ch =  QUALITY_CONTROL.out.qc_metafiles
-            if (phasing_engine != 'no_phasing') { 
-
+            if (phasing_engine != 'no_phasing') {
                 PHASING(
                     QUALITY_CONTROL.out.qc_metafiles
                 )
@@ -183,53 +208,40 @@ workflow {
                 }
             } else {
                 if (params.merge_results === true) {
-
-                    phased_ch
-                    .toSortedList { a, b ->
-                        def cmpChr = a[0] <=> b[0]
-                        if (cmpChr != 0) return cmpChr
-                        def cmpStart = a[1] <=> b[1]
-                        if (cmpStart != 0) return cmpStart
-                        return a[2] <=> b[2]
+                    phased_ch.groupTuple().subscribe { group ->
+                        println group
                     }
-                    .map { list -> list.collect { it[4] } } // Collect the vcf_path
-                    .flatten()
-                    .collect()
-                    .set { sorted_phased_chunks }
-
                     MERGE_ALL_PHASED_VCF(
-                        sorted_phased_chunks
+                        phased_ch.groupTuple()
                     )
                 }
             }
-            
         }
     }
-    
 }
 
 workflow.onComplete {
-    //TODO: use templates
-    //TODO: move in EmailHelper class
+        //TODO: use templates
+        //TODO: move in EmailHelper class
         if (!workflow.success) {
-        def statusMessage = workflow.exitStatus != null  || workflow.errorReport == "QC step failed" ? "failed" : "canceled"
-        if (params.send_mail && params.user.email != null){
-            sendMail{
+        def statusMessage = workflow.exitStatus != null  || workflow.errorReport == 'QC step failed' ? 'failed' : 'canceled'
+        if (params.send_mail && params.user.email != null) {
+            sendMail {
                 to "${params.user.email}"
-                subject "[${params.service.name}] Job ${params.project} ${statusMessage}" 
+                subject "[${params.service.name}] Job ${params.project} ${statusMessage}"
                 body "Dear ${params.user.name}, \n Your job has been ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
-        println "::error:: Imputation job ${statusMessage}." 
+        println "::error:: Imputation job ${statusMessage}."
         return
-    }
+        }
 
-    //submit counters for successful imputation jobs  
+    //submit counters for successful imputation jobs
     if (params.mode == 'imputation') {
-        println "::submit-counter name=samples::"
-        println "::submit-counter name=genotypes::"
-        println "::submit-counter name=chromosomes::"
-        println "::submit-counter name=runs::"
+        println '::submit-counter name=samples::'
+        println '::submit-counter name=genotypes::'
+        println '::submit-counter name=chromosomes::'
+        println '::submit-counter name=runs::'
 
         println "::set-value-and-submit name=reference_panel::${params.refpanel.id}"
         println "::set-value-and-submit name=phasing_engine::${phasing_engine}"
@@ -238,9 +250,8 @@ workflow.onComplete {
 
     // imputation job
     if (params.merge_results === true && params.encryption.enabled === true) {
-
         if (params.send_mail && params.user.email != null) {
-            sendMail{
+            sendMail {
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} is complete"
                 body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
@@ -254,14 +265,13 @@ workflow.onComplete {
 
     //PGS job
     if (params.send_mail && params.user.email != null) {
-        sendMail{
+        sendMail {
             to "${params.user.email}"
             subject "[${params.service.name}] Job ${params.project} is complete"
             body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
         }
         println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
     } else {
-        println "::message:: Data have been exported successfully."
+        println '::message:: Data have been exported successfully.'
     }
- 
 }

@@ -6,7 +6,7 @@ process BEAGLE {
     tuple val(chr), path(bcf), val(start), val(end), val(phasing_status), path(chunkfile), path(map_beagle)
 
     output:
-    tuple val(chr), val(start), val(end), val(phasing_status), file('*.phased.vcf.gz'), emit: beagle_phased_ch
+    tuple val(chr), val(start), val(end), val(phasing_status), file('*.phased.vcf.gz'), file('*.phased.vcf.gz.tbi'), emit: beagle_phased_ch
 
     script:
     // Define basename without ending (do not use simpleName due to X.*)
