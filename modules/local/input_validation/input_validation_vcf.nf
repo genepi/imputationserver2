@@ -54,19 +54,14 @@ EOF
             # Compress the VCF file using bgzip
             compressed_vcf="\$vcf.gz"
             echo "File is uncompressed. Compressing to: \$compressed_vcf"
-            bgzip -c "\$vcf" > "\$compressed_vcf"
+            bgzip -i "\$vcf"
             # Replace the original VCF with the compressed one for further processing
             vcf="\$compressed_vcf"
         fi
 
-        # Verify if VCF file is valid by attempting to index
-        if ! tabix_output=\$(tabix -p vcf "\$vcf" 2>&1); then
-            echo "::group type=error"
-            echo "The provided VCF file is malformed."
-            echo "Error: \$tabix_output"
-            echo "::endgroup::"
-            exit 1
-        fi
+        # Sort the VCF file using bcftools
+        echo "Sorting VCF file: \$vcf"
+        bcftools sort -Oz -o "\$vcf" "\$vcf"
 
         # Index the VCF file if not already indexed
         if [ ! -f "\$vcf.csi" ] && [ ! -f "\$vcf.tbi" ]; then
