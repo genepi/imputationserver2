@@ -115,7 +115,7 @@ process MERGE_ALL_PHASED_VCF {
     tag 'Merge and move all phased VCF chunks by chromosome'
 
     input:
-    tuple val(chr), val(start), val(end), val(phasing_status), file(vcf_files), file(tbi_files)
+    tuple val(chr), val(start_list), val(end_list), val(phasing_status), file(vcf_files), file(tbi_files)
 
     output:
     path "${chr}.phased.merged.vcf.gz", emit: merged_vcf_files
@@ -129,41 +129,66 @@ process MERGE_ALL_PHASED_VCF {
     echo "VCF files: ${vcf_files}"
     echo "TBI files: ${tbi_files}"
 
-    # Validate VCF files
-    for vcf in ${vcf_files}; do
-        if [ ! -f "\${vcf}" ]; then
-            echo "Error: VCF file \${vcf} not found."
-            exit 1
-        fi
+    # Convert space-separated strings to arrays
+    read -a starts <<< "${start_list}"
+    read -a ends <<< "${end_list}"
+    read -a vcf_array <<< "${vcf_files}"
+    read -a tbi_array <<< "${tbi_files}"
+
+    # Check that all arrays have the same length
+    num_files=\${#vcf_array[@]}
+    if [ \${#ends[@]} -ne \${num_files} ] || [ \${#starts[@]} -ne \${num_files} ] || [ \${#tbi_array[@]} -ne \${num_files} ]; then
+        echo "Error: Mismatched number of start/end/index/VCF files."
+        exit 1
+    fi
+
+    # Create a temporary file to hold start, end, vcf, tbi
+    temp_sorted_list=\$(mktemp)
+
+    # Populate the temporary list with start, end, vcf, tbi
+    for ((i=0;i<\${num_files};i++)); do
+        echo "\${starts[i]} \${ends[i]} \${vcf_array[i]} \${tbi_array[i]}" >> \$temp_sorted_list
     done
 
-    # Validate TBI files
-    for tbi in ${tbi_files}; do
-        if [ ! -f "\${tbi}" ]; then
-            echo "Error: Index file \${tbi} not found."
-            exit 1
-        fi
+    # Sort the list by start and end
+    sort -n -k1,1 -k2,2 \$temp_sorted_list > \${temp_sorted_list}.sorted
+
+    # Initialize arrays for sorted VCF and TBI files
+    sorted_vcfs=()
+    sorted_tbis=()
+
+    # Read the sorted list and populate sorted_vcfs and sorted_tbis arrays
+    while read start end vcf tbi; do
+        sorted_vcfs+=( "\$vcf" )
+        sorted_tbis+=( "\$tbi" )
+    done < \${temp_sorted_list}.sorted
+
+    # Optionally, print the sorted files for debugging
+    echo "Sorted VCF files for chromosome ${chr}:"
+    for vcf in "\${sorted_vcfs[@]}"; do
+        echo "\$vcf"
     done
 
-    # Merge VCF files using bcftools concat
-    echo "Merging VCF files for chromosome ${chr}"
-    bcftools concat --threads \$(nproc) -Oz -o ${chr}.phased.merged.vcf.gz ${vcf_files}
+    echo "Sorted TBI files for chromosome ${chr}:"
+    for tbi in "\${sorted_tbis[@]}"; do
+        echo "\$tbi"
+    done
 
-    # Sort the merged VCF
-    echo "Sorting merged VCF for chromosome ${chr}"
-    bcftools sort -Oz -o ${chr}.phased.merged.sorted.vcf.gz ${chr}.phased.merged.vcf.gz
+    # Merge VCF files using bcftools concat with sorted VCF files
+    echo "Merging sorted VCF files for chromosome ${chr}"
+    bcftools concat --threads \$(nproc) --rm-dup all -a -Oz -o ${chr}.phased.merged.vcf.gz "\${sorted_vcfs[@]}"
 
-    # Normalize the sorted VCF and remove duplicate sites
+    # Normalize the merged VCF and remove duplicate sites
     echo "Normalizing merged VCF for chromosome ${chr}"
-    bcftools norm -m -any -Oz -o ${chr}.phased.merged.sorted.norm.vcf.gz ${chr}.phased.merged.sorted.vcf.gz
+    bcftools norm --threads \$(nproc) --rm-dup all -Oz -o ${chr}.phased.merged.norm.vcf.gz ${chr}.phased.merged.vcf.gz
 
     # Index the normalized merged VCF
-    echo "Indexing merged VCF for chromosome ${chr}"
-    bcftools index -t ${chr}.phased.merged.sorted.norm.vcf.gz
+    echo "Indexing normalized merged VCF for chromosome ${chr}"
+    bcftools index --threads \$(nproc) -t ${chr}.phased.merged.norm.vcf.gz
 
     # Move the final merged VCF and its index to the process's working directory
-    mv ${chr}.phased.merged.sorted.norm.vcf.gz ${chr}.phased.merged.vcf.gz
-    mv ${chr}.phased.merged.sorted.norm.vcf.gz.tbi ${chr}.phased.merged.vcf.gz.tbi
+    mv ${chr}.phased.merged.norm.vcf.gz ${chr}.phased.merged.vcf.gz
+    mv ${chr}.phased.merged.norm.vcf.gz.tbi ${chr}.phased.merged.vcf.gz.tbi
 
     echo "Merge completed for chromosome ${chr}"
     """
@@ -208,9 +233,6 @@ workflow {
                 }
             } else {
                 if (params.merge_results === true) {
-                    phased_ch.groupTuple().subscribe { group ->
-                        println group
-                    }
                     MERGE_ALL_PHASED_VCF(
                         phased_ch.groupTuple()
                     )
