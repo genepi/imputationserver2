@@ -119,7 +119,7 @@ process MERGE_ALL_PHASED_VCF {
 
     output:
     path "${chr}.phased.merged.vcf.gz", emit: merged_vcf_files
-    path "${chr}.phased.merged.vcf.gz.tbi", emit: merged_vcf_tbi_files
+    path "${chr}.phased.merged.vcf.gz.tbi", emit: merged_vcf_tbi_files, optional: true
 
     script:
     """
@@ -181,13 +181,16 @@ process MERGE_ALL_PHASED_VCF {
     # Normalize the merged VCF and remove duplicate sites
     echo "Normalizing merged VCF for chromosome ${chr}"
 
-    # Index the normalized merged VCF
-    echo "Indexing normalized merged VCF for chromosome ${chr}"
-    bcftools index --threads \$(nproc) -t ${chr}.phased.merged.norm.vcf.gz
+    # Index the normalized merged VCF if imputation.create_index is True
+    if [[ "${params.imputation.create_index}" == "true" ]]
+    then
+        echo "Indexing normalized merged VCF for chromosome ${chr}"
+        bcftools index --threads \$(nproc) -t ${chr}.phased.merged.norm.vcf.gz
+        mv ${chr}.phased.merged.norm.vcf.gz.tbi ${chr}.phased.merged.vcf.gz.tbi
+    fi
 
     # Move the final merged VCF and its index to the process's working directory
     mv ${chr}.phased.merged.norm.vcf.gz ${chr}.phased.merged.vcf.gz
-    mv ${chr}.phased.merged.norm.vcf.gz.tbi ${chr}.phased.merged.vcf.gz.tbi
 
     echo "Merge completed for chromosome ${chr}"
     """

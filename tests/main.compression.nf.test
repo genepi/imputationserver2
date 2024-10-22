@@ -20,11 +20,11 @@ nextflow_pipeline {
                 imputation = [
                     meta: true,
                     md5: true,
-                    create_index: true           
+                    create_index: false
                 ]
                 encryption = [
                     enabled: false
-                ]                     
+                ]
             }
         }
 
