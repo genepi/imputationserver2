@@ -1,8 +1,7 @@
 process MINIMAC4 {
-
     label 'imputation'
     tag "${chunkfile}"
-    
+
     input:
     tuple val(chr), val(start), val(end), val(phasing_status), path(chunkfile), path(m3vcf)
     path minimac_map
@@ -16,7 +15,7 @@ process MINIMAC4 {
     val probThresholdS1
     val minRecombination
     output:
-    tuple val(chr), val(start), val(end), file("*.dose.vcf.gz"), file("*.info.gz"), file("*.empiricalDose.vcf.gz"), emit: imputed_chunks
+    tuple val(chr), val(start), val(end), file('*.dose.vcf.gz'), file('*.info.gz'), file('*.empiricalDose.vcf.gz'), emit: imputed_chunks
 
     script:
     def map = minimac_map ? '--map ' + minimac_map : ''
@@ -28,7 +27,7 @@ process MINIMAC4 {
     def chunkfile_name = chunkfile.toString().replaceAll('.vcf.gz', '')
     def chr_cleaned = chr.startsWith('X.') ? 'X' : chr
     def chr_mapped = (refpanel_build == 'hg38') ? 'chr' + chr_cleaned : chr_cleaned
-    def num_threads = "nproc".execute().text.trim()
+    def num_threads = 'nproc'.execute().text.trim()
 
     """
     tabix ${chunkfile}
@@ -43,7 +42,7 @@ process MINIMAC4 {
         --all-typed-sites \
         --sites ${chunkfile_name}.info.gz \
         --empirical-output ${chunkfile_name}.empiricalDose.vcf.gz \
-        --cpus $num_threads \
+        --threads $num_threads \
         --decay $decay \
         --temp-prefix ./ \
         $diff_threshold \
