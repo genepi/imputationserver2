@@ -152,7 +152,7 @@ workflow.onComplete {
             sendMail{
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} ${statusMessage}" 
-                body "Dear ${params.user.name}, \n Your job has been ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+                body "Dear ${params.user.name}, \n Your job ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
             }
         }
         println "::error:: Imputation job ${statusMessage}." 
