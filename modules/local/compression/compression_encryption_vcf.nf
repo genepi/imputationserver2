@@ -2,7 +2,7 @@ import groovy.json.JsonOutput
 
 process COMPRESSION_ENCRYPTION_VCF {
     
-    label 'postprocesing'
+    label 'postprocessing'
     publishDir params.output, mode: 'copy'
     tag "Merge Chromosome ${chr}"
 
