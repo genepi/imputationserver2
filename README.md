@@ -47,7 +47,7 @@ nextflow run main.nf -c conf/test_single_vcf.config
 params {
     project                 = "my-test-project"
     build                   = "hg19"
-    files                   = "tests/input/three/*.vcf.gz"
+    files                   = "tests/data/input/three/*.vcf.gz"
     allele_frequency_population              = "eur"
     mode                    = "imputation"
     refpanel_yaml           = "tests/hapmap-2/2.0.0/imputation-hapmap2.yaml"
@@ -222,7 +222,7 @@ The optional **AAF** and **MAF** columns provide allele frequency information fo
 - Start cloudgene server: `./cloudgene server`
 - Open [http://localhost:8082](http://localhost:8082)
 - Login with default admin account: username `admin` and password `admin1978`
-- Imputation can be tested with the following [test file](https://github.com/genepi/imputationserver2/raw/main/tests/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
+- Imputation can be tested with the following [test file](https://github.com/genepi/imputationserver2/raw/main/tests/data/input/chr20-phased/chr20.R50.merged.1.330k.recode.small.vcf.gz)
 
 ### Default Configuration
 
