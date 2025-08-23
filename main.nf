@@ -152,7 +152,7 @@ workflow.onComplete {
             sendMail{
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} ${statusMessage}" 
-                body "Dear ${params.user.name}, \n Your job ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+                body "Dear ${params.user.name}, \n Your job ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
             }
         }
         println "::error:: Imputation job ${statusMessage}." 
@@ -192,7 +192,7 @@ workflow.onComplete {
         sendMail{
             to "${params.user.email}"
             subject "[${params.service.name}] Job ${params.project} is complete"
-            body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+            body "Dear ${params.user.name}, \n Your PGS job has finished successfully. \n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
         }
         println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
     } else {
