@@ -801,6 +801,42 @@ nextflow_pipeline {
 
     }
 
+    test("Should run with phased chrX data with VCF v4.3 and hg38") {
+
+        when {
+            params {
+                project  = "testChrXPipelineWithPhasedHg38"
+                build = "hg19"
+                files = "$projectDir/tests/data/input/chrX-phased/vcf_v4.3/*.vcf.gz"
+                allele_frequency_population = "eur"
+                password = PASSWORD
+                refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap-chrX-hg38/cloudgene.yaml"
+                output = "${outputDir}"
+                phasing = [
+                    engine: "no_phasing"                
+                ]
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def zip = zip("${outputDir}/chr_X.zip").password(PASSWORD) 
+            with(zip) {
+                assert isValid()
+                assert isEncrypted()            
+            }
+
+            with(zip.extract("chrX.dose.vcf.gz").vcf) {
+                assert chromosome == "chrX"
+                assert sampleCount == 26;
+                assert phased
+                assert variantCount == TOTAL_REFPANEL_CHRX_B38                
+            }
+
+        }
+
+    }
 
     test("Should run with phased chr23 data and hg38") {
 
