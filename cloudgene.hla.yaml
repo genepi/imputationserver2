@@ -16,6 +16,7 @@ workflow:
       # params without UI
       params:
         project: "${CLOUDGENE_JOB_NAME}"
+        project_id: "${CLOUDGENE_JOB_ID}"        
         files: "${files}/*.vcf.gz"
         chunksize: 1000000000
         minSamples: 0
