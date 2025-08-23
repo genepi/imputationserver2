@@ -178,7 +178,7 @@ workflow.onComplete {
             sendMail{
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} is complete"
-                body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project}"
+                body "Dear ${params.user.name}, \n Your imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\n You can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
             }
             println "::message:: Data have been exported successfully. We have sent a notification email to <b>${params.user.email}</b>"
         } else {
