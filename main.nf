@@ -147,14 +147,21 @@ workflow.onComplete {
     //TODO: use templates
     //TODO: move in EmailHelper class
         if (!workflow.success) {
-        def statusMessage = workflow.exitStatus != null  || workflow.errorReport == "QC step failed" ? "failed" : "canceled"
-        if (params.send_mail && params.user.email != null){
-            sendMail{
-                to "${params.user.email}"
-                subject "[${params.service.name}] Job ${params.project} ${statusMessage}" 
-                body "Dear ${params.user.name}, \n Your job ${statusMessage}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
+            def statusMessage = (workflow.exitStatus != null || workflow.errorReport == "QC step failed") 
+            ? "failed" 
+            : "canceled"
+
+            def statusText = (statusMessage == "failed") 
+            ? "Your job failed." 
+            : "Your job has been canceled."
+                
+            if (params.send_mail && params.user.email != null) {
+                sendMail{
+                    to "${params.user.email}"
+                    subject "[${params.service.name}] Job ${params.project} ${statusMessage}" 
+                    body "Dear ${params.user.name}, \n ${statusText}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
+                }
             }
-        }
         println "::error:: Imputation job ${statusMessage}." 
         return
     }
