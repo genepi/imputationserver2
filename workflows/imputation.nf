@@ -59,6 +59,6 @@ public static String updateChrX(Object value) {
     //update value
     String updadedValue=value.toString().replaceAll('PAR1','1').replaceAll('nonPAR','2').replaceAll('PAR2','3');
     //rename file
-    file(value).renameTo(updadedValue) 
+    file(value).moveTo(updadedValue)
     return updadedValue
 }
