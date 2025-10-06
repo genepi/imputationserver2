@@ -1,12 +1,11 @@
 process CALCULATE_CHUNKS {
-
     label 'pgs'
     tag "${vcf_file}"
 
     input:
-    tuple val(chr), val(start), val(end), path(vcf_file),  path(info_file),  path(empirical_vcf_file)
-    tuple(path(scores_txt), path(scores_info), path(scores_index))
-    path(scores)
+    tuple val(chr), val(start), val(end), path(vcf_file), path(info_file), path(empirical_vcf_file)
+    tuple path(scores_txt), path(scores_info), path(scores_index)
+    path scores
 
     output:
     path "*.txt", emit: scores_chunks
@@ -16,9 +15,9 @@ process CALCULATE_CHUNKS {
     name = "${vcf_file.baseName}_${chr}_${start}_${end}"
     def avail_mem = 1024
     if (!task.memory) {
-        log.info '[CALCULATE_CHUNKS] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+        log.info('[CALCULATE_CHUNKS] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.')
     } else {
-        avail_mem = (task.memory.mega*0.8).intValue()
+        avail_mem = (task.memory.mega * 0.8).intValue()
     }
 
     """
@@ -34,5 +33,4 @@ process CALCULATE_CHUNKS {
         --min-r2 ${params.pgs.min_r2} \
         --no-ansi
     """
-
 }

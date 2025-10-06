@@ -4,28 +4,26 @@ include { MERGE_CHUNKS_SCORES } from '../modules/local/pgs_calculation/merge_chu
 include { CREATE_HTML_REPORT } from '../modules/local/pgs_calculation/create_html_report'
 include { FILTER_BY_CATEGORY } from '../modules/local/pgs_calculation/filter_by_category'
 
-
 workflow PGS_CALCULATION {
-
     take:
     imputed_chunks
     estimated_ancestry
 
     main:
-    scores_txt = file(params.pgscatalog.scores, checkIfExists:true)
-    scores_info = file(params.pgscatalog.scores + ".info", checkIfExists:true)
-    scores_index = file(params.pgscatalog.scores + ".tbi", checkIfExists:true)
-    scores_meta = file(params.pgscatalog.meta, checkIfExists:true)
+    scores_txt = file(params.pgscatalog.scores, checkIfExists: true)
+    scores_info = file(params.pgscatalog.scores + ".info", checkIfExists: true)
+    scores_index = file(params.pgscatalog.scores + ".tbi", checkIfExists: true)
+    scores_meta = file(params.pgscatalog.meta, checkIfExists: true)
 
     FILTER_BY_CATEGORY(
         scores_meta,
-        params.pgs.category
+        params.pgs.category,
     )
 
     CALCULATE_CHUNKS(
         imputed_chunks,
         tuple(scores_txt, scores_info, scores_index),
-        FILTER_BY_CATEGORY.out.scores
+        FILTER_BY_CATEGORY.out.scores,
     )
 
     MERGE_CHUNKS_SCORES(
@@ -40,7 +38,6 @@ workflow PGS_CALCULATION {
         MERGE_CHUNKS_SCORES.out.collect(),
         MERGE_CHUNKS_INFOS.out.collect(),
         scores_meta,
-        estimated_ancestry.collect().ifEmpty([])
+        estimated_ancestry.collect().ifEmpty([]),
     )
-
 }

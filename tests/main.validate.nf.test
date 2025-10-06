@@ -14,7 +14,7 @@ nextflow_pipeline {
                 mode = "qc-only"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-            }   
+            }
         }
 
         then {
@@ -34,7 +34,7 @@ nextflow_pipeline {
                 mode = "qc-only"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-            }   
+            }
         }
 
         then {
@@ -54,14 +54,14 @@ nextflow_pipeline {
                 mode = "qc-only"
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
-            }   
+            }
         }
 
         then {
             assert workflow.failed
-       
+
         }
 
-    }   
+    }
 
 }

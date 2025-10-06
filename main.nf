@@ -8,7 +8,7 @@
     ---------------------------
 */
 
-if (params.refpanel_yaml){
+if (params.refpanel_yaml) {
     params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
 }
 
@@ -18,7 +18,7 @@ requiredParams = [
 
 for (param in requiredParams) {
     if (params[param] == null) {
-      exit 1, "Parameter ${param} is required."
+        exit 1, "Parameter ${param} is required."
     }
 }
 
@@ -41,9 +41,7 @@ if (params.password == null) {
 //set default population to "off" when allele_frequency_population is null
 params.population = params.allele_frequency_population ?: "off"
 
-Channel
-    .fromPath(params.files)
-    .set {files}
+files = Channel.fromPath(params.files)
 
 files.ifEmpty {
     println "::error:: No vcf.gz input files detected."
@@ -93,10 +91,10 @@ workflow {
             site_files_ch.collect()
         )
 
-       // check if QC chunks exist in case QC failed
-       QUALITY_CONTROL.out.qc_metafiles.ifEmpty {
-       error "QC step failed"
-       }
+        // check if QC chunks exist in case QC failed
+        QUALITY_CONTROL.out.qc_metafiles.ifEmpty {
+            error "QC step failed"
+        }
 
         if (params.mode == 'imputation') {
 
@@ -104,22 +102,16 @@ workflow {
 
             if (phasing_engine != 'no_phasing') {
 
-                PHASING(
-                    QUALITY_CONTROL.out.qc_metafiles
-                )
+                PHASING(QUALITY_CONTROL.out.qc_metafiles)
 
                 phased_ch = PHASING.out.phased_ch
 
             }
 
-            IMPUTATION(
-                phased_ch
-            )
+            IMPUTATION(phased_ch)
 
-            if (params.merge_results === true) {
-                ENCRYPTION(
-                    IMPUTATION.out.groupTuple()
-                )
+            if (params.merge_results == true) {
+                ENCRYPTION(IMPUTATION.out.groupTuple())
             }
 
         }
@@ -146,22 +138,22 @@ workflow {
 workflow.onComplete {
     //TODO: use templates
     //TODO: move in EmailHelper class
-        if (!workflow.success) {
-            def statusMessage = (workflow.exitStatus != null || workflow.errorReport == "QC step failed")
+    if (!workflow.success) {
+        def statusMessage = (workflow.exitStatus != null || workflow.errorReport == "QC step failed")
             ? "failed"
             : "canceled"
 
-            def statusText = (statusMessage == "failed")
+        def statusText = (statusMessage == "failed")
             ? "Your job failed."
             : "Your job has been canceled."
 
-            if (params.send_mail && params.user.email != null) {
-                sendMail{
-                    to "${params.user.email}"
-                    subject "[${params.service.name}] Job ${params.project} ${statusMessage}"
-                    body "Dear ${params.user.name}, \n ${statusText}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
-                }
+        if (params.send_mail && params.user.email != null) {
+            sendMail{
+                to "${params.user.email}"
+                subject "[${params.service.name}] Job ${params.project} ${statusMessage}"
+                body "Dear ${params.user.name}, \n ${statusText}.\n\n More details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
             }
+        }
         println "::error:: Imputation job ${statusMessage}."
         return
     }
@@ -179,7 +171,7 @@ workflow.onComplete {
     }
 
     // imputation job
-    if (params.merge_results === true && params.encryption.enabled === true) {
+    if (params.merge_results == true && params.encryption.enabled == true) {
 
         if (params.send_mail && params.user.email != null) {
             sendMail{

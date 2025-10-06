@@ -1,7 +1,6 @@
 include { MINIMAC4 } from '../modules/local/imputation/minimac4'
 
 workflow IMPUTATION {
-
     take:
     phased_ch
 
@@ -25,7 +24,7 @@ workflow IMPUTATION {
 
     phased_m3vcf_ch = phased_ch.combine(minimac_m3vcf_ch, by: 0)
 
-    MINIMAC4 (
+    MINIMAC4(
         phased_m3vcf_ch,
         minimac_map,
         params.refpanel.build,
@@ -36,7 +35,7 @@ workflow IMPUTATION {
         params.imputation.diff_threshold,
         params.imputation.prob_threshold,
         params.imputation.prob_threshold_s1,
-        params.imputation.min_recom
+        params.imputation.min_recom,
     )
 
     emit:

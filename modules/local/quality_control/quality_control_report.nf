@@ -1,16 +1,15 @@
 process QUALITY_CONTROL_REPORT {
-
     label 'preprocessing'
     publishDir params.output, mode: 'copy'
 
     input:
-    path(maf_file)
-    path(validation_report)
-    path(qc_report)
-    path(qc_report_file)
+    path maf_file
+    path validation_report
+    path qc_report
+    path qc_report_file
 
     output:
-    path("*.html")
+    path "*.html"
 
     script:
     """
@@ -30,5 +29,4 @@ process QUALITY_CONTROL_REPORT {
         output_file='\$PWD/quality-control.html'
     )"
     """
-
 }

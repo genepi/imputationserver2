@@ -1,5 +1,4 @@
 process EAGLE {
-
     label 'phasing'
     tag "${chunkfile}"
 
@@ -22,18 +21,18 @@ process EAGLE {
     def used_threads = params.service.threads != -1 ? params.service.threads : task.cpus
 
     """
-    tabix $chunkfile
+    tabix ${chunkfile}
     eagle \
         --vcfRef ${bcf}  \
         --vcfTarget ${chunkfile} \
         --geneticMapFile ${map_eagle} \
         --outPrefix ${chunkfile_name}.phased \
-        --chrom $chr_mapped \
-        --bpStart $phasing_start \
-        --bpEnd $phasing_end \
+        --chrom ${chr_mapped} \
+        --bpStart ${phasing_start} \
+        --bpEnd ${phasing_end} \
         --allowRefAltSwap \
         --vcfOutFormat z \
         --keepMissingPloidyX \
-        --numThreads $used_threads
+        --numThreads ${used_threads}
     """
 }

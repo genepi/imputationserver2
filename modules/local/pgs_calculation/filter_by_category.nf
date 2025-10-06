@@ -1,10 +1,9 @@
 process FILTER_BY_CATEGORY {
-
     label 'pgs'
 
     input:
-    path(meta)
-    val(category)
+    path meta
+    val category
 
     output:
     path "scores.txt", emit: scores
@@ -26,5 +25,4 @@ process FILTER_BY_CATEGORY {
     echo "::endgroup::"
 
     """
-
 }

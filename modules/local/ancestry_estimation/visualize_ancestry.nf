@@ -1,16 +1,15 @@
 process VISUALIZE_ANCESTRY {
-
     label 'ancestry'
     publishDir params.output, mode: 'copy'
 
     input:
-    path(ancestry_estimation_report)
-    path(estimated_ancestry)
-    path(reference_pc_coord)
-    path(reference_samples)
+    path ancestry_estimation_report
+    path estimated_ancestry
+    path reference_pc_coord
+    path reference_samples
 
     output:
-    path ("*.html")
+    path "*.html"
 
     script:
 
@@ -27,5 +26,4 @@ process VISUALIZE_ANCESTRY {
         output_file='\$PWD/estimated-populations.html'
     )"
     """
-
 }

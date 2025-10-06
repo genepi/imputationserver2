@@ -1,5 +1,4 @@
 process COMPRESSION_ENCRYPTION_VCF {
-
     label 'postprocessing'
     publishDir params.output, mode: 'copy'
     tag "Merge Chromosome ${chr}"
@@ -8,9 +7,9 @@ process COMPRESSION_ENCRYPTION_VCF {
     tuple val(chr), val(start), val(end), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
 
     output:
-    path("*.zip"), emit: encrypted_file, optional: true
-    path("*.md5"), emit: md5_file, optional: true
-    path("chr${chr}*"), emit: raw_files, optional: true
+    path "*.zip", emit: encrypted_file, optional: true
+    path "*.md5", emit: md5_file, optional: true
+    path "chr${chr}*", emit: raw_files, optional: true
 
     script:
     imputed_joined = processFileList(imputed_vcf_data)
@@ -72,11 +71,11 @@ process COMPRESSION_ENCRYPTION_VCF {
 }
 
 def compareFilenames(a, b) {
-    a = a.toString().replaceAll('PAR1','1').replaceAll('nonPAR','2').replaceAll('PAR2','3')
-    b = b.toString().replaceAll('PAR1','1').replaceAll('nonPAR','2').replaceAll('PAR2','3')
+    a = a.toString().replaceAll('PAR1', '1').replaceAll('nonPAR', '2').replaceAll('PAR2', '3')
+    b = b.toString().replaceAll('PAR1', '1').replaceAll('nonPAR', '2').replaceAll('PAR2', '3')
     return a <=> b
 }
 
 def processFileList(fileList) {
-    return fileList.sort { a,b -> compareFilenames(a,b) }.join(" ")
+    return fileList.sort { a, b -> compareFilenames(a, b) }.join(" ")
 }

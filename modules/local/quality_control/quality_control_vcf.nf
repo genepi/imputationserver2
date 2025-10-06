@@ -1,21 +1,20 @@
 process QUALITY_CONTROL_VCF {
-
     label 'preprocessing'
     publishDir params.output, mode: 'copy', pattern: "qc_report.txt"
     publishDir params.output, mode: 'copy', pattern: "${statisticsDir}/*.txt"
 
     input:
-    path(vcf_files)
-    path(site_files)
-    path(chain_file)
-    val(panel_version)
+    path vcf_files
+    path site_files
+    path chain_file
+    val panel_version
 
     output:
-    path("${metaFilesDir}/*"), emit: chunks_csv, optional: true
-    path("${chunksDir}/*"), emit: chunks_vcf
-    path("${statisticsDir}/*"), optional: true
-    path("maf.txt"), emit: maf_file, optional: true
-    path("qc_report.txt"), emit: qc_report
+    path "${metaFilesDir}/*", emit: chunks_csv, optional: true
+    path "${chunksDir}/*", emit: chunks_vcf
+    path "${statisticsDir}/*", optional: true
+    path "maf.txt", emit: maf_file, optional: true
+    path "qc_report.txt", emit: qc_report
 
     script:
     chunksDir = 'chunks'
@@ -25,9 +24,9 @@ process QUALITY_CONTROL_VCF {
     def chain = (!panel_version.equals(params.build)) ? "--chain ${chain_file}": ''
     def avail_mem = 1024
     if (!task.memory) {
-        log.info '[QUALITY_CONTROL_VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+        log.info('[QUALITY_CONTROL_VCF] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.')
     } else {
-        avail_mem = (task.memory.mega*0.8).intValue()
+        avail_mem = (task.memory.mega * 0.8).intValue()
     }
 
     """
@@ -65,7 +64,7 @@ process QUALITY_CONTROL_VCF {
         --metafiles-out ${metaFilesDir} \
         --report qc_report.txt \
         --no-index \
-        $chain \
+        ${chain} \
         ${vcf_files}
 
     exit_code_a=\$?
@@ -80,5 +79,4 @@ process QUALITY_CONTROL_VCF {
     # Always exit 0 that QC files get published
     exit 0
     """
-
 }

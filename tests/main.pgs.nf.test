@@ -1,7 +1,7 @@
 nextflow_pipeline {
 
     name "Pipeline Tests for PGS"
-    script "main.nf"  
+    script "main.nf"
 
     test("Should run with pgs calculation") {
 
@@ -18,7 +18,7 @@ nextflow_pipeline {
                 pgs = [
                     enabled: true,
                     min_r2: 0,
-                    fix_strand_flips: false                    
+                    fix_strand_flips: false
                 ]
 
                 encryption = [
@@ -61,7 +61,7 @@ nextflow_pipeline {
                     enabled: true,
                     min_r2: 0,
                     fix_strand_flips: false,
-                    category: "Body measurement"              
+                    category: "Body measurement"
                 ]
 
                 encryption = [
@@ -87,13 +87,13 @@ nextflow_pipeline {
             //TODO: check which expected file is correct! (m3vcf vs msav)
             //def expected = csv("tests/data/input/chr20-unphased/scores.expected.txt")
             def expected = csv("tests/data/input/pgs/expected.txt")
-            
+
             def actual = csv("${outputDir}/scores.txt")
             with(actual){
                 assert columnNames == ["sample", "PGS000027"]
                 assert columns["sample"] == expected.columns["sample"]
                 assertArrayEquals columns["PGS000027"], expected.columns["PGS000027"]
-            } 
+            }
 
         }
 

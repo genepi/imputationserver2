@@ -1,5 +1,4 @@
 process BEAGLE {
-
     label 'phasing'
     tag "${chunkfile}"
 
@@ -25,7 +24,7 @@ process BEAGLE {
         ref=${bcf}  \
         gt=${chunkfile} \
         out=${chunkfile_name}.phased \
-        nthreads=$used_threads \
+        nthreads=${used_threads} \
         chrom=${chr_mapped}:${phasing_start}-${phasing_end} \
         map=${map_beagle} \
         impute=false

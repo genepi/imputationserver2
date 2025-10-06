@@ -2,7 +2,6 @@ include { EAGLE } from '../modules/local/phasing/eagle'
 include { BEAGLE } from '../modules/local/phasing/beagle'
 
 workflow PHASING {
-
     take:
     metafiles_ch
 
@@ -26,7 +25,7 @@ workflow PHASING {
 
         eagle_bcf_metafiles_ch = phasing_reference_ch.combine(metafiles_ch, by: 0)
 
-        EAGLE ( eagle_bcf_metafiles_ch, phasing_map_ch )
+        EAGLE(eagle_bcf_metafiles_ch, phasing_map_ch)
 
         phased_ch = EAGLE.out.eagle_phased_ch
 
@@ -59,13 +58,11 @@ workflow PHASING {
         //combine with map since also split by chromsome
         beagle_bcf_metafiles_map_ch = beagle_bcf_metafiles_ch.combine(phasing_map_ch, by: 0)
 
-        BEAGLE ( beagle_bcf_metafiles_map_ch )
+        BEAGLE(beagle_bcf_metafiles_map_ch)
 
         phased_ch = BEAGLE.out.beagle_phased_ch
-
     }
 
     emit:
     phased_ch
-
 }

@@ -1,12 +1,11 @@
 process ESTIMATE_ANCESTRY {
-
     label 'ancestry'
     publishDir params.output, mode: 'copy'
 
     input:
-    path(study_pcs)
-    path(reference_pc_coord)
-    path(reference_samples)
+    path study_pcs
+    path reference_pc_coord
+    path reference_samples
 
     output:
     path ("estimated-population.txt"), emit: populations
@@ -14,9 +13,9 @@ process ESTIMATE_ANCESTRY {
     script:
     def avail_mem = 1024
     if (!task.memory) {
-        log.info '[ESTIMATE_ANCESTRY] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.'
+        log.info('[ESTIMATE_ANCESTRY] Available memory not known - defaulting to 1GB. Specify process memory requirements to change this.')
     } else {
-        avail_mem = (task.memory.mega*0.8).intValue()
+        avail_mem = (task.memory.mega * 0.8).intValue()
     }
 
     """
@@ -33,5 +32,4 @@ process ESTIMATE_ANCESTRY {
         --threshold ${params.ancestry.threshold} \
         --output estimated-population.txt
     """
-
 }

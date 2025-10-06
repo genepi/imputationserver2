@@ -1,11 +1,8 @@
 include { INPUT_VALIDATION_VCF } from '../modules/local/input_validation/input_validation_vcf'
 
 workflow INPUT_VALIDATION {
-
     main:
-    Channel
-        .fromPath(params.files)
-        .set {files}
+    files = Channel.fromPath(params.files)
 
     INPUT_VALIDATION_VCF(files.collect())
 

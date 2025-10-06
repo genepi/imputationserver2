@@ -1,7 +1,7 @@
 nextflow_pipeline {
 
     name "Pipeline Tests for Compression/Encryption"
-    script "main.nf"  
+    script "main.nf"
 
 
     test("Should create tabix files") {
@@ -15,16 +15,16 @@ nextflow_pipeline {
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = [
-                    engine: "no_phasing"                
+                    engine: "no_phasing"
                 ]
                 imputation = [
                     meta: true,
                     md5: true,
-                    create_index: true           
+                    create_index: true
                 ]
                 encryption = [
                     enabled: false
-                ]                     
+                ]
             }
         }
 
@@ -50,11 +50,11 @@ nextflow_pipeline {
                 output = "${outputDir}"
                 imputation = [
                     meta: true,
-                    md5: true               
+                    md5: true
                 ]
                 phasing = [
-                    engine: "no_phasing"                
-                ]    
+                    engine: "no_phasing"
+                ]
                 encryption = [
                     enabled: false
                 ]
@@ -83,10 +83,10 @@ nextflow_pipeline {
                 output = "${outputDir}"
                 imputation = [
                     meta: true,
-                    md5: true               
+                    md5: true
                 ]
                 phasing = [
-                    engine: "no_phasing"                
+                    engine: "no_phasing"
                 ]
                 encryption = [
                     enabled: false
@@ -114,11 +114,11 @@ nextflow_pipeline {
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = [
-                    engine: "no_phasing"                
+                    engine: "no_phasing"
                 ]
                 imputation = [
                     meta: true,
-                    md5: true               
+                    md5: true
                 ]
             }
         }
@@ -143,11 +143,11 @@ nextflow_pipeline {
                 refpanel_yaml = "$projectDir/tests/data/refpanels/hapmap2/cloudgene.yaml"
                 output = "${outputDir}"
                 phasing = [
-                    engine: "no_phasing"                
+                    engine: "no_phasing"
                 ]
                 imputation = [
                     meta: true,
-                    md5: true               
+                    md5: true
                 ]
 
                 encryption = [

@@ -4,44 +4,38 @@ include { ESTIMATE_ANCESTRY } from '../modules/local/ancestry_estimation/estimat
 include { VISUALIZE_ANCESTRY } from '../modules/local/ancestry_estimation/visualize_ancestry'
 
 workflow ANCESTRY_ESTIMATION {
-    
-    Channel
-        .fromPath(params.files)
-        .set {files}
-
-    Channel
-        .fromPath(params.ancestry.references)
-        .set {references}
+    main:
+    files = Channel.fromPath(params.files)
+    references = Channel.fromPath(params.ancestry.references)
 
     PREPARE_TRACE(
         files.collect(),
-        references.first{it.getExtension()=='site'}
+        references.first { it.getExtension() == 'site' },
     )
 
     EXECUTE_TRACE(
         PREPARE_TRACE.out.batches.flatten(),
         PREPARE_TRACE.out.vcf.collect(),
-        references.first{it.getExtension()=='site'},
-        references.first{it.getExtension()=="range"},
-        references.first{it.getExtension()=="geno"},
-        references.first{it.getExtension()=="coord"},
-        references.first{it.getExtension()=="samples"}
+        references.first { it.getExtension() == 'site' },
+        references.first { it.getExtension() == "range" },
+        references.first { it.getExtension() == "geno" },
+        references.first { it.getExtension() == "coord" },
+        references.first { it.getExtension() == "samples" },
     )
 
     ESTIMATE_ANCESTRY(
         EXECUTE_TRACE.out.pcs.collect(),
-        references.first{it.getExtension()=="coord"},
-        references.first{it.getExtension()=="samples"}
+        references.first { it.getExtension() == "coord" },
+        references.first { it.getExtension() == "samples" },
     )
 
     VISUALIZE_ANCESTRY(
         file("${baseDir}/files/ancestry-estimation.Rmd"),
         ESTIMATE_ANCESTRY.out.populations.collect(),
-        references.first{it.getExtension()=="coord"},
-        references.first{it.getExtension()=="samples"}
+        references.first { it.getExtension() == "coord" },
+        references.first { it.getExtension() == "samples" },
     )
-  
-    emit: 
-    estimated_ancestry =  ESTIMATE_ANCESTRY.out.populations.collect()
 
+    emit:
+    estimated_ancestry = ESTIMATE_ANCESTRY.out.populations.collect()
 }
