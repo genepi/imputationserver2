@@ -20,7 +20,7 @@ process BEAGLE {
     def used_threads = params.service.threads != -1 ? params.service.threads : task.cpus
 
     """
-    java -jar /usr/bin/beagle.18May20.d20.jar \
+    java -jar /usr/bin/beagle.jar \
         ref=${bcf}  \
         gt=${chunkfile} \
         out=${chunkfile_name}.phased \

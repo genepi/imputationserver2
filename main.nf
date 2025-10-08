@@ -1,10 +1,10 @@
 #!/usr/bin/env nextflow
 /*
 ========================================================================================
-    genepi/nf-imputationserver
+    statgen/imputationserver2
 ========================================================================================
-    Github : https://github.com/genepi/nf-imputationserver
-    Author: Lukas Forer & Sebastian Schönherr
+    Github : https://github.com/statgen/imputationserver2
+    Author: TOPMed Imputation Server Team
     ---------------------------
 */
 
