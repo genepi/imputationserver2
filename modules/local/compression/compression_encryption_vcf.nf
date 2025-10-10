@@ -1,36 +1,34 @@
-import groovy.json.JsonOutput
-
 process COMPRESSION_ENCRYPTION_VCF {
-    
+
     label 'postprocessing'
     publishDir params.output, mode: 'copy'
     tag "Merge Chromosome ${chr}"
 
     input:
     tuple val(chr), val(start), val(end), path(imputed_vcf_data), path(imputed_info), path(imputed_meta_vcf_data)
-    
+
     output:
     path("*.zip"), emit: encrypted_file, optional: true
     path("*.md5"), emit: md5_file, optional: true
     path("chr${chr}*"), emit: raw_files, optional: true
-    
+
     script:
-    def imputed_joined = ArrayUtil.sort(imputed_vcf_data)
-    def meta_joined = ArrayUtil.sort(imputed_meta_vcf_data)
-    def info_joined = ArrayUtil.sort(imputed_info)
-    def prefix = "chr${chr}"
-    def imputed_name = "${prefix}.dose.vcf.gz"
-    def meta_name = "${prefix}.empiricalDose.vcf.gz"
-    def zip_name = "chr_${chr}.zip"
-    def info_name = "${prefix}.info.gz"
-    def aes = params.encryption.aes ? "-mem=AES256" : ""
-    def panel_version = params.refpanel.id
-    
-    """  
-    # concat info files 
+    imputed_joined = processFileList(imputed_vcf_data)
+    meta_joined = processFileList(imputed_meta_vcf_data)
+    info_joined = processFileList(imputed_info)
+    prefix = "chr${chr}"
+    imputed_name = "${prefix}.dose.vcf.gz"
+    meta_name = "${prefix}.empiricalDose.vcf.gz"
+    zip_name = "chr_${chr}.zip"
+    info_name = "${prefix}.info.gz"
+    aes = params.encryption.aes ? "-mem=AES256" : ""
+    panel_version = params.refpanel.id
+
+    """
+    # concat info files
     bcftools concat --threads ${task.cpus} -n ${info_joined} -o ${info_name} -Oz
-    
-    # concat dosage files and update header 
+
+    # concat dosage files and update header
     bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
     echo "##mis_pipeline=${workflow.manifest.version}" > add_header.txt
     echo "##mis_phasing=${params.phasing.engine}" >> add_header.txt
@@ -49,15 +47,15 @@ process COMPRESSION_ENCRYPTION_VCF {
     if [[ "${params.imputation.create_index}" = true ]]
     then
         tabix ${imputed_name}
-    fi    
-  
+    fi
+
     # zip files
     if [[ "${params.encryption.enabled}" = true ]]
-    then    
+    then
         7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
         rm *vcf.gz* *info.gz add_header.txt
     fi
-    
+
     # create md5 of zip file
     if [[ "${params.encryption.enabled}" = true && "${params.imputation.md5}" = true ]]
     then
@@ -70,5 +68,15 @@ process COMPRESSION_ENCRYPTION_VCF {
         md5sum ${imputed_name} > ${imputed_name}.md5
     fi
 
-    """ 
+    """
+}
+
+def compareFilenames(a, b) {
+    a = a.toString().replaceAll('PAR1', '1').replaceAll('nonPAR', '2').replaceAll('PAR2', '3')
+    b = b.toString().replaceAll('PAR1', '1').replaceAll('nonPAR', '2').replaceAll('PAR2', '3')
+    return a <=> b
+}
+
+def processFileList(fileList) {
+    return fileList.sort { a, b -> compareFilenames(a, b) }.join(" ")
 }
