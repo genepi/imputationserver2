@@ -13,16 +13,16 @@ process COMPRESSION_ENCRYPTION_VCF {
     path("chr${chr}*"), emit: raw_files, optional: true
 
     script:
-    imputed_joined = processFileList(imputed_vcf_data)
-    meta_joined = processFileList(imputed_meta_vcf_data)
-    info_joined = processFileList(imputed_info)
-    prefix = "chr${chr}"
-    imputed_name = "${prefix}.dose.vcf.gz"
-    meta_name = "${prefix}.empiricalDose.vcf.gz"
-    zip_name = "chr_${chr}.zip"
-    info_name = "${prefix}.info.gz"
-    aes = params.encryption.aes ? "-mem=AES256" : ""
-    panel_version = params.refpanel.id
+    def imputed_joined = processFileList(imputed_vcf_data)
+    def meta_joined = processFileList(imputed_meta_vcf_data)
+    def info_joined = processFileList(imputed_info)
+    def prefix = "chr${chr}"
+    def imputed_name = "${prefix}.dose.vcf.gz"
+    def meta_name = "${prefix}.empiricalDose.vcf.gz"
+    def zip_name = "chr_${chr}.zip"
+    def info_name = "${prefix}.info.gz"
+    def aes = params.encryption.aes ? "-mem=AES256" : ""
+    def panel_version = params.refpanel.id
 
     """
     # concat info files
