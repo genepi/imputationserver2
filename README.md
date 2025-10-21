@@ -325,3 +325,46 @@ docker build --platform linux/amd64 -t statgen/imputationserver2:latest .
 ```sh
 nf-test test
 ```
+
+### Publish New Version
+
+1. Build a local Docker image (as described above).
+2. Test the image with `nf-test`  (as described above).
+3. Bump version according to `<genepi-version + 0.0.1>-statgen.<sequential-count>`
+   1. Update version string in all its locations:
+      * `nextflow.config`
+      * `cloudgene.yaml`
+      * `cloudgene.hla.yaml`
+      * `cloudgene.pgs.yaml`
+   2. Create commit bumping version:
+      ```sh
+      git add ...
+      git commit -m 'Bump version to <version>'
+      ```
+   3. Tag the commit:
+      ```sh
+      git tag -a <version>
+      (add info about changes in commit editor)
+      ```
+   4. Push commit and tag to GitHub:
+      ```sh
+      git push
+      git push --tags
+      ```
+4. Tag the latest Docker image with the new version.
+   ```sh
+   docker image tag statgen/imputationserver2:latest statgen/imputationserver2:<version>
+   ```
+5. Push the Docker tag to ECR.
+   1. Look up the image ID in Docker:
+      ```sh
+      docker images
+      ```
+   2. Tag the image as an ECR resource:
+      ```sh
+      docker tag <image-id> public.ecr.aws/<ecr-public-hash>/<ecr-repo-name>:<version>
+      ```
+   3. Push to ECR:
+      ```sh
+      docker push public.ecr.aws/<ecr-public-hash>/<ecr-repo-name>:<version>
+      ```
