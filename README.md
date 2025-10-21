@@ -9,7 +9,7 @@ This repository contains the Imputation Server 2 workflow to facilitate genotype
 ## Citation
 > Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D,       Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
 <sub>*Shared first authors</sub>
- 
+
 ## License
 
 imputationserver2 is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
@@ -27,7 +27,7 @@ If you encounter any problems, feel free to open an issue [here](https://github.
 
 [Version 2.0.2](https://github.com/genepi/imputationserver2/releases/tag/v2.0.2) - Set minimac4 tmp directory (required for larger sample sizes).
 
-[Version 2.0.1](https://github.com/genepi/imputationserver2/releases/tag/v2.0.1) - Provide statistics to users in case QC failed; check normalized multiallelic variants in reference panel. 
+[Version 2.0.1](https://github.com/genepi/imputationserver2/releases/tag/v2.0.1) - Provide statistics to users in case QC failed; check normalized multiallelic variants in reference panel.
 
 [Version 2.0.0](https://github.com/genepi/imputationserver2/releases/tag/v2.0.0) - First stable release; migration of the imputation workflow to Nextflow.
 
@@ -35,7 +35,7 @@ If you encounter any problems, feel free to open an issue [here](https://github.
 
 The pipeline provides small test data to verify installation:
 
-```
+```sh
 nextflow run main.nf -c conf/test_single_vcf.config
 ```
 
@@ -43,65 +43,65 @@ nextflow run main.nf -c conf/test_single_vcf.config
 
 `job.config`:
 
-```
+```groovy
 params {
-    project                 = "my-test-project"
-    build                   = "hg19"
-    files                   = "tests/data/input/three/*.vcf.gz"
-    allele_frequency_population              = "eur"
-    mode                    = "imputation"
-    refpanel_yaml           = "tests/hapmap-2/2.0.0/imputation-hapmap2.yaml"
-    output                  = "output"
+    project                     = "my-test-project"
+    build                       = "hg19"
+    files                       = "tests/data/input/three/*.vcf.gz"
+    allele_frequency_population = "eur"
+    mode                        = "imputation"
+    refpanel_yaml               = "tests/hapmap-2/2.0.0/imputation-hapmap2.yaml"
+    output                      = "output"
 }
 ```
 
 Run pipeline with `job.config` configuration:
 
-```
+```sh
 nextflow run main.nf -c job.config
 ```
 
 ## Parameters
 
-| Parameter             | Default Value         | Description                                        |
-| --------------------- | --------------------- | -------------------------------------------------- |
-| `project`             | `null`                | Project name                                       |
-| `project_date`        | `date`                | Project date                                       |
-| `files`               | `null`                | List of input files                                |
-| `allele_frequency_population`          | `null`                | Allele Frequency Population information                             |
-| `refpanel_yaml`       | `null`                | Reference panel YAML file                          |
-| `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
-| `chunksize`           | `20000000`            | Chunk size for processing                          |
-| `min_samples`         | `20`                  | Minimum number of samples needed                   |
-| `max_samples`         | `50000`               | Maximum number of samples allowed                  |
-| `merge_samples`       | `true`                | Execute compression and encryption workflow        |
-| `password`            | `null`                | Password for encryption                            |
-| `send_mail`           | `false`               | Enable or disable email notifications              |
-| `service.name`        | `Imputation Server 2` | Service name                                       |
-| `service.email`       | `null`                | Service email                                      |
-| `service.url`         | `null`                | Service URL                                        |
-| `user.name`           | `null`                | User's name                                        |
-| `user.email`          | `null`                | User's email                                       |
-| `phasing.engine`      | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
-| `phasing.window`      | `5000000`             | Phasing window size                                |
-| `imputation.enabled`  | `true`                | Enable or disable imputation                       |
-| `imputation.window`   | `500000`              | Imputation window size                             |
-| `imputation.minimac_min_ratio`   | `0.00001`  | Minimac minimum ratio                              |
-| `imputation.min_r2`   | `0`                   | R2 filter value                                    |
-| `imputation.meta`     | `false`               | Enable or disable empirical output creation        |
-| `imputation.md5`      | `false`               | Enable or disable md5 sum creation for results     |
-| `imputation.create_index`    | `false`        | Enable or disable index creation for imputed files |
-| `imputation.decay`    | `0`                   | Set minimac decay                                  |
-| `encryption.enabled`  | `true`                | Enable or disable encryption                       |
-| `encryption.aes`      | `false`               | Enable or disable AES method for encryption        |
-| `ancestry.enabled`    | `false`               | Enable or disable ancestry analysis                |
-| `ancestry.dim`        | `10`                  | Ancestry analysis dimension                        |
-| `ancestry.dim_high`   | `20`                  | High dimension for ancestry analysis               |
-| `ancestry.batch_size` | `50`                  | Batch size for ancestry analysis                   |
-| `ancestry.reference`  | `null`                | Ancestry reference data                            |
-| `ancestry.max_pcs`    | `8`                   | Maximum principal components for ancestry          |
-| `ancestry.k`          | `10`                  | K value for ancestry analysis                      |
-| `ancestry.threshold`  | `0.75`                | Ancestry threshold                                 |
+| Parameter                      | Default Value         | Description                                        |
+| ------------------------------ | --------------------- | -------------------------------------------------- |
+| `project`                      | `null`                | Project name                                       |
+| `project_date`                 | `date`                | Project date                                       |
+| `files`                        | `null`                | List of input files                                |
+| `allele_frequency_population`  | `null`                | Allele Frequency Population information            |
+| `refpanel_yaml`                | `null`                | Reference panel YAML file                          |
+| `mode`                         | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
+| `chunksize`                    | `20000000`            | Chunk size for processing                          |
+| `min_samples`                  | `20`                  | Minimum number of samples needed                   |
+| `max_samples`                  | `50000`               | Maximum number of samples allowed                  |
+| `merge_samples`                | `true`                | Execute compression and encryption workflow        |
+| `password`                     | `null`                | Password for encryption                            |
+| `send_mail`                    | `false`               | Enable or disable email notifications              |
+| `service.name`                 | `Imputation Server 2` | Service name                                       |
+| `service.email`                | `null`                | Service email                                      |
+| `service.url`                  | `null`                | Service URL                                        |
+| `user.name`                    | `null`                | User's name                                        |
+| `user.email`                   | `null`                | User's email                                       |
+| `phasing.engine`               | `eagle`               | Phasing method (e.g., 'eagle' or `beagle`)         |
+| `phasing.window`               | `5000000`             | Phasing window size                                |
+| `imputation.enabled`           | `true`                | Enable or disable imputation                       |
+| `imputation.window`            | `500000`              | Imputation window size                             |
+| `imputation.minimac_min_ratio` | `0.00001`             | Minimac minimum ratio                              |
+| `imputation.min_r2`            | `0`                   | R2 filter value                                    |
+| `imputation.meta`              | `false`               | Enable or disable empirical output creation        |
+| `imputation.md5`               | `false`               | Enable or disable md5 sum creation for results     |
+| `imputation.create_index`      | `false`               | Enable or disable index creation for imputed files |
+| `imputation.decay`             | `0`                   | Set minimac decay                                  |
+| `encryption.enabled`           | `true`                | Enable or disable encryption                       |
+| `encryption.aes`               | `false`               | Enable or disable AES method for encryption        |
+| `ancestry.enabled`             | `false`               | Enable or disable ancestry analysis                |
+| `ancestry.dim`                 | `10`                  | Ancestry analysis dimension                        |
+| `ancestry.dim_high`            | `20`                  | High dimension for ancestry analysis               |
+| `ancestry.batch_size`          | `50`                  | Batch size for ancestry analysis                   |
+| `ancestry.reference`           | `null`                | Ancestry reference data                            |
+| `ancestry.max_pcs`             | `8`                   | Maximum principal components for ancestry          |
+| `ancestry.k`                   | `10`                  | K value for ancestry analysis                      |
+| `ancestry.threshold`           | `0.75`                | Ancestry threshold                                 |
 
 
 
@@ -129,7 +129,7 @@ The `properties` section contains the following key-value pairs:
 | ------------- | --------------------------------------------------------------------------- | -------- |
 | `id`          | An identifier for the reference panel.                                      | yes      |
 | `genotypes`   | The location of the genotype files for the reference panel data.            | yes      |
-| `sites`      | The location of the site files for the reference panel data.                 | yes      |
+| `sites`       | The location of the site files for the reference panel data.                | yes      |
 | `mapEagle`    | The location of the genetic map file used for phasing with eagle.           | yes      |
 | `refEagle`    | The location of the BCF file for the reference panel data for eagle.        | yes      |
 | `mapBeagle`   | The location of the genetic map file used for phasing with Beagle.          | no       |
@@ -167,7 +167,7 @@ Note: the population id has to be the same as in the sites files.
 Here's an example YAML configuration for a reference panel. This configuration describes a reference panel named "HapMap 2" for an Imputation Server, including details about its version, data sources, and represented populations. The files are stored in subdirectories of the application and can be consumed by the pipeline from there.
 
 ```yaml
-name:  HapMap 2 (GRCh37/hg19)
+name: HapMap 2 (GRCh37/hg19)
 description: HapMap2 Reference Panel for Michigan Imputation Server
 version: 2.0.0
 website: http://imputationserver.sph.umich.edu
@@ -182,14 +182,14 @@ properties:
   refEagle: ${CLOUDGENE_APP_LOCATION}/bcfs/hapmap_r22.chr$chr.CEU.hg19.recode.bcf
   build: hg19
   qcFilter:
-    alleleSwitches: 100  
+    alleleSwitches: 100
   populations:
     - id: eur
       name: EUR
       samples: 60
     - id: "off"
       name: Off
-      samples: -1  
+      samples: -1
 ```
 
 A full example of a reference panel, including all data and the cloudgene.yaml, can be downloaded [here](https://imputationserver.sph.umich.edu/resources/ref-panels/imputationserver2-hapmap2.zip).
@@ -200,9 +200,9 @@ In the example YAML configuration provided, you may have noticed the presence of
 
 ### Sites Files
 
-A site file is a tab-delimited file consisting of 8 columns: **ID**, **CHROM**, **POS**, **REF**, **ALT**, **AAF_EUR**, **AAF_ALL**, **MAF_EUR**, and **MAF_ALL**. The first five columns (**ID**, **CHROM**, **POS**, **REF**, and **ALT**) are required, while the **Allele Frequency (AAF)** and **Minor Allele Frequency (MAF)** columns are optional. 
+A site file is a tab-delimited file consisting of 8 columns: **ID**, **CHROM**, **POS**, **REF**, **ALT**, **AAF_EUR**, **AAF_ALL**, **MAF_EUR**, and **MAF_ALL**. The first five columns (**ID**, **CHROM**, **POS**, **REF**, and **ALT**) are required, while the **Allele Frequency (AAF)** and **Minor Allele Frequency (MAF)** columns are optional.
 
-The optional **AAF** and **MAF** columns provide allele frequency information for different populations supported by the reference panel. Specifically, **AAF_EUR** and **MAF_EUR** represent allele frequencies for the European population, while **AAF_ALL** and **MAF_ALL** represent allele frequencies for all populations combined. 
+The optional **AAF** and **MAF** columns provide allele frequency information for different populations supported by the reference panel. Specifically, **AAF_EUR** and **MAF_EUR** represent allele frequencies for the European population, while **AAF_ALL** and **MAF_ALL** represent allele frequencies for all populations combined.
 
 ---
 
@@ -232,15 +232,15 @@ The default configuration runs with Docker and uses Nextflow's [local executor](
 
 Configure via web interface (Applications -> imputationserver -> Settings) or adapt/create file `apps/imputationserver/nextflow.config` and add the following:
 
-```
+```groovy
 process {
   executor = 'slurm'
-  queue = 'QueueName'  // replace with your Queue name
+  queue    = 'QueueName' // replace with your queue name
 }
 
 errorStrategy = {task.exitStatus == 143 ? 'retry' : 'terminate'}
-maxErrors = '-1'
-maxRetries = 3
+maxErrors     = '-1'
+maxRetries    = 3
 ```
 
 See more about SLURM [Nextflow Documentation](https://www.nextflow.io/docs/latest/executor.html#slurm).
@@ -250,22 +250,22 @@ See more about SLURM [Nextflow Documentation](https://www.nextflow.io/docs/lates
 1. Create AWS Batch queue and AMI role (see [Nextflow Documentation](https://www.nextflow.io/docs/latest/aws.html#aws-batch))
 2. Configure via web interface (Applications -> imputationserver -> Settings) or adapt/create file `apps/imputationserver/nextflow.config` and add the following:
 
-```
+```groovy
 aws {
   region = 'eu-central-1'
   client {
     uploadChunkSize = 10485760
   }
   batch {
-    cliPath = '/home/ec2-user/miniconda/bin/aws'
+    cliPath       = '/home/ec2-user/miniconda/bin/aws'
     executionRole = 'arn:aws:iam::***' // replace with your AMI role
   }
 }
 
 process {
   executor = 'awsbatch'
-  queue = 'QueueName'  // replace with your Queue name
-  scratch = false
+  queue    = 'QueueName' // replace with your Queue name
+  scratch  = false
 }
 ```
 
@@ -273,9 +273,9 @@ process {
 
 Optional add [Wave](https://www.nextflow.io/docs/latest/wave.html) and [Fusion](https://www.nextflow.io/docs/latest/fusion.html) support to improve performance:
 
-```
+```groovy
 wave {
-  enabled = true
+  enabled  = true
   endpoint = 'https://wave.seqera.io'
 }
 
@@ -289,15 +289,15 @@ fusion {
 - Configure mail server in Settings -> General -> Mail
 - Configure Nextflow to use Cloudgenes mail settings by add the following to the global configuration (Settings -> General -> Nextflow) or adapt/create files `config/nextflow.confing` (see [Nextflow Documention](https://www.nextflow.io/docs/latest/config.html#config-mail) for all available mail settings)
 
-```
+```groovy
 mail {
-    smtp.host = "${CLOUDGENE_SMTP_HOST}"
-    smtp.port = "${CLOUDGENE_SMTP_PORT}"
-    smtp.user = "${CLOUDGENE_SMTP_USER}"
-    smtp.password = "${CLOUDGENE_SMTP_PASSWORD}"
-    smtp.auth = true
+    smtp.host            = "${CLOUDGENE_SMTP_HOST}"
+    smtp.port            = "${CLOUDGENE_SMTP_PORT}"
+    smtp.user            = "${CLOUDGENE_SMTP_USER}"
+    smtp.password        = "${CLOUDGENE_SMTP_PASSWORD}"
+    smtp.auth            = true
     smtp.starttls.enable = true
-    smtp.ssl.protocols = 'TLSv1.2'
+    smtp.ssl.protocols   = 'TLSv1.2'
 }
 ```
 
@@ -305,23 +305,23 @@ mail {
 
 ### Adapt default parameters
 
-Parameters can be changed in the `nextflow.config`` file of the application. Example:
+Parameters can be changed in the `nextflow.config` file of the application. Example:
 
-```
-params.chunk_size = 500000
-params.imputation.window = 100000
+```groovy
+params.chunk_size        = 500_000
+params.imputation.window = 100_000
 ```
 
 ## Development
 
 ### Build docker image locally
 
-```
-docker build -t genepi/imputationserver2:latest .
+```sh
+docker build --platform linux/amd64 -t statgen/imputationserver2:latest .
 ```
 
 ### Run testcases
 
-```
+```sh
 nf-test test
 ```
