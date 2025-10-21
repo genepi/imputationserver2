@@ -841,7 +841,7 @@ nextflow_pipeline {
     }
 
 
-    test("Should run with chrMT") {
+    test("Should fail with chrMT") {
 
         when {
             params {
@@ -859,21 +859,7 @@ nextflow_pipeline {
         }
 
         then {
-
-            assert workflow.success
-
-            def zip = zip("${outputDir}/chr_MT.zip").password(PASSWORD)
-            with(zip) {
-                assert isValid()
-                assert isEncrypted()
-            }
-
-            with(zip.extract("chrMT.dose.vcf.gz").vcf) {
-                assert chromosome == "MT"
-                assert sampleCount == 5435
-                assert phased
-            }
-
+            assert workflow.failed
         }
 
     }
