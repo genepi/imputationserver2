@@ -2,13 +2,12 @@ include { COMPRESSION_ENCRYPTION_VCF } from '../modules/local/compression/compre
 
 workflow ENCRYPTION {
 
-    take: 
-    imputed_chunks 
+    take:
+    imputed_chunks
 
     main:
     COMPRESSION_ENCRYPTION_VCF (
-        imputed_chunks 
+        imputed_chunks
     )
 
 }
-
