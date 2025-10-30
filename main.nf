@@ -25,8 +25,8 @@ for (param in requiredParams) {
 //TODO create json validation file
 def phasing_engine = params.phasing.engine
 
-if (phasing_engine != 'eagle' && phasing_engine != 'beagle' && phasing_engine != 'no_phasing' ) {
-    println "::error:: For phasing, only options 'eagle', 'beagle' or 'no_phasing' are allowed."
+if (phasing_engine != 'eagle' && phasing_engine != 'no_phasing' ) {
+    println "::error:: For phasing, only options 'eagle' or 'no_phasing' are allowed."
     exit 1
 }
 

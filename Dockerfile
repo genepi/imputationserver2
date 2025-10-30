@@ -29,10 +29,10 @@ RUN wget https://storage.googleapis.com/broad-alkesgroup-public/Eagle/downloads/
     mv Eagle_v${EAGLE_VERSION}/eagle /usr/bin/.
 
 # Install beagle
-ENV BEAGLE_VERSION=27Feb25.75f
-WORKDIR "/opt"
-RUN wget https://faculty.washington.edu/browning/beagle/beagle.${BEAGLE_VERSION}.jar && \
-    mv beagle.${BEAGLE_VERSION}.jar /usr/bin/beagle.jar
+# ENV BEAGLE_VERSION=27Feb25.75f
+# WORKDIR "/opt"
+# RUN wget https://faculty.washington.edu/browning/beagle/beagle.${BEAGLE_VERSION}.jar && \
+#     mv beagle.${BEAGLE_VERSION}.jar /usr/bin/beagle.jar
 
 # Install minimac4
 ENV MINIMAC_VERSION=4.1.6
