@@ -19,7 +19,7 @@ workflow IMPUTATION {
                     if(!genotypes_file.exists()){
                         return null
                     }
-                return tuple(it.toString(),genotypes_file)
+                return tuple(it.toString(), genotypes_file)
         }
 
     phased_m3vcf_ch = phased_ch.combine(minimac_m3vcf_ch, by: 0)
