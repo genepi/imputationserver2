@@ -58,10 +58,10 @@ workflow:
           view: progressbar
           label: "Phasing with Eagle"
           group: "imputation"
-        - process: "PHASING:BEAGLE"
-          view: progressbar
-          label: "Phasing with Beagle"
-          group: "imputation"
+        # - process: "PHASING:BEAGLE"
+        #   view: progressbar
+        #   label: "Phasing with Beagle"
+        #   group: "imputation"
         - process: "IMPUTATION:MINIMAC4"
           view: progressbar
           label: "Imputation"
@@ -109,7 +109,7 @@ workflow:
       value: eagle
       values:
         eagle: Eagle v2.4 (phased output)
-        beagle: Beagle 5.4 (HRC and 1KG only)
+        # beagle: Beagle 5.4 (HRC and 1KG only)
         no_phasing: No phasing
       serialize: false
 
