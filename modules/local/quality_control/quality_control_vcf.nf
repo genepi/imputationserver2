@@ -53,12 +53,12 @@ process QUALITY_CONTROL_VCF {
 
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         run-qc \
-        --population ${params.population} \
         --reference reference-panel.json \
+        --population ${params.population} \
         --build ${params.build} \
-        --maf-output ${mafFile} \
-        --phasing-window ${params.phasing.window} \
         --chunksize ${params.chunksize} \
+        --phasing-window ${params.phasing.window} \
+        --maf-output ${mafFile} \
         --chunks-out ${chunksDir} \
         --statistics-out ${statisticsDir} \
         --metafiles-out ${metaFilesDir} \

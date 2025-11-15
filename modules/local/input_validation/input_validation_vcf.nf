@@ -35,11 +35,13 @@ process INPUT_VALIDATION_VCF {
 
     java -Xmx${avail_mem}M -jar /opt/imputationserver-utils/imputationserver-utils.jar \
         validate \
-        --population ${params.population} \
-        --phasing ${params.phasing.engine} \
         --reference reference-panel.json \
+        --population ${params.population} \
         --build ${params.build} \
+        --r2Filter ${params.imputation.min_r2} \
+        --phasing ${params.phasing.engine} \
         --mode ${params.mode} \
+        --chunksize ${params.chunksize} \
         --minSamples ${params.min_samples} \
         --maxSamples ${params.max_samples} \
         --report validation_report.txt \
