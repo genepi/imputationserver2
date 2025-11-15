@@ -54,10 +54,10 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSIO
 ENV PATH="/opt/pgs-calc:${PATH}"
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=1.5.3-statgen.2
+ENV IMPUTATIONSERVER_UTILS_VERSION=1.5.3-statgen.3
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
-RUN wget https://github.com/statgen/imputationserver-utils/releases/download/${IMPUTATIONSERVER_UTILS_VERSION}/imputationserver-utils.tar.gz && \
+RUN wget https://github.com/statgen/imputationserver-utils/releases/download/v${IMPUTATIONSERVER_UTILS_VERSION}/imputationserver-utils.tar.gz && \
     tar xvfz imputationserver-utils.tar.gz && \
     rm imputationserver-utils.tar.gz
 
