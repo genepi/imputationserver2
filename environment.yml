@@ -24,5 +24,5 @@ dependencies:
  # - r-kernsmooth #use this?
   - csvtk=0.25.0
   - unzip=6.0
-  - P7Zip=15.09
+  - 7zip=25.01 
   - bcftools=1.20
