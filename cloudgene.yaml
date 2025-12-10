@@ -1,7 +1,7 @@
 id: imputationserver2
 name: Genotype Imputation
 description: This is the new Michigan Imputation Server Pipeline using <a href="https://github.com/statgen/Minimac4">Minimac4</a>. Documentation can be found <a href="http://imputationserver.readthedocs.io/en/latest/">here</a>.<br><br>If your input data is <b>GRCh37/hg19</b> please ensure chromosomes are encoded without prefix  (e.g. <b>20</b>).<br>If your input data is <b>GRCh38hg38</b> please ensure chromosomes are encoded with prefix 'chr' (e.g. <b>chr20</b>).
-version: 2.0.10
+version: 2.0.11
 website: https://imputationserver.readthedocs.io
 category: Application
 submitButton: Start Imputation
@@ -108,7 +108,7 @@ workflow:
       type: list
       value: eagle
       values:
-        eagle: Eagle v2.4 (phased output)
+        eagle: Eagle v2.4
         beagle: Beagle 5.4 (HRC and 1KG only)
         no_phasing: No phasing
       serialize: false
