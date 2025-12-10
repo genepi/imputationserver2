@@ -23,23 +23,25 @@ process COMPRESSION_ENCRYPTION_VCF {
     def info_name = "${prefix}.info.gz"
     def aes = params.encryption.aes ? "-mem=AES256" : ""
     def panel_version = params.refpanel.id
+    def scale   = params.encryption.thread_scale ?: 1
+    def threads = Math.max(1, Math.floor(task.cpus * scale) as int)
 
     """
     # concat info files
-    bcftools concat --threads ${task.cpus} -n ${info_joined} -o ${info_name} -Oz
+    bcftools concat --threads ${threads} -n ${info_joined} -o ${info_name} -Oz
 
     # concat dosage files and update header
-    bcftools concat --threads ${task.cpus} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
+    bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
     echo "##mis_pipeline=${workflow.manifest.version}" > add_header.txt
     echo "##mis_phasing=${params.phasing.engine}" >> add_header.txt
     echo "##mis_panel=${panel_version}" >> add_header.txt
-    bcftools annotate --threads ${task.cpus} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
+    bcftools annotate --threads ${threads} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
     rm intermediate_${imputed_name}
 
     # write meta files
     if [[ "${params.imputation.meta}" = true ]]
     then
-        bcftools concat --threads ${task.cpus} -n ${meta_joined} -o ${meta_name} -Oz
+        bcftools concat --threads ${threads} -n ${meta_joined} -o ${meta_name} -Oz
         tabix ${meta_name}
     fi
 
@@ -52,7 +54,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     # zip files
     if [[ "${params.encryption.enabled}" = true ]]
     then
-        7z a -tzip ${aes} -mmt${task.cpus} -p"${params.encryption_password}" ${zip_name} ${prefix}*
+        7z a -tzip ${aes} -mmt${threads} -p"${params.encryption_password}" ${zip_name} ${prefix}*
         rm *vcf.gz* *info.gz add_header.txt
     fi
 
