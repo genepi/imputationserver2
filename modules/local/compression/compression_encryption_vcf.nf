@@ -32,11 +32,20 @@ process COMPRESSION_ENCRYPTION_VCF {
 
     # concat dosage files and update header
     bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
-    echo "##mis_pipeline=${workflow.manifest.version}" > add_header.txt
-    echo "##mis_phasing=${params.phasing.engine}" >> add_header.txt
-    echo "##mis_panel=${panel_version}" >> add_header.txt
-    bcftools annotate --threads ${threads} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
-    rm intermediate_${imputed_name}
+
+    # annotate files
+    if [[ "${params.encryption.annotate}" = true ]]
+    then
+        echo "##mis_pipeline=${workflow.manifest.version}" > add_header.txt
+        echo "##mis_phasing=${params.phasing.engine}" >> add_header.txt
+        echo "##mis_panel=${panel_version}" >> add_header.txt
+
+        bcftools annotate --threads ${threads} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
+
+        rm intermediate_${imputed_name}
+    else
+        mv intermediate_${imputed_name} ${imputed_name}
+    fi
 
     # write meta files
     if [[ "${params.imputation.meta}" = true ]]
@@ -55,7 +64,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     if [[ "${params.encryption.enabled}" = true ]]
     then
         7z a -tzip ${aes} -mmt${threads} -p"${params.encryption_password}" ${zip_name} ${prefix}*
-        rm *vcf.gz* *info.gz add_header.txt
+        rm *vcf.gz* *info.gz
     fi
 
     # create md5 of zip file
