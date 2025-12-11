@@ -1,0 +1,58 @@
+## Based on Anamnesis/.NET Visual Studio gitignore
+## Keep only source and project files for ImputationApi
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Test/coverage artifacts
+TestResult*/
+[Tt]est[Rr]esult*/
+[Ll]og/
+[Ll]ogs/
+coverage*[.json, .xml, .info]
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Azure publish profiles and scripts
+*.pubxml
+*.publishproj
+PublishScripts/
+Properties/PublishProfiles/
+
+# Rider / VS Code / other IDE
+.idea/
+.vscode/
+
+# Local tooling / temp
+*.tmp
+*.log
+*.cache
+*.DS_Store
+
+# Publish output
+[Pp]ublish/
+
+# Local configuration (secrets)
+appsettings.Development.json
+appsettings.*.local.json
+
+
