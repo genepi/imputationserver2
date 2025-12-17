@@ -8,22 +8,17 @@ namespace ImputationApi
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            string? instrumentationKey = builder.Configuration["Telemetry:InstrumentationKey"];
+            builder.Services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.ConnectionString = string.IsNullOrWhiteSpace(instrumentationKey) ? null : "InstrumentationKey=" + instrumentationKey;
+            });
 
             builder.Services.AddControllers();
             builder.Services.AddSingleton<IBlobStorageService, BlobStorageService>();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSingleton<IImputationService, ImputationService>();
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            WebApplication app = builder.Build();
 
             app.UseHttpsRedirection();
 

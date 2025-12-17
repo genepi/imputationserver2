@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.21.3" />
     <PackageReference Include="Urd.CodeQuality.Analyzer" Version="1.0.22" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
   </ItemGroup>
 
 </Project>

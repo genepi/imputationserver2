@@ -16,11 +16,13 @@ namespace ImputationApi.Models
 
         public string? RepoWindowsPath { get; set; }
 
+        public string? ConfigName { get; set; }
+
         public string? ConfigRelativePath { get; set; }
 
         public string? InputFilesPath { get; set; }
 
-        public IReadOnlyCollection<string>? DownloadUrls { get; set; }
+        public IReadOnlyCollection<Uri>? DownloadUrls { get; set; }
 
         public Uri? ReferencePanelDownloadUrl { get; set; }
 
