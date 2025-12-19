@@ -63,31 +63,14 @@ namespace ImputationApi.Services
 
                 await HandleCompletionAsync(job, exitCode, cancellationToken);
             }
-            catch (HttpRequestException ex)
-            {
-                FailJob(job, ex);
-            }
-            catch (RequestFailedException ex)
-            {
-                FailJob(job, ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                FailJob(job, ex);
-            }
-            catch (IOException ex)
-            {
-                FailJob(job, ex);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                FailJob(job, ex);
-            }
-            catch (Win32Exception ex)
-            {
-                FailJob(job, ex);
-            }
-            catch (NotSupportedException ex)
+            catch (Exception ex) when (
+                ex is HttpRequestException
+                or RequestFailedException
+                or InvalidOperationException
+                or IOException
+                or UnauthorizedAccessException
+                or Win32Exception
+                or NotSupportedException)
             {
                 FailJob(job, ex);
             }

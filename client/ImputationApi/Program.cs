@@ -8,11 +8,7 @@ namespace ImputationApi
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            string? instrumentationKey = builder.Configuration["Telemetry:InstrumentationKey"];
-            builder.Services.AddApplicationInsightsTelemetry(options =>
-            {
-                options.ConnectionString = string.IsNullOrWhiteSpace(instrumentationKey) ? null : "InstrumentationKey=" + instrumentationKey;
-            });
+            builder.Services.AddApplicationInsightsTelemetry();
 
             builder.Services.AddControllers();
             builder.Services.AddSingleton<IBlobStorageService, BlobStorageService>();

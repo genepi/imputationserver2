@@ -1,4 +1,6 @@
+using Azure;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.ApplicationInsights;
 using System.Globalization;
 
@@ -7,13 +9,12 @@ namespace ImputationApi.Services
     public sealed class BlobStorageService : IBlobStorageService
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly TelemetryClient _telemetryClient;
+        private readonly TelemetryClient? _telemetryClient;
         private readonly ILogger<BlobStorageService> _logger;
 
-        public BlobStorageService(IConfiguration configuration, TelemetryClient telemetryClient, ILogger<BlobStorageService> logger)
+        public BlobStorageService(IConfiguration configuration, ILogger<BlobStorageService> logger, TelemetryClient? telemetryClient = null)
         {
             ArgumentNullException.ThrowIfNull(configuration);
-            ArgumentNullException.ThrowIfNull(telemetryClient);
             ArgumentNullException.ThrowIfNull(logger);
 
             _telemetryClient = telemetryClient;
@@ -52,8 +53,7 @@ namespace ImputationApi.Services
 
             FileInfo fileInfo = new(localFilePath);
             BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            Azure.Response<Azure.Storage.Blobs.Models.BlobContainerInfo>? createContainerResponse =
-                await containerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
+            Response<BlobContainerInfo>? createContainerResponse = await containerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
 
             bool created = createContainerResponse is not null;
             Dictionary<string, string> createContainerProperties = new()
@@ -65,7 +65,7 @@ namespace ImputationApi.Services
 
             if (createContainerResponse is not null)
             {
-                Azure.Response rawCreateResponse = createContainerResponse.GetRawResponse();
+                Response rawCreateResponse = createContainerResponse.GetRawResponse();
                 createContainerProperties["Status"] = rawCreateResponse.Status.ToString(CultureInfo.InvariantCulture);
 
                 if (rawCreateResponse.Headers.TryGetValue("x-ms-request-id", out string? requestId) && !string.IsNullOrWhiteSpace(requestId))
@@ -79,16 +79,16 @@ namespace ImputationApi.Services
                 }
             }
 
-            _telemetryClient.TrackEvent("Blob.Container.CreateIfNotExists", createContainerProperties);
+            _telemetryClient?.TrackEvent("Blob.Container.CreateIfNotExists", createContainerProperties);
             _logger.LogInformation("Blob container ensured. ContainerName={ContainerName} Created={Created}", containerName, created);
 
             BlobClient blobClient = containerClient.GetBlobClient(blobName);
 
             await using FileStream fileStream = File.OpenRead(localFilePath);
-            Azure.Response<Azure.Storage.Blobs.Models.BlobContentInfo> uploadResponse = await blobClient.UploadAsync(fileStream, overwrite: true, cancellationToken);
+            Response<BlobContentInfo> uploadResponse = await blobClient.UploadAsync(fileStream, overwrite: true, cancellationToken);
 
-            Azure.Response rawUploadResponse = uploadResponse.GetRawResponse();
-            Azure.Storage.Blobs.Models.BlobContentInfo uploadInfo = uploadResponse.Value;
+            Response rawUploadResponse = uploadResponse.GetRawResponse();
+            BlobContentInfo uploadInfo = uploadResponse.Value;
 
             Dictionary<string, string> uploadProperties = new()
             {
@@ -116,7 +116,7 @@ namespace ImputationApi.Services
                 { "FileSizeBytes", fileInfo.Length },
             };
 
-            _telemetryClient.TrackEvent("Blob.Upload", uploadProperties, uploadMetrics);
+            _telemetryClient?.TrackEvent("Blob.Upload", uploadProperties, uploadMetrics);
             _logger.LogInformation("Blob uploaded. ContainerName={ContainerName} BlobName={BlobName} Status={Status} ETag={ETag} FileSizeBytes={FileSizeBytes}",
                 containerName,
                 blobName,
