@@ -1,4 +1,5 @@
 using ImputationApi.Services;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 
 namespace ImputationApi
 {
@@ -9,6 +10,7 @@ namespace ImputationApi
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddApplicationInsightsTelemetry();
+            builder.Logging.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Information);
 
             builder.Services.AddControllers();
             builder.Services.AddSingleton<IBlobStorageService, BlobStorageService>();
