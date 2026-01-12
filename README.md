@@ -1,38 +1,23 @@
 # Imputation Server 2
-[![Publication](https://img.shields.io/badge/Published-Nature%20Genetics-26af64.svg?colorB=26af64&style=popout)](https://www.nature.com/articles/ng.3656)
-[![imputationserver2](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/genepi/imputationserver2/actions/workflows/ci-tests.yml)
-[![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
- <a href="https://twitter.com/intent/follow?screen_name=umimpute"> <img src="https://img.shields.io/twitter/follow/umimpute.svg?style=social" alt="follow on Twitter"></a>
 
-This repository contains the Imputation Server 2 workflow to facilitate genotype imputation at scale. It serves as the underlying workflow of the [Michigan Imputation Server](https://imputationserver.sph.umich.edu).
+[![Publication](https://img.shields.io/badge/Published-Nature%20Genetics-26af64.svg?colorB=26af64&style=popout)](https://www.nature.com/articles/ng.3656)
+[![imputationserver2](https://github.com/statgen/imputationserver2/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/statgen/imputationserver2/actions/workflows/ci-tests.yml)
+[![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
+
+__Imputation Server 2__ is a [Nextflow](https://www.nextflow.io/) workflow that facilitates genotype imputation at scale. It integrates with [Cloudgene 3](https://www.cloudgene.io/) to easily provide a web interface and backing compute.
+
+This repository contains the [forked code](https://github.com/statgen/imputationserver2) that powers the [TOPMed Imputation Server](https://imputation.biodatacatalyst.nhlbi.nih.gov/#!). The [original code](https://github.com/genepi/imputationserver2) powers the [Michigan Imputation Server](https://imputationserver.sph.umich.edu).
 
 ## Citation
-> Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D,       Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
+
+> Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D, Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
 <sub>*Shared first authors</sub>
 
 ## License
 
-imputationserver2 is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
+__Imputation Server 2__ is MIT Licensed and was developed at the [Institute of Genetic Epidemiology](https://genepi.i-med.ac.at/), Medical University of Innsbruck, Austria.
 
-## Contact
-If you have any questions about imputationserver2 please contact
-- [Sebastian Schönherr](https://genepi.i-med.ac.at/team/schoenherr-sebastian/)
-- [Lukas Forer](https://genepi.i-med.ac.at/team/forer-lukas/)
-
-If you encounter any problems, feel free to open an issue [here](https://github.com/genepi/imputationserver2/issues).
-
-## Version History
-
-[Version 2.0.7 - 2.0.10](https://github.com/genepi/imputationserver2/releases/tag/v2.0.9)  - Fix chrX renaming issue for clouds and enhance error/status messages
-
-
-[Version 2.0.3 - Version 2.0.6](https://github.com/genepi/imputationserver2/releases/tag/v2.0.6)  - Fix QC issues and remove HTSJDK index creation for input validation and QC.
-
-[Version 2.0.2](https://github.com/genepi/imputationserver2/releases/tag/v2.0.2) - Set minimac4 tmp directory (required for larger sample sizes).
-
-[Version 2.0.1](https://github.com/genepi/imputationserver2/releases/tag/v2.0.1) - Provide statistics to users in case QC failed; check normalized multiallelic variants in reference panel.
-
-[Version 2.0.0](https://github.com/genepi/imputationserver2/releases/tag/v2.0.0) - First stable release; migration of the imputation workflow to Nextflow.
+This fork is maintained by the [Center for Statistical Genetics](https://sph.umich.edu/csg/) at the University of Michigan.
 
 ## Run with test data
 
