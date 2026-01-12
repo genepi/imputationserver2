@@ -79,7 +79,7 @@ workflow:
 
   inputs:
     - id: refpanel
-      description: Reference Panel (<a href="https://imputationserver.sph.umich.edu/start.html#!pages/refpanels" target="_blank">Details</a>)
+      description: Reference Panel (<a href="https://statgen.github.io/tis-v2-docs/imputation/reference-panel/" target="_blank">Details</a>)
       type: app_list
       category: RefPanelHLA
 
