@@ -161,9 +161,15 @@ workflow.onComplete {
     //submit counters for successful imputation jobs
     if (params.mode == 'imputation') {
         println "::submit-counter name=samples::"
-        println "::submit-counter name=genotypes::"
-        println "::submit-counter name=chromosomes::"
+        println "::submit-counter name=variants::"
+        println "::submit-counter name=chunks::"
         println "::submit-counter name=runs::"
+        println "::submit-counter name=chromosomes::"
+        println "::submit-counter name=chromosomes-per-sample::"
+        println "::submit-counter name=liftover::"
+
+        println "::submit-value name=input-phase::"
+        println "::submit-value name=chromosome-list::"
 
         println "::set-value-and-submit name=reference_panel::${params.refpanel.id}"
         println "::set-value-and-submit name=phasing_engine::${phasing_engine}"

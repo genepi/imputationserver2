@@ -46,8 +46,6 @@ process INPUT_VALIDATION_VCF {
         --maxSamples ${params.max_samples} \
         --report validation_report.txt \
         --no-index \
-        --contactName "${(params.service.contact == "" || params.service.contact == null) ? "Admin" : params.service.contact}" \
-        --contactEmail "${(params.service.email == "" || params.service.email == null) ? "admin@localhost" : params.service.email}" \
         ${vcf_files}
     exit_code_a=\$?
 

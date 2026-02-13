@@ -45,7 +45,7 @@ RUN wget https://github.com/statgen/Minimac4/releases/download/v${MINIMAC_VERSIO
     rm /opt/minimac4-${MINIMAC_VERSION}-Linux-x86_64.sh
 
 # Install PGS-CALC
-ENV PGS_CALC_VERSION="1.6.1"
+ENV PGS_CALC_VERSION=1.6.1
 RUN mkdir /opt/pgs-calc
 WORKDIR "/opt/pgs-calc"
 RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSION}/pgs-calc-${PGS_CALC_VERSION}.tar.gz && \
@@ -54,7 +54,7 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSIO
 ENV PATH="/opt/pgs-calc:${PATH}"
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=1.5.3-statgen.3
+ENV IMPUTATIONSERVER_UTILS_VERSION=1.5.4-statgen.1
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
 RUN wget https://github.com/statgen/imputationserver-utils/releases/download/v${IMPUTATIONSERVER_UTILS_VERSION}/imputationserver-utils.tar.gz && \
