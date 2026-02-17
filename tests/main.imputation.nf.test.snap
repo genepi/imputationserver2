@@ -1,23 +1,23 @@
 {
     "Should run with eagle from hg38 to hg19": {
         "content": [
-            "::warning:: Uploaded data is hg38 and reference is hg19.\n::message:: Lift Over\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
+            "::warning:: Uploaded data is hg38 and reference is hg19.\n::message:: Lift Over\n::set-counter name=liftover:: 1\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.7"
         },
-        "timestamp": "2024-07-17T17:56:16.023888"
+        "timestamp": "2026-02-17T12:23:31.408959"
     },
     "Should run without phasing from hg38 to hg19": {
         "content": [
-            "::warning:: Uploaded data is hg38 and reference is hg19.\n::message:: Lift Over\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
+            "::warning:: Uploaded data is hg38 and reference is hg19.\n::message:: Lift Over\n::set-counter name=liftover:: 1\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.7"
         },
-        "timestamp": "2024-07-17T17:55:23.474943"
+        "timestamp": "2026-02-17T12:22:49.66177"
     },
     "Should run with eagle": {
         "content": [
@@ -41,13 +41,13 @@
     },
     "Should run with phased data from hg19 to hg38": {
         "content": [
-            "::warning:: Uploaded data is hg19 and reference is hg38.\n::message:: Lift Over\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
+            "::warning:: Uploaded data is hg19 and reference is hg38.\n::message:: Lift Over\n::set-counter name=liftover:: 1\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.7"
         },
-        "timestamp": "2024-07-17T17:53:04.502834"
+        "timestamp": "2026-02-17T12:21:00.231163"
     },
     "Should run with beagle": {
         "content": [
@@ -81,13 +81,13 @@
     },
     "Should run with eagle from hg19 to hg38": {
         "content": [
-            "::warning:: Uploaded data is hg19 and reference is hg38.\n::message:: Lift Over\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
+            "::warning:: Uploaded data is hg19 and reference is hg38.\n::message:: Lift Over\n::set-counter name=liftover:: 1\n::log:: Reference Panel Ranges: genome-wide\n::message:: Calculating QC Statistics\n::group type=message::\n<b>Statistics:</b>\nAlternative allele frequency > 0.5 sites: 2,296\nReference Overlap: 99.00 %\nMatch: 7,735\nAllele switch: 0\nStrand flip: 0\nStrand flip and allele switch: 0\nA/T, C/G genotypes: 0\n<b>Filtered sites:</b>\nFilter flag set: 0\nInvalid alleles: 0\nMultiallelic sites: 0\nDuplicated sites: 0\nNonSNP sites: 0\nMonomorphic sites: 11\nAllele mismatch: 0\nSNPs call rate < 90%: 0\n::endgroup::\n::group type=warning::\nExcluded sites in total: 11\nRemaining sites in total: 7,735\nSee snps-excluded.txt for details\nTyped only sites: 78\nSee typed-only.txt for details\n\n::endgroup::\n"
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.7"
         },
-        "timestamp": "2024-07-17T17:53:59.570826"
+        "timestamp": "2026-02-17T12:21:42.594812"
     },
     "Should run with eagle and r2 filter": {
         "content": [
