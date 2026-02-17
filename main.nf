@@ -12,9 +12,7 @@ if (params.refpanel_yaml) {
     params.refpanel = RefPanelUtil.loadFromFile(params.refpanel_yaml)
 }
 
-requiredParams = [
-    'project', 'files', 'output', 'refpanel'
-]
+requiredParams = [ 'project', 'files', 'output', 'refpanel' ]
 
 for (param in requiredParams) {
     if (params[param] == null) {
@@ -25,7 +23,7 @@ for (param in requiredParams) {
 //TODO create json validation file
 def phasing_engine = params.phasing.engine
 
-if (phasing_engine != 'eagle' && phasing_engine != 'no_phasing' ) {
+if (phasing_engine != 'eagle' && phasing_engine != 'no_phasing') {
     println "::error:: For phasing, only options 'eagle' or 'no_phasing' are allowed."
     exit 1
 }
@@ -58,11 +56,11 @@ site_files_ch = Channel.of(1..22, 'X', 'MT')
             def sites_file = file(PatternUtil.parse(params.refpanel.sites_pattern, [chr: it]))
             def sites_file_index = file(PatternUtil.parse(params.refpanel.sites_pattern+ ".tbi", [chr: it]))
 
-            if(!sites_file.exists()){
+            if (!sites_file.exists()) {
                 return null
             }
 
-            if(sites_file.exists() && !sites_file_index.exists()){
+            if (sites_file.exists() && !sites_file_index.exists()) {
                 error "Missing tabix index for " + sites_file
             }
 
@@ -78,11 +76,9 @@ include { ANCESTRY_ESTIMATION } from './workflows/ancestry_estimation'
 include { PGS_CALCULATION } from './workflows/pgs_calculation'
 
 workflow {
-
     println "Welcome to ${params.service.name} (${workflow.manifest.version})"
 
-    if (params.imputation.enabled){
-
+    if (params.imputation.enabled) {
         INPUT_VALIDATION()
 
         QUALITY_CONTROL(
@@ -97,15 +93,11 @@ workflow {
         }
 
         if (params.mode == 'imputation') {
-
             phased_ch =  QUALITY_CONTROL.out.qc_metafiles
 
             if (phasing_engine != 'no_phasing') {
-
                 PHASING(QUALITY_CONTROL.out.qc_metafiles)
-
                 phased_ch = PHASING.out.phased_ch
-
             }
 
             IMPUTATION(phased_ch)
@@ -113,26 +105,22 @@ workflow {
             if (params.merge_results == true) {
                 ENCRYPTION(IMPUTATION.out.groupTuple())
             }
-
         }
     }
 
     // handles empty objects (e.g. cloudgene)
-    ancestry_enabled = params.ancestry != null && params.ancestry != "" && params.ancestry.enabled
+    ancestry_enabled = (params.ancestry != null) && (params.ancestry != "") && params.ancestry.enabled
 
     if (ancestry_enabled) {
         ANCESTRY_ESTIMATION()
     }
 
     if (params.pgs.enabled) {
-
         PGS_CALCULATION(
             IMPUTATION.out,
             ancestry_enabled ? ANCESTRY_ESTIMATION.out : Channel.empty()
         )
-
     }
-
 }
 
 workflow.onComplete {
@@ -148,12 +136,13 @@ workflow.onComplete {
             : "Your job has been canceled."
 
         if (params.send_mail && params.user.email != null) {
-            sendMail{
+            sendMail {
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} ${statusMessage}"
                 body "Dear ${params.user.name},\n\n${statusText}\n\nMore details can be found at the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
             }
         }
+
         println "::error:: Imputation job ${statusMessage}."
         return
     }
@@ -178,9 +167,8 @@ workflow.onComplete {
 
     // imputation job
     if (params.merge_results == true && params.encryption.enabled == true) {
-
         if (params.send_mail && params.user.email != null) {
-            sendMail{
+            sendMail {
                 to "${params.user.email}"
                 subject "[${params.service.name}] Job ${params.project} is complete"
                 body "Dear ${params.user.name},\n\nYour imputation job has finished succesfully. The password for the imputation results is: ${params.encryption_password}\n\nYou can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
@@ -194,7 +182,7 @@ workflow.onComplete {
 
     //PGS job
     if (params.send_mail && params.user.email != null) {
-        sendMail{
+        sendMail {
             to "${params.user.email}"
             subject "[${params.service.name}] Job ${params.project} is complete"
             body "Dear ${params.user.name},\n\nYour PGS job has finished successfully.\n\nYou can download the results from the following link: ${params.service.url}/index.html#!jobs/${params.project_id}"
@@ -203,5 +191,4 @@ workflow.onComplete {
     } else {
         println "::message:: Data have been exported successfully."
     }
-
 }
