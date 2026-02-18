@@ -30,7 +30,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     bcftools concat --threads ${threads} -n ${info_joined} -o ${info_name} -Oz
 
     # concat dosage files and update header
-    bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
+    #bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
 
     # annotate files
     if [[ "${params.encryption.annotate}" = true ]]
@@ -39,9 +39,13 @@ process COMPRESSION_ENCRYPTION_VCF {
         echo "##mis_phasing=${params.phasing.engine}" >> add_header.txt
         echo "##mis_panel=${panel_version}" >> add_header.txt
 
-        bcftools annotate --threads ${threads} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
+        #bcftools annotate --threads ${threads} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
 
-        rm intermediate_${imputed_name}
+        bcftools concat --threads ${threads} -n ${imputed_joined} -Oz | bcftools reheader -h final_header.txt -o ${imputed_name}
+    else
+        bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
+        mv intermediate_${imputed_name} ${imputed_name}
+
     else
         mv intermediate_${imputed_name} ${imputed_name}
     fi

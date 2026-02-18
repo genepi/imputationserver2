@@ -10,3 +10,4 @@ cloudgene.report.json
 *.jar
 .idea
 scratch
+imputationserver2.iml
