@@ -38,6 +38,7 @@ process COMPRESSION_ENCRYPTION_VCF {
     # annotate files
     if [[ "${params.encryption.annotate}" = true ]]
     then
+        #Extracting the original header then paste the new one
         bcftools view -h "${first_vcf}" > header_from_chunk.txt
 
         # build final header: keep ## lines, add custom lines, then #CHROM last
@@ -50,12 +51,8 @@ process COMPRESSION_ENCRYPTION_VCF {
           } > final_header.txt
 
         #bcftools annotate --threads ${threads} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
+        bcftools concat --threads ${threads} -n ${imputed_joined} -Oz | bcftools reheader -h final_header.txt -o ${imputed_name}
 
-        bcftools concat --threads ${threads} --naive ${imputed_joined} -Ou \
-        | bcftools reheader -h final_header.txt -o - - \
-        | bcftools view -Oz -o ${imputed_name}
-
-        #bcftools concat --threads ${threads} -n ${imputed_joined} -Oz | bcftools reheader -h final_header.txt -o ${imputed_name}
     else
         bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
         mv intermediate_${imputed_name} ${imputed_name}
