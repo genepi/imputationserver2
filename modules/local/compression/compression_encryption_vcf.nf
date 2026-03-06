@@ -42,15 +42,25 @@ process COMPRESSION_ENCRYPTION_VCF {
         bcftools view -h "${first_vcf}" > header_from_chunk.txt
 
         # build final header: keep ## lines, add custom lines, then #CHROM last
-          {
+          /* {
             grep '^##' header_from_chunk.txt
             echo "##mis_pipeline=${workflow.manifest.version}"
             echo "##mis_phasing=${params.phasing.engine}"
             echo "##mis_panel=${panel_version}"
             grep '^#CHROM' header_from_chunk.txt
-          } > final_header.txt
+          } > final_header.txt */
 
-        #bcftools annotate --threads ${threads} -h add_header.txt intermediate_${imputed_name} -o ${imputed_name} -Oz
+          awk -v pipeline="${workflow.manifest.version}" \
+              -v phasing="${params.phasing.engine}" \
+              -v panel="${panel_version}" '
+          /^#CHROM/ {
+              print "##mis_pipeline=" pipeline
+              print "##mis_phasing=" phasing
+              print "##mis_panel=" panel
+          }
+          { print }
+          ' header_from_chunk.txt > final_header.txt
+
         bcftools concat --threads ${threads} -n ${imputed_joined} -Oz | bcftools reheader -h final_header.txt -o ${imputed_name}
 
     else
