@@ -25,8 +25,9 @@ process COMPRESSION_ENCRYPTION_VCF {
     def panel_version = params.refpanel.id
     def scale   = params.encryption.thread_scale ?: 1
     def threads = Math.max(1, Math.floor(task.cpus * scale) as int)
-    def first_vcf = imputed_joined[0]
-    #println "First VCF is: ${first_vcf}"
+    def first_vcf = getFirstFile(imputed_vcf_data)
+
+    
 
     """
     # concat info files
@@ -42,9 +43,9 @@ process COMPRESSION_ENCRYPTION_VCF {
         bcftools view -h "${first_vcf}" > header_from_chunk.txt
         
         # build final header: keep ## lines, add custom lines, then #CHROM last
-		awk -v pipeline="${workflow.manifest.version}" \
-              -v phasing="${params.phasing.engine}" \
-              -v panel="${panel_version}" '
+	awk -v pipeline="${workflow.manifest.version}" \
+            -v phasing="${params.phasing.engine}" \
+            -v panel="${panel_version}" '
           /^#CHROM/ {
               print "##mis_pipeline=" pipeline
               print "##mis_phasing=" phasing
@@ -104,7 +105,8 @@ def compareFilenames(a, b) {
 def processFileList(fileList) {
     return fileList.sort { a, b -> compareFilenames(a, b) }.join(" ")
 }
-
-def processFileList(fileList) {
-    return fileList.sort { a, b -> compareFilenames(a, b) }.join(" ")
+def getFirstFile(fileList) {
+    def sorted = fileList.sort { a, b -> compareFilenames(a, b) }
+    return sorted[0]
 }
+

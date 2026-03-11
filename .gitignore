@@ -7,3 +7,5 @@ work
 .nf-test
 cloudgene.report.json
 .nf-test.log
+imputationserver2.iml
+.idea
