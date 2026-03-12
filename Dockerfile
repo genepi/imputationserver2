@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get -y clean
 
 #  Install miniconda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_24.5.0-0-Linux-x86_64.sh -O ~/miniconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_24.7.1-0-Linux-x86_64.sh -O ~/miniconda.sh && \
   /bin/bash ~/miniconda.sh -b -p /opt/conda
 ENV PATH=/opt/conda/bin:${PATH}
 
@@ -48,7 +48,7 @@ RUN wget https://github.com/lukfor/pgs-calc/releases/download/v${PGS_CALC_VERSIO
 ENV PATH="/opt/pgs-calc:${PATH}"
 
 # Install imputationserver-utils
-ENV IMPUTATIONSERVER_UTILS_VERSION=v1.5.1
+ENV IMPUTATIONSERVER_UTILS_VERSION=v1.5.3
 RUN mkdir /opt/imputationserver-utils
 WORKDIR "/opt/imputationserver-utils"
 #COPY files/imputationserver-utils.tar.gz .

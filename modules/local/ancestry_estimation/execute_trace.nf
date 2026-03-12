@@ -18,6 +18,7 @@ process EXECUTE_TRACE {
 
     script:
     batch_name = "batch_${samples.baseName}"
+    // def used_threads = params.service.threads != -1 ? params.service.threads : task.cpus
 
     """
     tabix ${vcf_file}
@@ -36,6 +37,7 @@ process EXECUTE_TRACE {
     echo "DIM ${params.ancestry.dim}" >> trace.config
     echo "DIM_HIGH ${params.ancestry.dim_high}" >> trace.config
     echo "OUT_PREFIX ${batch_name}" >> trace.config
+    echo "NUM_THREADS 1" >> trace.config
 
     # execute trace with config file
     trace -p trace.config

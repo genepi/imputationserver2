@@ -1,13 +1,13 @@
 import groovy.json.JsonOutput
 
 process INPUT_VALIDATION_VCF {
-    
+
     label 'preprocessing'
     publishDir params.output, mode: 'copy', pattern: '*.{html,log}'
 
     input:
     path(vcf_files)
-  
+
     output:
     path("*.vcf.gz"), includeInputs: true, emit: validated_files
     path("validation_report.txt"), emit: validation_report
@@ -43,13 +43,15 @@ process INPUT_VALIDATION_VCF {
         --reference reference-panel.json \
         --build ${params.build} \
         --mode ${params.mode} \
+        --r2Filter ${params.imputation.min_r2} \
+        --chunksize ${params.chunksize} \
         --minSamples ${params.min_samples} \
         --maxSamples ${params.max_samples} \
         --report validation_report.txt \
         --no-index \
         --contactName "${(params.service.contact == "" || params.service.contact == null) ? "Admin" : params.service.contact}" \
         --contactEmail "${(params.service.email == "" || params.service.email == null) ? "admin@localhost" : params.service.email}" \
-        $vcf_files 
+        $vcf_files
     exit_code_a=\$?
 
     cat validation_report.txt
