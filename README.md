@@ -7,7 +7,7 @@
 This repository contains the Imputation Server 2 workflow to facilitate genotype imputation at scale. It serves as the underlying workflow of the [Michigan Imputation Server](https://imputationserver.sph.umich.edu).
 
 ## Citation
-> Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D,       Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
+> Das S*, Forer L*, Schönherr S*, Sidore C, Locke AE, Kwong A, Vrieze S, Chew EY, Levy S, McGue M, Schlessinger D, Stambolian D, Loh PR, Iacono WG, Swaroop A, Scott LJ, Cucca F, Kronenberg F, Boehnke M, Abecasis GR, Fuchsberger C. Next-generation genotype imputation service and methods. Nature Genetics 48, 1284–1287 (2016).
 <sub>*Shared first authors</sub>
  
 ## License
@@ -22,6 +22,10 @@ If you have any questions about imputationserver2 please contact
 If you encounter any problems, feel free to open an issue [here](https://github.com/genepi/imputationserver2/issues).
 
 ## Version History
+
+[Version 2.0.12](https://github.com/genepi/imputationserver2/releases/tag/v2.0.12)  - Improve compression step runtime
+
+[Version 2.0.11](https://github.com/genepi/imputationserver2/releases/tag/v2.0.11)  - Add threads parameter to compression
 
 [Version 2.0.7 - 2.0.10](https://github.com/genepi/imputationserver2/releases/tag/v2.0.9)  - Fix chrX renaming issue for clouds and enhance error/status messages
 
@@ -73,7 +77,7 @@ nextflow run main.nf -c job.config
 | `files`               | `null`                | List of input files                                |
 | `allele_frequency_population`          | `null`                | Allele Frequency Population information                             |
 | `refpanel_yaml`       | `null`                | Reference panel YAML file                          |
-| `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only``) |
+| `mode`                | `imputation`          | Processing mode (e.g., 'imputation' or `qc-only`) |
 | `chunksize`           | `20000000`            | Chunk size for processing                          |
 | `min_samples`         | `20`                  | Minimum number of samples needed                   |
 | `max_samples`         | `50000`               | Maximum number of samples allowed                  |
@@ -149,7 +153,7 @@ The `populations` section contains a dictionary mapping population identifiers t
 
 | Identifier | Name                                     |
 | ---------- | ---------------------------------------- |
-| `id`       | The id of the popualtion (e.g. eur)      |
+| `id`       | The id of the population (e.g. eur)      |
 | `name`     | The label of the population. (e.g. EUR)  |
 | `samples`  | Number of samples in the reference panel |
 
@@ -220,8 +224,8 @@ The optional **AAF** and **MAF** columns provide allele frequency information fo
 ### Installation
 
 - Install cloudgene3: `curl -fsSL https://get.cloudgene.io | bash`
-- Install impuationserver2 app: `./cloudgene install genepi/imputationserver2@latest`
-- Install hapmap2 referenece panel: `./cloudgene install https://imputationserver.sph.umich.edu/resources/ref-panels/imputationserver2-hapmap2.zip`
+- Install imputationserver2 app: `./cloudgene install genepi/imputationserver2@latest`
+- Install hapmap2 reference panel: `./cloudgene install https://imputationserver.sph.umich.edu/resources/ref-panels/imputationserver2-hapmap2.zip`
 - Start cloudgene server: `./cloudgene server`
 - Open [http://localhost:8082](http://localhost:8082)
 - Login with default admin account: username `admin` and password `admin1978`
@@ -272,7 +276,7 @@ process {
 }
 ```
 
-3. Got to Settings -> General and set Workspace to "S3" and enter the location of a subfolder in an S3 bucket. Enter the location of a subfolder in an S3 bucket. Currently, it must be a subfolder; a bucket won't work (Example: `s3://cloudgene/workspace`).
+3. Go to Settings -> General and set Workspace to "S3" and enter the location of a subfolder in an S3 bucket. Enter the location of a subfolder in an S3 bucket. Currently, it must be a subfolder; a bucket won't work (Example: `s3://cloudgene/workspace`).
 
 Optional add [Wave](https://www.nextflow.io/docs/latest/wave.html) and [Fusion](https://www.nextflow.io/docs/latest/fusion.html) support to improve performance:
 
@@ -290,7 +294,7 @@ fusion {
 ### Activate mail support
 
 - Configure mail server in Settings -> General -> Mail
-- Configure Nextflow to use Cloudgenes mail settings by add the following to the global configuration (Settings -> General -> Nextflow) or adapt/create files `config/nextflow.confing` (see [Nextflow Documention](https://www.nextflow.io/docs/latest/config.html#config-mail) for all available mail settings)
+- Configure Nextflow to use Cloudgenes mail settings by add the following to the global configuration (Settings -> General -> Nextflow) or adapt/create files `config/nextflow.config` (see [Nextflow Documentation](https://www.nextflow.io/docs/latest/config.html#config-mail) for all available mail settings)
 
 ```
 mail {
@@ -308,10 +312,10 @@ mail {
 
 ### Adapt default parameters
 
-Parameters can be changed in the `nextflow.config`` file of the application. Example:
+Parameters can be changed in the `nextflow.config` file of the application. Example:
 
 ```
-params.chunk_size = 500000
+params.chunksize = 500000
 params.imputation.window = 100000
 ```
 
