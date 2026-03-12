@@ -24,33 +24,21 @@ process COMPRESSION_ENCRYPTION_VCF {
     def panel_version = params.refpanel.id
     def scale   = params.encryption.thread_scale ?: 1
     def threads = Math.max(1, Math.floor(task.cpus * scale) as int)
+    def first_vcf = getFirstFile(imputed_vcf_data)
 
-    def first_vcf = imputed_joined[0]
-    println "First VCF is: ${first_vcf}"
 
     """
     # concat info files
     bcftools concat --threads ${threads} -n ${info_joined} -o ${info_name} -Oz
 
-    # concat dosage files and update header
-    #bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
-
     # annotate files
     if [[ "${params.encryption.annotate}" = true ]]
     then
-        #Extracting the original header then paste the new one
+        #Extracting the original header to append the new one
         bcftools view -h "${first_vcf}" > header_from_chunk.txt
 
         # build final header: keep ## lines, add custom lines, then #CHROM last
-          /* {
-            grep '^##' header_from_chunk.txt
-            echo "##mis_pipeline=${workflow.manifest.version}"
-            echo "##mis_phasing=${params.phasing.engine}"
-            echo "##mis_panel=${panel_version}"
-            grep '^#CHROM' header_from_chunk.txt
-          } > final_header.txt */
-
-          awk -v pipeline="${workflow.manifest.version}" \
+         awk -v pipeline="${workflow.manifest.version}" \
               -v phasing="${params.phasing.engine}" \
               -v panel="${panel_version}" '
           /^#CHROM/ {
@@ -61,15 +49,13 @@ process COMPRESSION_ENCRYPTION_VCF {
           { print }
           ' header_from_chunk.txt > final_header.txt
 
+        # concat dosage files and update header
         bcftools concat --threads ${threads} -n ${imputed_joined} -Oz | bcftools reheader -h final_header.txt -o ${imputed_name}
 
     else
         bcftools concat --threads ${threads} -n ${imputed_joined} -o intermediate_${imputed_name} -Oz
         mv intermediate_${imputed_name} ${imputed_name}
-
-    else
-        mv intermediate_${imputed_name} ${imputed_name}
-    fi
+   fi
 
     # write meta files
     if [[ "${params.imputation.meta}" = true ]]
@@ -114,4 +100,9 @@ def compareFilenames(a, b) {
 
 def processFileList(fileList) {
     return fileList.sort { a, b -> compareFilenames(a, b) }.join(" ")
+}
+
+def getFirstFile(fileList) {
+    def sorted = fileList.sort { a, b -> compareFilenames(a, b) }
+    return sorted[0]
 }
