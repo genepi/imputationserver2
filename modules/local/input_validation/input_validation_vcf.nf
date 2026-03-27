@@ -28,7 +28,7 @@ process INPUT_VALIDATION_VCF {
     for vcf in $vcf_files; do
         # Attempt to create the index using tabix
         if ! output=\$(tabix -p vcf "\$vcf" 2>&1); then
-            echo ::group type=error
+            echo ::group type=error::
             echo "The provided VCF file is malformed."
             echo "Error: \$output"
             echo ::endgroup::

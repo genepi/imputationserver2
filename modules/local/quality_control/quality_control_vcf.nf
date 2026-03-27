@@ -1,7 +1,7 @@
 import groovy.json.JsonOutput
 
 process QUALITY_CONTROL_VCF {
-    
+
     label 'preprocessing'
     publishDir params.output, mode: 'copy', pattern: "qc_report.txt"
     publishDir params.output, mode: 'copy', pattern: "${statisticsDir}/*.txt"
@@ -40,14 +40,14 @@ process QUALITY_CONTROL_VCF {
     for vcf in $vcf_files; do
         # Attempt to create the index using tabix
         if ! output=\$(tabix -p vcf "\$vcf" 2>&1); then
-            echo ::group type=error
+            echo ::group type=error::
             echo "The provided VCF file is malformed."
             echo "Error: \$output"
             echo ::endgroup::
             exit 1
         fi
     done
-    
+
     # TODO: create directories in java
     mkdir ${chunksDir}
     mkdir ${metaFilesDir}
@@ -68,7 +68,7 @@ process QUALITY_CONTROL_VCF {
         --report qc_report.txt \
         --no-index \
         $chain \
-        $vcf_files 
+        $vcf_files
 
     exit_code_a=\$?
 
@@ -78,7 +78,7 @@ process QUALITY_CONTROL_VCF {
     fi
 
     cat qc_report.txt
-    
+
     # Always exit 0 that QC files get published
     exit 0
     """
