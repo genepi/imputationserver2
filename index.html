@@ -17,7 +17,7 @@
       
       
       <link rel="icon" href="images/favicon.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -25,10 +25,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1033,13 +1033,13 @@
 <h2 id="run-with-custom-configuration">Run with custom configuration<a class="headerlink" href="#run-with-custom-configuration" title="Permanent link">&para;</a></h2>
 <p><code>job.config</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>params {
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    project                 = &quot;my-test-project&quot;
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    build                   = &quot;hg19&quot;
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    files                   = &quot;tests/data/input/three/*.vcf.gz&quot;
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    allele_frequency_population              = &quot;eur&quot;
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    mode                    = &quot;imputation&quot;
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    refpanel_yaml           = &quot;tests/hapmap-2/2.0.0/imputation-hapmap2.yaml&quot;
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    output                  = &quot;output&quot;
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    project                 = "my-test-project"
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    build                   = "hg19"
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    files                   = "tests/data/input/three/*.vcf.gz"
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    allele_frequency_population              = "eur"
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    mode                    = "imputation"
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    refpanel_yaml           = "tests/hapmap-2/2.0.0/imputation-hapmap2.yaml"
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    output                  = "output"
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>}
 </code></pre></div>
 <p>Run pipeline with <code>job.config</code> configuration:</p>
@@ -1465,12 +1465,12 @@
 <h3 id="running-on-slurm">Running on SLURM<a class="headerlink" href="#running-on-slurm" title="Permanent link">&para;</a></h3>
 <p>Configure via web interface (Applications -&gt; imputationserver -&gt; Settings) or adapt/create file <code>apps/imputationserver/nextflow.config</code> and add the following:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>process {
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  executor = &#39;slurm&#39;
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  queue = &#39;QueueName&#39;  // replace with your Queue name
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  executor = 'slurm'
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  queue = 'QueueName'  // replace with your Queue name
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>}
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>errorStrategy = {task.exitStatus == 143 ? &#39;retry&#39; : &#39;terminate&#39;}
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>maxErrors = &#39;-1&#39;
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>errorStrategy = {task.exitStatus == 143 ? 'retry' : 'terminate'}
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>maxErrors = '-1'
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>maxRetries = 3
 </code></pre></div>
 <p>See more about SLURM <a href="https://www.nextflow.io/docs/latest/executor.html#slurm">Nextflow Documentation</a>.</p>
@@ -1480,19 +1480,19 @@
 <li>Configure via web interface (Applications -&gt; imputationserver -&gt; Settings) or adapt/create file <code>apps/imputationserver/nextflow.config</code> and add the following:</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>aws {
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  region = &#39;eu-central-1&#39;
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  region = 'eu-central-1'
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  client {
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    uploadChunkSize = 10485760
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  }
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  batch {
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    cliPath = &#39;/home/ec2-user/miniconda/bin/aws&#39;
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    executionRole = &#39;arn:aws:iam::***&#39; // replace with your AMI role
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    cliPath = '/home/ec2-user/miniconda/bin/aws'
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    executionRole = 'arn:aws:iam::***' // replace with your AMI role
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  }
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>}
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>process {
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>  executor = &#39;awsbatch&#39;
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>  queue = &#39;QueueName&#39;  // replace with your Queue name
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>  executor = 'awsbatch'
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>  queue = 'QueueName'  // replace with your Queue name
 <a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>  scratch = false
 <a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>}
 </code></pre></div>
@@ -1502,7 +1502,7 @@
 <p>Optional add <a href="https://www.nextflow.io/docs/latest/wave.html">Wave</a> and <a href="https://www.nextflow.io/docs/latest/fusion.html">Fusion</a> support to improve performance:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>wave {
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  enabled = true
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  endpoint = &#39;https://wave.seqera.io&#39;
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  endpoint = 'https://wave.seqera.io'
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>}
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>fusion {
@@ -1515,13 +1515,13 @@
 <li>Configure Nextflow to use Cloudgenes mail settings by add the following to the global configuration (Settings -&gt; General -&gt; Nextflow) or adapt/create files <code>config/nextflow.confing</code> (see <a href="https://www.nextflow.io/docs/latest/config.html#config-mail">Nextflow Documention</a> for all available mail settings)</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mail {
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    smtp.host = &quot;${CLOUDGENE_SMTP_HOST}&quot;
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    smtp.port = &quot;${CLOUDGENE_SMTP_PORT}&quot;
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    smtp.user = &quot;${CLOUDGENE_SMTP_USER}&quot;
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    smtp.password = &quot;${CLOUDGENE_SMTP_PASSWORD}&quot;
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    smtp.host = "${CLOUDGENE_SMTP_HOST}"
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    smtp.port = "${CLOUDGENE_SMTP_PORT}"
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    smtp.user = "${CLOUDGENE_SMTP_USER}"
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    smtp.password = "${CLOUDGENE_SMTP_PASSWORD}"
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    smtp.auth = true
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    smtp.starttls.enable = true
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    smtp.ssl.protocols = &#39;TLSv1.2&#39;
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    smtp.ssl.protocols = 'TLSv1.2'
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>}
 </code></pre></div>
 <ul>
@@ -1602,10 +1602,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.tooltips", "navigation.tabs", "search.highlight", "search.share", "search.suggest", "toc.follow", "content.tabs.link", "content.code.annotate", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.tooltips", "navigation.tabs", "search.highlight", "search.share", "search.suggest", "toc.follow", "content.tabs.link", "content.code.annotate", "content.code.copy"], "search": "assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>
